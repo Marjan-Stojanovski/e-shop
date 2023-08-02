@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KosarCMS</title>
     <!--Bootstrap icons-->
-    <link href="/assets/fonts/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="/assets/dashboard/fonts/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <!--Google web fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,12 +17,12 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0"/>
     <!--Simplebar css-->
-    <link rel="stylesheet" href="/assets/vendor/css/simplebar.min.css">
+    <link rel="stylesheet" href="/assets/dashboard/vendor/css/simplebar.min.css">
     <!--Choices css-->
-    <link rel="stylesheet" href="/assets/vendor/css/choices.min.css">
-    <link href="/assets/vendor/css/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/dashboard/vendor/css/choices.min.css">
+    <link href="/assets/dashboard/vendor/css/quill.snow.css" rel="stylesheet">
     <!--Main style-->
-    <link rel="stylesheet" href="/assets/css/style.min.css">
+    <link rel="stylesheet" href="/assets/dashboard/css/style.min.css">
 </head>
 
 
@@ -65,6 +65,17 @@
                             <span class="sidebar-text">
                     <span class="sidebar-text text-truncate fs-3 fw-bold">
                       KosarCMS
+                    </span>
+                  </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="aside-logo d-flex align-items-center flex-shrink-0 justify-content-start px-5 position-relative">
+                    <a href="{{route('frontend.index')}}" class="d-block">
+                        <div class="d-flex align-items-center flex-no-wrap text-truncate">
+                            <span class="sidebar-text">
+                    <span class="sidebar-text text-center btn btn-primary text-truncate fs-3">
+                      To main page
                     </span>
                   </span>
                         </div>
@@ -219,7 +230,7 @@
                            aria-expanded="false" data-bs-toggle="dropdown" data-bs-auto-close="outside">
                             <div class="d-flex align-items-center">
                                 <div class="avatar-status status-online me-sm-2 avatar xs">
-                                    <img src="assets/media/avatars/01.jpg" class="rounded-circle img-fluid" alt="">
+                                    <img src="/assets/dashboard/media/avatars/01.jpg" class="rounded-circle img-fluid" alt="">
                                 </div>
                                 <span class="d-none d-md-inline-block">{{Auth::user()->name}}</span>
                             </div>
@@ -302,12 +313,12 @@
     </div>
 </div>
 <!--////////////Theme Core scripts Start/////////////////-->
-<script src="/assets/js/theme.bundle.js"></script>
+<script src="/assets/dashboard/js/theme.bundle.js"></script>
 <!--////////////Theme Core scripts End/////////////////-->
 <!--Datatables-->
 <script src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.12.0/js/dataTables.bootstrap5.min.js"></script>
-<script src="/assets/vendor/quill.min.js"></script>
+<script src="/assets/dashboard/vendor/quill.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         // Datatables Responsive

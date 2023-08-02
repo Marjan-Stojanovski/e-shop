@@ -39,6 +39,7 @@ class FrontendController extends Controller
     public function productView($slug)
     {
         $company = CompanyInfo::first();
+        $brands = Brand::all();
         $product = Product::where('slug', $slug)->first();
         $categoriesTree = Category::getTreeHP();
         $comments = Comment::where('product_id', $product['id'])->get();
@@ -47,6 +48,7 @@ class FrontendController extends Controller
 
         $data = [
             'company' => $company,
+            'brands' => $brands,
             'product' => $product,
             'products' => $products,
             'categoriesTree' => $categoriesTree,

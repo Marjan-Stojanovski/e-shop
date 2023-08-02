@@ -107,19 +107,19 @@
 
 
         <!--begin:featured products-->
-        <section class="overflow-hidden bg-white">
+        <section class="overflow-hidden">
             <div class="container py-9 py-lg-11">
                 <div class="row mb-2 align-items-center">
                     <div class="col-md-7 mb-4">
                         <h2 class="mb-0 display-5">
-                            Featured Products
+                            Discounted Products
                         </h2>
                     </div>
                     <div class="col-md-5 mb-4">
                         <div class="text-center text-md-end">
                             <a href="#" class="btn btn-dark btn-lg btn-hover-text mb-2 me-2">
-                                <span class="btn-hover-label label-default">Explore</span>
-                                <span class="btn-hover-label label-hover">Explore</span>
+                                <span class="btn-hover-label label-default">View all products</span>
+                                <span class="btn-hover-label label-hover">View all products</span>
                             </a>
                         </div>
                     </div>
@@ -129,23 +129,24 @@
                     <div class="col-md-6 col-lg-3 mb-4">
                         <!--Card-product-->
                         <div class="card overflow-hidden hover-lift card-product">
-                            <div class="card-product-header p-3 d-block overflow-hidden">
+                            <div class="card-product-header p-3 d-block overflow-hidden" style="height: 350px">
                                 <!--Product image-->
-                                <a href="#!">
-                                    <img src="assets/img/shop/products/01.jpg" class="img-fluid "
+                                <a href="{{ route('frontend.productView', $product->slug) }}">
+                                    <img src="assets/img/products/thumbnails/{{ $product->image }}" width="100%" class="img-fluid"
                                          alt="Product">
                                 </a>
+                                <span class="badge rounded-pill bg-danger position-absolute start-0 top-0 mt-4 ms-4">-{{ $product->discount }}%</span>
                             </div>
                             <div class="card-product-body p-3 pt-0 text-center">
-                                <a href="#!" class="h5 d-block position-relative mb-2 text-dark">{{ $product->title }}</a>
+                                <a href="{{ route('frontend.productView', $product->slug) }}" class="h5 d-block position-relative mb-2 text-dark">{{ $product->title }}</a>
                                 <div class="card-product-body-overlay">
                                     <!--Price-->
                                     <span class="card-product-price">
-                                            <span>${{ $product->action }}</span> <del>${{ $product->price }}</del>
+                                            <span style="color: red">${{ $product->action }}</span> <del>${{ $product->price }}</del>
                                         </span>
                                     <!--Action-->
                                     <span class="card-product-view-btn">
-                                            <a href="#!" class="link-underline mb-1 fw-semibold text-dark">View
+                                            <a href="{{ route('frontend.productView', $product->slug) }}" class="link-underline mb-1 fw-semibold text-dark">View
                                                 Details</a>
                                         </span>
                                 </div>
@@ -161,8 +162,94 @@
         <!--/end:featured products-->
 
 
+        <!--begin:Partners section-->
+
+        <section class="position-relative">
+            <div class="container py-9 py-lg-11 position-relative z-index-1">
+                <div class="row mb-2 align-items-center">
+                    <div class="col-md-7 mb-4">
+                        <h2 class="mb-0 display-5">
+                            <span class="text-gradient">Brands</span>
+                        </h2>
+                    </div>
+                    <div class="col-md-5 mb-4">
+                        <div class="text-center text-md-end">
+                            <a href="#" class="btn btn-dark btn-lg btn-hover-text mb-2 me-2">
+                                <span class="btn-hover-label label-default">View all brands</span>
+                                <span class="btn-hover-label label-hover">View all brands</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    @foreach($brands as $brand)
+                        <div class="col-md-6 col-lg-3 mb-4"  >
+                            <!--begin:Project card-->
+                            <a href="#!" class="card-hover">
+                                <div class="overflow-hidden text-center position-relative mb-4 rounded-4" style="height: 250px">
+                                    <img src="assets/img/brands/thumbnails/{{ $brand->image }}" alt="{{ $brand->name }}" width="100%" class="img-zoom img-fluid rounded-4" />
+                                </div>
+                                <h5 class="mb-1 text-center">{{ $brand->name }}</h5>
+                                <p class="text-center">
+                                <span class="text-muted text-center">{{ $brand->country->name }}</span>
+                                    </p>
+                            </a>
+                            <!--end:Project card-->
+                        </div>
+                    @endforeach
+                </div>
+
+            </div>
+        </section>
+
+        <!--/end:Partners section-->
+
+
+        <!--begin:categories section-->
+        <section class="position-relative">
+            <div class="container py-9 py-lg-11 position-relative z-index-1">
+                <div class="row mb-2 align-items-center">
+                    <div class="col-md-7 mb-4">
+                        <h2 class="mb-0 display-5">
+                            Vrsta <span class="text-gradient">Pijace</span>
+                        </h2>
+                    </div>
+                    <div class="col-md-5 mb-4">
+                        <div class="text-center text-md-end">
+                            <a href="#" class="btn btn-dark btn-lg btn-hover-text mb-2 me-2">
+                                <span class="btn-hover-label label-default">Explore</span>
+                                <span class="btn-hover-label label-hover">Explore</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="projects" data-isotope='{"layoutMode": "masonry"}' class="row">
+                    @foreach($categories as $category)
+                    <div class="col-md-6 col-lg-4 mb-4 bootstrap grid-item">
+                        <!--begin:Project card-->
+                        <a href="#!" class="card-hover">
+                            <div class="overflow-hidden position-relative mb-4 rounded-4">
+                                <img src="assets/img/categories/originals/{{ $category->image }}" alt="" class="img-zoom img-fluid rounded-4">
+                            </div>
+                            <h5 class="mb-1">{{ $category->name }}</h5>
+                            <span class="text-muted">UI / UX</span>
+                        </a>
+                        <!--end:Project card-->
+                    </div>
+                    @endforeach
+                </div>
+
+            </div>
+        </section>
+        <!--end:categories section-->
+
+
+
+
         <!--begin:Newsletter-->
-        <section class="position-relative bg-white">
+        <section class="position-relative">
             <div class="container py-9 py-lg-11">
                 <div class="row justify-content-between">
 

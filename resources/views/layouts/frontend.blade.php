@@ -9,8 +9,10 @@
 
     <!--swiper-->
     <link rel="stylesheet" href="assets/vendor/node_modules/css/swiper-bundle.min.css">
+
     <!--Icons-->
     <link href="assets/fonts/boxicons/css/boxicons.min.css" rel="stylesheet">
+
     <!--Google fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,8 +20,20 @@
           rel="stylesheet">
     <!-- Main CSS -->
     <link href="assets/css/theme-shop.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/vendor/node_modules/css/choices.min.css">
+    <link rel="stylesheet" href="assets/vendor/node_modules/css/simplebar.min.css">
 
-    <title>E-commerce</title>
+    <!--:Simplebar css ()-->
+    <style type="text/css">
+        .simplebar-track.simplebar-vertical {
+            width: 7px;
+        }
+        .simplebar-scrollbar:before {
+            background: currentColor;
+        }
+    </style>
+
+    <title>Kosar E-shop</title>
 </head>
 
 <body>
@@ -69,62 +83,99 @@
                    aria-expanded="false">
                     <i class="bx bx-user fs-4"></i>
                 </a>
-                <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs position-absolute p-4">
+                @if(Auth::user())
+                    <div class="dropdown-menu shadow-lg dropdown-menu-end dropdown-menu-xs p-0">
+                        <a href="#!" class="dropdown-header border-bottom p-4">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <img src="assets/img/avatar/12.jpg" alt=""
+                                         class="avatar xl rounded-pill me-3">
+                                </div>
+                                <div>
+                                    <h5 class="mb-0 text-body">{{ Auth::user()->firstName }} {{ Auth::user()->lastName }}</h5>
+                                    <span
+                                        class="text-muted d-block mb-2 text-lowercase">{{ Auth::user()->email }}</span>
+                                    <div class="small d-inline-block link-underline fw-semibold text-muted">View
+                                        account</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="{{ route('logout') }}" class="dropdown-item rounded-top-0 p-3"
+                            onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">
+                                    <span class="d-block text-end">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                             fill="currentColor" class="bx bx-box-arrow-right me-2" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd"
+                                                  d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+                                            <path fill-rule="evenodd"
+                                                  d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                                        </svg>
+                                        Sign Out
+                                    </span>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </a>
+                    </div>
 
-                    <!--Login form-->
-                    <form class="needs-validation" novalidate>
-                        <div>
-                            <h3 class="mb-1"> Welcome back! </h3>
-                            <p class="mb-4 text-muted">
-                                Please Sign In with details...
-                            </p>
-                        </div>
-                        <div class="input-icon-group mb-3">
+                @else
+                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs position-absolute p-4">
+                        <!--Login form-->
+                        <form class="needs-validation" novalidate>
+                            <div>
+                                <h3 class="mb-1"> Welcome back! </h3>
+                                <p class="mb-4 text-muted">
+                                    Please Sign In with details...
+                                </p>
+                            </div>
+                            <div class="input-icon-group mb-3">
                                     <span class="input-icon">
                                         <i class="bx bx-envelope"></i>
                                     </span>
-                            <input type="email" required class="form-control" autofocus=""
-                                   placeholder="Username">
-                        </div>
-                        <div class="input-icon-group mb-3">
+                                <input type="email" required class="form-control" autofocus=""
+                                       placeholder="Username">
+                            </div>
+                            <div class="input-icon-group mb-3">
                                     <span class="input-icon">
                                         <i class="bx bx-key"></i>
                                     </span>
-                            <input type="password" required class="form-control" placeholder="Password">
-                        </div>
-                        <div class="mb-3 d-flex justify-content-between">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Remember me
-                                </label>
+                                <input type="password" required class="form-control" placeholder="Password">
                             </div>
-                            <div>
-                                <label class="text-end d-block small mb-0">
-                                    <a href="#" class="text-muted link-decoration">Forget Password?
-                                    </a>
-                                </label>
+                            <div class="mb-3 d-flex justify-content-between">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        Remember me
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="text-end d-block small mb-0">
+                                        <a href="#" class="text-muted link-decoration">Forget Password?
+                                        </a>
+                                    </label>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="d-grid">
-                            <button class="btn btn-primary btn-hover-arrow" type="submit">
-                                <span>Sign in</span>
-                            </button>
-                        </div>
-                        <p class="pt-4 mb-0 text-muted">
-                            Don’t have an account yet? <a href="page-account-signup.html"
-                                                          class="ms-2 pb-0 text-dark fw-semibold link-underline">Sign
-                                Up</a>
-                        </p>
-                    </form>
-                </div>
+                            <div class="d-grid">
+                                <button class="btn btn-primary btn-hover-arrow" type="submit">
+                                    <span>Sign in</span>
+                                </button>
+                            </div>
+                            <p class="pt-4 mb-0 text-muted">
+                                Don’t have an account yet? <a href="page-account-signup.html"
+                                                              class="ms-2 pb-0 text-dark fw-semibold link-underline">Sign
+                                    Up</a>
+                            </p>
+                        </form>
+                    </div>
+                @endif
             </div>
         </div>
         <div class="collapse navbar-collapse" id="mainNavbarTheme">
             <ul class="navbar-nav me-lg-auto ms-xl-5 ms-lg-2">
                 <li class="nav-item ">
-                    <a class="nav-link " href="#" role="button" data-bs-toggle="dropdown"
+                    <a class="nav-link " href="{{ route('frontend.index') }}" role="button" data-bs-toggle="dropdown"
                        aria-haspopup="false" aria-expanded="false">
                         Domov
                     </a>
@@ -570,6 +621,47 @@
 <script src="assets/vendor/node_modules/js/jquery.min.js"></script>
 <script src="assets/vendor/node_modules/js/jquery.countdown.min.js"></script>
 <script src="assets/vendor/node_modules/js/swiper-bundle.min.js"></script>
+
+<script src="assets/vendor/node_modules/js/choices.min.js"></script>
+<script>
+    //Swiper thumbnail demo
+    var swiperThumbnails = new Swiper(".swiper-thumbnails", {
+        spaceBetween: 8,
+        slidesPerView: 4,
+        freeMode: true,
+        watchSlidesProgress: true,
+    });
+    var swiperThumbnailsMain = new Swiper(".swiper-thumbnails-main", {
+        spaceBetween: 0,
+        navigation: {
+            nextEl: ".swiperThumb-next",
+            prevEl: ".swiperThumb-prev"
+        },
+        thumbs: {
+            swiper: swiperThumbnails
+        }
+    });
+    var el = document.querySelectorAll("[data-choices]");
+    el.forEach(e => {
+        const t = {
+            ...e.dataset.choices ? JSON.parse(e.dataset.choices) : {},
+            ...{
+                classNames: {
+                    containerInner: e.className,
+                    input: "form-control",
+                    inputCloned: "form-control-xs",
+                    listDropdown: "dropdown-menu",
+                    itemChoice: "dropdown-item",
+                    activeState: "show",
+                    selectedState: "active"
+                }
+            }
+        }
+        new Choices(e, t)
+    });
+
+</script>
+<script src="assets/vendor/node_modules/js/simplebar.min.js"></script>
 <script>
     //Swiper Classic
     var swiperClassic = new Swiper(".swiper-classic", {
