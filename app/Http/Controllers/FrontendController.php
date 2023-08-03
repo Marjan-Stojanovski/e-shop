@@ -36,6 +36,20 @@ class FrontendController extends Controller
         return view('frontend.index')->with($data);
     }
 
+    public function product()
+    {
+        $company = CompanyInfo::first();
+        $brands = Brand::all();
+        $categoriesTree = Category::getTreeHP();
+        $data = [
+            'company' => $company,
+            'brands' => $brands,
+            'categoriesTree' => $categoriesTree,
+        ];
+
+        return view('frontend.product')->with($data);
+    }
+
     public function productView($slug)
     {
         $company = CompanyInfo::first();
@@ -55,6 +69,7 @@ class FrontendController extends Controller
             'comments' => $comments,
             'commentsCount' => $commentsCount
         ];
+
 
         return view('frontend.productView')->with($data);
     }
@@ -127,9 +142,10 @@ class FrontendController extends Controller
     {
         $company = CompanyInfo::first();
         $categoriesTree = Category::getTreeHP();
-
+$brands = Brand::all();
         $data = [
             'company' => $company,
+            'brands' => $brands,
             'categoriesTree' => $categoriesTree
         ];
 

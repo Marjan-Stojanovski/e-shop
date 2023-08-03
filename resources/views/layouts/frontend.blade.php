@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="assets/img/logo.jpg" type="image/ico">
 
+    <link rel="stylesheet" href="assets/vendor/node_modules/css/choices.min.css">
+    <link rel="stylesheet" href="assets/vendor/node_modules/css/simplebar.min.css">
     <!--swiper-->
     <link rel="stylesheet" href="assets/vendor/node_modules/css/swiper-bundle.min.css">
 
@@ -20,18 +22,20 @@
           rel="stylesheet">
     <!-- Main CSS -->
     <link href="assets/css/theme-shop.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/vendor/node_modules/css/choices.min.css">
-    <link rel="stylesheet" href="assets/vendor/node_modules/css/simplebar.min.css">
 
     <!--:Simplebar css ()-->
     <style type="text/css">
         .simplebar-track.simplebar-vertical {
             width: 7px;
         }
+
         .simplebar-scrollbar:before {
             background: currentColor;
         }
+
     </style>
+
+
 
     <title>Kosar E-shop</title>
 </head>
@@ -175,8 +179,7 @@
         <div class="collapse navbar-collapse" id="mainNavbarTheme">
             <ul class="navbar-nav me-lg-auto ms-xl-5 ms-lg-2">
                 <li class="nav-item ">
-                    <a class="nav-link " href="{{ route('frontend.index') }}" role="button" data-bs-toggle="dropdown"
-                       aria-haspopup="false" aria-expanded="false">
+                    <a class="nav-link" href="{{ route('frontend.index') }}">
                         Domov
                     </a>
                 </li>
@@ -325,12 +328,12 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#!">
+                    <a class="nav-link" href="{{ route('frontend.product') }}">
                         O&nbsp;nas
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#!">
+                    <a class="nav-link" href="{{ route('frontend.feedback') }}">
                         Kontakt
                     </a>
                 </li>
@@ -623,45 +626,8 @@
 <script src="assets/vendor/node_modules/js/swiper-bundle.min.js"></script>
 
 <script src="assets/vendor/node_modules/js/choices.min.js"></script>
-<script>
-    //Swiper thumbnail demo
-    var swiperThumbnails = new Swiper(".swiper-thumbnails", {
-        spaceBetween: 8,
-        slidesPerView: 4,
-        freeMode: true,
-        watchSlidesProgress: true,
-    });
-    var swiperThumbnailsMain = new Swiper(".swiper-thumbnails-main", {
-        spaceBetween: 0,
-        navigation: {
-            nextEl: ".swiperThumb-next",
-            prevEl: ".swiperThumb-prev"
-        },
-        thumbs: {
-            swiper: swiperThumbnails
-        }
-    });
-    var el = document.querySelectorAll("[data-choices]");
-    el.forEach(e => {
-        const t = {
-            ...e.dataset.choices ? JSON.parse(e.dataset.choices) : {},
-            ...{
-                classNames: {
-                    containerInner: e.className,
-                    input: "form-control",
-                    inputCloned: "form-control-xs",
-                    listDropdown: "dropdown-menu",
-                    itemChoice: "dropdown-item",
-                    activeState: "show",
-                    selectedState: "active"
-                }
-            }
-        }
-        new Choices(e, t)
-    });
 
-</script>
-<script src="assets/vendor/node_modules/js/simplebar.min.js"></script>
+
 <script>
     //Swiper Classic
     var swiperClassic = new Swiper(".swiper-classic", {
@@ -713,5 +679,44 @@
         }
     }
 </script>
+<script>
+    //Swiper thumbnail demo
+    var swiperThumbnails = new Swiper(".swiper-thumbnails", {
+        spaceBetween: 8,
+        slidesPerView: 4,
+        freeMode: true,
+        watchSlidesProgress: true,
+    });
+    var swiperThumbnailsMain = new Swiper(".swiper-thumbnails-main", {
+        spaceBetween: 0,
+        navigation: {
+            nextEl: ".swiperThumb-next",
+            prevEl: ".swiperThumb-prev"
+        },
+        thumbs: {
+            swiper: swiperThumbnails
+        }
+    });
+    var el = document.querySelectorAll("[data-choices]");
+    el.forEach(e => {
+        const t = {
+            ...e.dataset.choices ? JSON.parse(e.dataset.choices) : {},
+            ...{
+                classNames: {
+                    containerInner: e.className,
+                    input: "form-control",
+                    inputCloned: "form-control-xs",
+                    listDropdown: "dropdown-menu",
+                    itemChoice: "dropdown-item",
+                    activeState: "show",
+                    selectedState: "active"
+                }
+            }
+        }
+        new Choices(e, t)
+    });
+
+</script>
+<script src="assets/vendor/node_modules/js/simplebar.min.js"></script>
 </body>
 </html>
