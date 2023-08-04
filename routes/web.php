@@ -179,9 +179,7 @@ Route::post('/SaveComment', [App\Http\Controllers\CommentControler::class, 'fron
 Route::get('/e-shop', [App\Http\Controllers\FrontendController::class, 'shop'])->name('frontend.shop');
 Route::get('/ContactUs', [App\Http\Controllers\FrontendController::class, 'contact_us'])->name('frontend.feedback');
 Route::get('/AboutUs', [App\Http\Controllers\FrontendController::class, 'about_us'])->name('frontend.about');
-Route::get('/Products', [App\Http\Controllers\FrontendController::class, 'products'])->name('frontend.products');
-Route::get('/Products/{Slug}', [App\Http\Controllers\FrontendController::class, 'productView'])->name('frontend.productView');
-Route::get('/product', [App\Http\Controllers\FrontendController::class, 'product'])->name('frontend.product');
+Route::get('/products/{slug}', [App\Http\Controllers\FrontendController::class, 'product'])->name('frontend.product');
 Route::get('/Categories', [App\Http\Controllers\FrontendController::class, 'categories'])->name('frontend.categories');
 Route::get('/Categories/{Slug}', [App\Http\Controllers\FrontendController::class, 'categoryView'])->name('frontend.categoryView');
 Route::get('/Brands', [App\Http\Controllers\FrontendController::class, 'brands'])->name('frontend.brands');

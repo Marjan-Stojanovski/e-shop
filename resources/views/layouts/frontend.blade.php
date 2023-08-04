@@ -5,15 +5,15 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="assets/img/logo.jpg" type="image/ico">
+    <link rel="icon" href="/assets/img/logo.jpg" type="image/ico">
 
-    <link rel="stylesheet" href="assets/vendor/node_modules/css/choices.min.css">
-    <link rel="stylesheet" href="assets/vendor/node_modules/css/simplebar.min.css">
+    <link rel="stylesheet" href="/assets/vendor/node_modules/css/choices.min.css">
+    <link rel="stylesheet" href="/assets/vendor/node_modules/css/simplebar.min.css">
     <!--swiper-->
-    <link rel="stylesheet" href="assets/vendor/node_modules/css/swiper-bundle.min.css">
+    <link rel="stylesheet" href="/assets/vendor/node_modules/css/swiper-bundle.min.css">
 
     <!--Icons-->
-    <link href="assets/fonts/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="/assets/fonts/boxicons/css/boxicons.min.css" rel="stylesheet">
 
     <!--Google fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,7 +21,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Space+Grotesk:wght@300..700&display=swap"
           rel="stylesheet">
     <!-- Main CSS -->
-    <link href="assets/css/theme-shop.min.css" rel="stylesheet">
+    <link href="/assets/css/theme-shop.min.css" rel="stylesheet">
 
     <!--:Simplebar css ()-->
     <style type="text/css">
@@ -52,7 +52,7 @@
     class="navbar navbar-search-w-icons position-sticky shadow top-0 z-index-fixed navbar-expand-lg navbar-light bg-white">
     <div class="container-fluid position-relative">
         <a class="navbar-brand" href="index.html">
-            <img src="assets/img/logo.jpg" alt="" class="img-fluid" style="width: 50px;">
+            <img src="/assets/img/logo.jpg" alt="" class="img-fluid" style="width: 50px;">
         </a>
         <div class="d-flex align-items-center navbar-no-collapse-items navbar-nav flex-row order-lg-last">
             <button class="navbar-toggler order-last" type="button" data-bs-toggle="collapse"
@@ -92,7 +92,7 @@
                         <a href="#!" class="dropdown-header border-bottom p-4">
                             <div class="d-flex align-items-center">
                                 <div>
-                                    <img src="assets/img/avatar/12.jpg" alt=""
+                                    <img src="/assets/img/avatar/12.jpg" alt=""
                                          class="avatar xl rounded-pill me-3">
                                 </div>
                                 <div>
@@ -204,7 +204,7 @@
                                 <div class="col-lg-5 me-lg-auto d-none d-lg-flex ps-lg-0">
                                     <div
                                         class="d-flex bg-shade-info flex-column h-100 w-100 py-4 py-lg-5 position-relative">
-                                        <img alt="" src="assets/img/shop/banners/02.jpg"
+                                        <img alt="" src="/assets/img/shop/banners/02.jpg"
                                              class="bg-image opacity-50">
                                         <div
                                             class="position-absolute text-center d-flex flex-column justify-content-end align-items-center text-white left-0 top-0 w-100 h-100 px-4">
@@ -328,7 +328,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('frontend.product') }}">
+                    <a class="nav-link" href="">
                         O&nbsp;nas
                     </a>
                 </li>
@@ -434,7 +434,7 @@
         <ul class="list-unstyled no-animation mb-0">
             <li class="d-flex py-3 border-bottom">
                 <div class="me-1">
-                    <a href="#!"><img src="assets/img/shop/backpack2.jpg"
+                    <a href="#!"><img src="/assets/img/shop/backpack2.jpg"
                                       class="height-10x hover-lift hover-shadow w-auto" alt=""></a>
                 </div>
                 <div class="flex-grow-1 px-4 mb-3">
@@ -452,7 +452,7 @@
             </li>
             <li class="d-flex py-3">
                 <div class="me-1">
-                    <a href="#!"><img src="assets/img/shop/jacket1.jpg"
+                    <a href="#!"><img src="/assets/img/shop/jacket1.jpg"
                                       class="height-10x hover-lift hover-shadow w-auto" alt=""></a>
                 </div>
                 <div class="flex-grow-1 px-4 mb-3">
@@ -566,13 +566,13 @@
                 <!--:payment options-->
                 <div class="d-flex justify-content-start">
                     <div class="d-block me-2 my-1">
-                        <img src="assets/img/payment/american_express.svg" alt="">
+                        <img src="/assets/img/payment/american_express.svg" alt="">
                     </div>
                     <div class="d-block me-2 my-1">
-                        <img src="assets/img/payment/paypal.svg" alt="paypal">
+                        <img src="/assets/img/payment/paypal.svg" alt="paypal">
                     </div>
                     <div class="d-block my-1">
-                        <img src="assets/img/payment/visa.svg" alt="visa">
+                        <img src="/assets/img/payment/visa.svg" alt="visa">
                     </div>
                 </div>
                 <!--:/payment options-->
@@ -617,15 +617,15 @@
 
 
 <!-- scripts -->
-<script src="assets/js/theme.bundle.js"></script>
+<script src="/assets/js/theme.bundle.js"></script>
 
 
 <!--Page Countdown + Swiper Slider scripts-->
-<script src="assets/vendor/node_modules/js/jquery.min.js"></script>
-<script src="assets/vendor/node_modules/js/jquery.countdown.min.js"></script>
-<script src="assets/vendor/node_modules/js/swiper-bundle.min.js"></script>
-
-<script src="assets/vendor/node_modules/js/choices.min.js"></script>
+<script src="/assets/vendor/node_modules/js/jquery.min.js"></script>
+<script src="/assets/vendor/node_modules/js/jquery.countdown.min.js"></script>
+<script src="/assets/vendor/node_modules/js/swiper-bundle.min.js"></script>
+<script src="/assets/vendor/node_modules/js/simplebar.min.js"></script>
+<script src="/assets/vendor/node_modules/js/choices.min.js"></script>
 
 
 <script>
@@ -717,6 +717,6 @@
     });
 
 </script>
-<script src="assets/vendor/node_modules/js/simplebar.min.js"></script>
+
 </body>
 </html>

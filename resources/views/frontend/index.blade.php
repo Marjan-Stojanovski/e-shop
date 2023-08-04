@@ -131,14 +131,14 @@
                         <div class="card overflow-hidden hover-lift card-product">
                             <div class="card-product-header p-3 d-block overflow-hidden" style="height: 350px">
                                 <!--Product image-->
-                                <a href="{{ route('frontend.productView', $product->slug) }}">
-                                    <img src="assets/img/products/thumbnails/{{ $product->image }}" width="100%" class="img-fluid"
+                                <a href="{{ route('frontend.product', $product->slug) }}">
+                                    <img src="/assets/img/products/thumbnails/{{ $product->image }}" width="100%" class="img-fluid"
                                          alt="Product">
                                 </a>
                                 <span class="badge rounded-pill bg-danger position-absolute start-0 top-0 mt-4 ms-4">-{{ $product->discount }}%</span>
                             </div>
                             <div class="card-product-body p-3 pt-0 text-center">
-                                <a href="{{ route('frontend.productView', $product->slug) }}" class="h5 d-block position-relative mb-2 text-dark">{{ $product->title }}</a>
+                                <a href="{{ route('frontend.product', $product->slug) }}" class="h5 d-block position-relative mb-2 text-dark">{{ $product->title }}</a>
                                 <div class="card-product-body-overlay">
                                     <!--Price-->
                                     <span class="card-product-price">
@@ -146,7 +146,7 @@
                                         </span>
                                     <!--Action-->
                                     <span class="card-product-view-btn">
-                                            <a href="{{ route('frontend.productView', $product->slug) }}" class="link-underline mb-1 fw-semibold text-dark">View
+                                            <a href="{{ route('frontend.product', $product->slug) }}" class="link-underline mb-1 fw-semibold text-dark">View
                                                 Details</a>
                                         </span>
                                 </div>
@@ -174,7 +174,7 @@
                     </div>
                     <div class="col-md-5 mb-4">
                         <div class="text-center text-md-end">
-                            <a href="#" class="btn btn-dark btn-lg btn-hover-text mb-2 me-2">
+                            <a href="{{ route('frontend.brands') }}" class="btn btn-dark btn-lg btn-hover-text mb-2 me-2">
                                 <span class="btn-hover-label label-default">View all brands</span>
                                 <span class="btn-hover-label label-hover">View all brands</span>
                             </a>

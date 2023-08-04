@@ -36,15 +36,25 @@ class FrontendController extends Controller
         return view('frontend.index')->with($data);
     }
 
-    public function product()
+    public function product($slug)
     {
         $company = CompanyInfo::first();
         $brands = Brand::all();
+        $product = Product::where('slug', $slug)->first();
         $categoriesTree = Category::getTreeHP();
+        $comments = Comment::where('product_id', $product['id'])->get();
+        $commentsCount = $comments->count();
+        $products = Product::where('category_id', $product->category_id)->get();
+
+
         $data = [
             'company' => $company,
             'brands' => $brands,
+            'product' => $product,
+            'products' => $products,
             'categoriesTree' => $categoriesTree,
+            'comments' => $comments,
+            'commentsCount' => $commentsCount,
         ];
 
         return view('frontend.product')->with($data);
@@ -56,7 +66,7 @@ class FrontendController extends Controller
         $brands = Brand::all();
         $product = Product::where('slug', $slug)->first();
         $categoriesTree = Category::getTreeHP();
-        $comments = Comment::where('product_id', $product['id'])->get();
+        $comments = Comment::where('product_id', $product['id'])->paginate(5);
         $commentsCount = $comments->count();
         $products = Product::where('category_id', $product->category_id)->get();
 

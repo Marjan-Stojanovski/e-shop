@@ -1,34 +1,30 @@
 @extends('layouts.frontend')
 @section('content')
-    <h1>Zdravo</h1>
+
     <section class="position-relative bg-white">
-        <div class="container pt-7 pt-lg-9 pb-9 pb-lg-11 position-relative">
+        <div class="container pt-7 pt-lg-6 pb-9 pb-lg-11 position-relative">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a href="{{ route('frontend.index') }}" class="text-dark">
+                            <i class="bx bx-home fs-5"></i>
+                        </a></li>
+                    <li class="breadcrumb-item"><a href="" class="text-dark">Products</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ $product->title }}</li>
+                </ol>
+            </nav>
             <div class="row justify-content-between">
                 <div class="col-xl-6 col-lg-7 col-md-8 mx-auto mx-lg-0 mb-5 mb-lg-0">
                     <div class="row g-1 justify-content-center">
                         <div class="col-2">
-
                             <!--Thumbnails for main slider(just above)-->
                             <div class="swiper-container swiper-thumbnails overflow-hidden">
                                 <!-- Additional required wrapper -->
                                 <div class="swiper-wrapper d-flex flex-column">
                                     <!-- Slides -->
                                     <div class="swiper-slide w-100">
-                                        <img src="assets/img/shop/single1.jpg" alt="" class="w-100 rounded-0 h-auto">
+                                        <img src="/assets/img/products/thumbnails/{{ $product->image }}" alt="" class="w-100 rounded-0 h-auto">
                                     </div>
                                     <!-- Slides -->
-                                    <div class="swiper-slide w-100">
-                                        <img src="assets/img/shop/single2.jpg" alt="" class="w-100 rounded-0 h-auto">
-                                    </div>
-                                    <!-- Slides -->
-                                    <div class="swiper-slide w-100">
-                                        <img src="assets/img/shop/single3.jpg" alt="" class="w-100 rounded-0 h-auto">
-                                    </div>
-                                    <!-- Slides -->
-                                    <div class="swiper-slide w-100">
-                                        <img src="assets/img/shop/single4.jpg" alt="" class="w-100 rounded-0 h-auto">
-                                    </div>
-
                                 </div>
                             </div>
                         </div>
@@ -39,20 +35,9 @@
                                 <div class="swiper-wrapper">
                                     <!-- Slides -->
                                     <div class="swiper-slide">
-                                        <img src="assets/img/shop/single1.jpg" alt="" class="img-fluid">
+                                        <img src="/assets/img/products/originals/{{ $product->image }}" alt="" class="img-fluid">
                                     </div>
                                     <!-- Slides -->
-                                    <div class="swiper-slide">
-                                        <img src="assets/img/shop/single2.jpg" alt="" class="img-fluid">
-                                    </div>
-                                    <!-- Slides -->
-                                    <div class="swiper-slide">
-                                        <img src="assets/img/shop/single3.jpg" alt="" class="img-fluid">
-                                    </div>
-                                    <!-- Slides -->
-                                    <div class="swiper-slide">
-                                        <img src="assets/img/shop/single4.jpg" alt="" class="img-fluid">
-                                    </div>
                                 </div>
                                 <!-- Swiper Navigation buttons (Remove it if you have to) -->
                                 <div class="swiper-button-prev swiperThumb-prev text-white bg-dark">
@@ -61,11 +46,12 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <!--/.col-->
                 <div class="col-md-8 mx-auto col-lg-5 ms-xl-auto">
-                    <!--Breadcrumbs-->
+                    <!--Breadcrumbs
                     <nav class="d-md-flex" aria-label="breadcrumb">
                         <ol class="breadcrumb mb-3">
                             <li class="breadcrumb-item">
@@ -75,30 +61,32 @@
                                 Shop
                             </li>
                             <li class="breadcrumb-item active">
-                                Products
-                            </li>
-                            <li class="breadcrumb-item active">
                                 Women's Husky Vest
                             </li>
                         </ol>
                     </nav>
+                    Breadcrumbs-->
                     <!-- Product Description -->
                     <div class="mb-3 pb-3 border-bottom">
                         <div class="mb-3">
-                            <h2 class="mb-4 display-4">FOSFO LONG – Women’s down puffer jacket</h2>
+                            <h2 class="mb-4 display-4">{{ $product->title }}</h2>
+                            <h5 class="mb-4 text-muted display-9">{{ $product->brand->name }}/{{ $product->category->name }}</h5>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <p class="fs-5 mb-0">$320.00 <del class="text-muted">$399.00</del></p>
+                                    <p class="fs-5 mb-0" style="color: red">{{ number_format($product->action, 2) }}&nbsp;€&nbsp;&nbsp; <del class="text-muted"> {{ number_format($product->price, 2) }}&nbsp;€</del></p>
                                 </div>
                                 <div>
-                                    <a href="#" class="text-white fw-semibold small"><i class="bx bx-heart align-middle me-2"></i>Add
+                                    <a href="#" class=" fw-semibold small"><i class="bx bx-heart align-middle me-2"></i>Add
                                         to Wishlist</a>
                                 </div>
                             </div>
                         </div>
-                        <p class="mb-4">Lorem ipsum dolor sit amet adipiscing euismod tincidunt
-                            laoreet dolore magna aliquam erat volutpat.</p>
+                        <p class="mb-4">
+                            {!! $product->description !!}
+                        </p>
+                        <!-- ALERT
                         <span class="text-danger">Only 3 Left in Stock, Hurry Up!</span>
+                        ALERT -->
                     </div>
                     <div class="mb-3 pb-3 border-bottom">
                         <h6 class="mb-3">Quantity</h6>
@@ -111,9 +99,14 @@
                                 <option value="4">4</option>
                                 <option value="5">5</option>
                                 <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
                             </select>
                         </div>
                     </div>
+                    <!-- SIZE
                     <div class="mb-3 pb-3 border-bottom">
                         <div class="mb-0">
                             <div class="d-flex align-items-center mb-3 justify-content-between">
@@ -143,9 +136,9 @@
 
                             </div>
                         </div>
-                        <!--/.size-->
+
                     </div>
-                    <!--/.size-->
+                    SIZE  -->
 
                     <div class="mb-3 pb-3 border-bottom">
                         <strong class="text-muted d-flex align-items-center small">
@@ -157,6 +150,8 @@
                             </svg>
                             In Stock &amp; ready to ship</strong>
                     </div>
+
+                    <!--Radio buttons for product color
                     <div class="mb-3 pb-3 border-bottom">
                         <h6 class="mb-3">Color</h6>
                         <div class="d-flex" role="group" aria-label="Basic radio toggle button group">
@@ -175,9 +170,9 @@
                                 class="shop-product-color btn p-0 border-0 me-2 width-2x height-2x flex-center text-white product-blue"
                                 for="btnradioblue"></label>
                         </div>
-                        <!--Radio buttons for product colors-->
+
                     </div>
-                    <!--/.colors-->
+                    color -->
 
                     <div class="mb-3 pb-3 border-bottom d-flex align-items-center">
                         <i class="bx bxs-truck fs-5 me-1 text-success"></i>
@@ -206,10 +201,12 @@
                            aria-expanded="true">
                             Description
                         </a>
+                        <!--
                         <a href="#information" class="nav-link" data-bs-toggle="tab" aria-haspopup="false"
                            aria-expanded="false">
                             Information
                         </a>
+                        -->
                         <a href="#reviews" class="nav-link" data-bs-toggle="tab" aria-haspopup="false" aria-expanded="false">
                             Reviews
                         </a>
@@ -222,25 +219,17 @@
                 <div class="col-lg-9 col-md-8">
                     <div class="tab-content">
                         <div class="tab-pane fade active show" id="description">
-                            <h5>Lorem Ipsum is simply</h5>
+                            <h5>{{ $product->title }}</h5>
+                            <h6 class="text-muted">{{ $product->brand->name }}</h6>
                             <p class="mb-5">
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                Lorem
-                                Ipsum has been the industry's standard dummy text ever since the 1500s, when
-                                an
-                                unknown printer took a galley of type and scrambled it to make a type
-                                specimen
-                                book. It has survived not only five centuries, remaining essentially
-                                unchanged,
-                                but also the leap into electronic typesetting, remaining essentially
-                                unchanged.
+                                {!! $product->description !!}
                             </p>
                             <div class="text-end">
                                 <a href="#!" class="btn  btn-outline-secondary rounded-pill">Visit
                                     Store</a>
                             </div>
                         </div>
-                        <!--Tab-pane-->
+                        <!--Tab-panel information
                         <div class="tab-pane fade" id="information">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item bg-transparent px-0 py-3">MATERIAL: 100% POLYESTER
@@ -253,7 +242,7 @@
                                 <li class="list-group-item bg-transparent px-0 py-3">Made in Germany</li>
                             </ul>
                         </div>
-                        <!--Tab-pane-->
+                       Tab-panel information -->
                         <div class="tab-pane fade" id="reviews">
                             <div
                                 class="bg-gradient-secondary text-white d-flex justify-content-between align-items-center p-3 mb-5">
@@ -266,7 +255,7 @@
                         <i class="bx bx-star"></i>
                       </span>
                                     <p class="mb-0"><span class="reviews small fw-normal">4.69 / 5</span>
-                                        <small class="text-muted">( 4.5 K - Reviews)</small>
+                                        <small class="text-muted">( {{ $commentsCount }} - Reviews)</small>
                                     </p>
 
                                 </div>
@@ -276,9 +265,11 @@
                                 </div>
                             </div>
                             <h5 class="mb-4 mb-lg-5">Latest Reviews</h5>
+                            @foreach($comments as $comment)
+                                <!--Review-item-->
                             <div class="d-flex mb-4">
                                 <div>
-                                    <img src="assets/img/avatar/3.jpg" alt="" class="avatar sm me-3 rounded-circle shadow">
+                                    <img src="/assets/img/avatar/3.jpg" alt="" class="avatar sm me-3 rounded-circle shadow">
                                 </div>
                                 <div class="media-body">
                       <span class="text-warning small d-block mb-2">
@@ -294,44 +285,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--Review-item-->
-                            <div class="d-flex mb-4">
-                                <div>
-                                    <img src="assets/img/avatar/6.jpg" alt="" class="avatar sm me-3 rounded-circle shadow">
-                                </div>
-                                <div class="media-body">
-                      <span class="text-warning small d-block mb-2">
-                        <i class="bx bx-star"></i><i class="bx bx-star"></i><i class="bx bx-star"></i><i
-                              class="bx bx-star"></i><i class="bx bx-star"></i>
-                      </span>
-                                    <p class="mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                        sed
-                                        do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                    <div class="d-flex border-bottom pb-4 justify-content-between align-items-center">
-                                        <h6 class="mb-0">Juan Doe</h6>
-                                        <small class="text-muted">23 May 2021</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--Review-item-->
-                            <div class="d-flex mb-4">
-                                <div>
-                                    <img src="assets/img/avatar/9.jpg" alt="" class="avatar sm me-3 rounded-circle shadow">
-                                </div>
-                                <div class="media-body">
-                      <span class="text-warning small d-block mb-2">
-                        <i class="bx bx-star"></i><i class="bx bx-star"></i><i class="bx bx-star"></i><i
-                              class="bx bx-star"></i><i class="bx bx-star"></i>
-                      </span>
-                                    <p class="mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                        sed
-                                        do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                    <div class="d-flex border-bottom pb-4 justify-content-between align-items-center">
-                                        <h6 class="mb-0">Adam Voges</h6>
-                                        <small class="text-muted">12 June 2021</small>
-                                    </div>
-                                </div>
-                            </div>
+                            <!--End Review-item-->
+                            @endforeach
                             <!--Review-item-->
                             <div class="pt-3">
                                 <div class="d-flex justify-content-end mb-3">
