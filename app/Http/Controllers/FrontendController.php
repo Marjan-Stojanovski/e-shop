@@ -152,7 +152,8 @@ class FrontendController extends Controller
     {
         $company = CompanyInfo::first();
         $categoriesTree = Category::getTreeHP();
-$brands = Brand::all();
+        $brands = Brand::all();
+
         $data = [
             'company' => $company,
             'brands' => $brands,
@@ -166,11 +167,13 @@ $brands = Brand::all();
     {
         $company = CompanyInfo::first();
         $employees = Employee::all();
+        $brands = Brand::all();
         $categoriesTree = Category::getTreeHP();
 
 
         $data = [
             'company' => $company,
+            'brands' => $brands,
             'employees' => $employees,
             'categoriesTree' => $categoriesTree
         ];
@@ -217,10 +220,9 @@ $brands = Brand::all();
                 $country = $_GET['discount'];
                 $builder->whereNotNull('discount');
             }
-
-            $products = $builder->paginate(12);
+            $products = $builder->paginate(5);
         } else {
-            $products = Product::all()->paginate(12);
+            $products = Product::all()->paginate(5);
         }
         $company = CompanyInfo::first();
         $brands = Brand::all();

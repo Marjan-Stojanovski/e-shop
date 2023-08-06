@@ -14,7 +14,8 @@
 
     <!--Icons-->
     <link href="/assets/fonts/boxicons/css/boxicons.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="/assets/vendor/node_modules/css/aos.css">
+    <link rel="stylesheet" href="/assets/fonts/iconsmind/iconsmind.css">
     <!--Google fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -194,105 +195,9 @@
                     </ul>
                 </li>
                 <li class="nav-item nav-item dropdown position-static ">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">
-                        Womens
+                    <a class="nav-link " href="{{ route('frontend.shop') }}" >
+                        Trgovina
                     </a>
-                    <div class="dropdown-menu dropdown-menu-fw px-lg-0 py-lg-0">
-                        <div class="overflow-hidden">
-                            <div class="row mx-0">
-                                <div class="col-lg-5 me-lg-auto d-none d-lg-flex ps-lg-0">
-                                    <div
-                                        class="d-flex bg-shade-info flex-column h-100 w-100 py-4 py-lg-5 position-relative">
-                                        <img alt="" src="/assets/img/shop/banners/02.jpg"
-                                             class="bg-image opacity-50">
-                                        <div
-                                            class="position-absolute text-center d-flex flex-column justify-content-end align-items-center text-white left-0 top-0 w-100 h-100 px-4">
-                                            <div class="mb-4 py-4 px-4">
-                                                <div
-                                                    class="d-md-flex mb-2 justify-content-center align-items-center">
-                                                            <span style="height: 1px"
-                                                                  class="d-none d-lg-block bg-white width-7x"></span>
-                                                    <h5 class="mb-0 fw-normal mx-2">
-                                                        Limited Discount
-                                                    </h5>
-                                                    <span style="height: 1px"
-                                                          class="d-none d-lg-block bg-white width-7x"></span>
-                                                </div>
-                                                <h3 class="display-5">New Arrivals
-                                                </h3>
-                                                <p class="mb-4">Order over $100 and get 30% Off</p>
-                                                <a href="#!" class="btn btn-hover-text btn-outline-white">
-                                                            <span class="btn-hover-label label-default">Shop
-                                                                Now</span>
-                                                    <span class="btn-hover-label label-hover">Shop
-                                                                Now</span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/.col-->
-                                <div class="col-lg-3 py-lg-5 mb-lg-0 ms-lg-auto mb-4">
-                                    <div class="d-flex flex-column">
-                                        <h5 class="dropdown-header mb-2">Clothes</h5>
-                                        <a class="dropdown-item" href="#!">
-                                            T-Shirts & Tops
-                                            <span
-                                                class="badge badge-pill bg-success py-0 small d-inline-block ms-1">New</span>
-                                        </a>
-                                        <a class="dropdown-item" href="#!">
-                                            Shorts
-                                        </a>
-                                        <a class="dropdown-item" href="#!">
-                                            T-Shirts
-                                        </a>
-                                        <a class="dropdown-item" href="#!">
-                                            Jeans & Skirts
-                                        </a>
-                                        <a class="dropdown-item" href="#!">
-                                            Shoes & Sandals
-                                        </a>
-                                        <a class="dropdown-item" href="#!">
-                                            Jackets
-                                        </a>
-                                        <a class="dropdown-item" href="#!">
-                                            Sweatshirts & Hoodies
-                                        </a>
-                                    </div>
-                                </div>
-                                <!--/.col-->
-                                <div class="col-lg-3 py-lg-5 mb-lg-0 ms-lg-auto mb-4">
-                                    <div class="d-flex flex-column">
-                                        <h5 class="dropdown-header mb-2">Accessories</h5>
-                                        <a class="dropdown-item" href="#!">
-                                            Face mask
-                                        </a>
-                                        <a class="dropdown-item" href="#!">
-                                            Handbags
-                                        </a>
-                                        <a class="dropdown-item" href="#!">
-                                            Backpacks
-                                        </a>
-                                        <a class="dropdown-item" href="#!">
-                                            Sunglasses
-                                        </a>
-                                        <a class="dropdown-item" href="#!">
-                                            Watches
-                                        </a>
-                                        <a class="dropdown-item" href="#!">
-                                            Wallets
-                                        </a>
-                                        <a class="dropdown-item" href="#!">
-                                            Caps & Hats
-                                        </a>
-                                    </div>
-                                </div>
-                                <!--/.col-->
-                            </div>
-                            <!--/.row-->
-                        </div>
-                    </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle " data-bs-auto-close="outside" href="#" role="button"
@@ -328,7 +233,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">
+                    <a class="nav-link" href="{{ route('frontend.about') }}">
                         O&nbsp;nas
                     </a>
                 </li>
@@ -626,8 +531,6 @@
 <script src="/assets/vendor/node_modules/js/swiper-bundle.min.js"></script>
 <script src="/assets/vendor/node_modules/js/simplebar.min.js"></script>
 <script src="/assets/vendor/node_modules/js/choices.min.js"></script>
-
-
 <script>
     //Swiper Classic
     var swiperClassic = new Swiper(".swiper-classic", {
@@ -715,8 +618,10 @@
         }
         new Choices(e, t)
     });
+</script>
+<script>
+    let form = document.getElementById("filter");
 
 </script>
-
 </body>
 </html>

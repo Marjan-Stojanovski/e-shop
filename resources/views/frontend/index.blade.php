@@ -7,7 +7,7 @@
             <div class="swiper-container swiper-classic overflow-hidden position-relative">
                 <div class="swiper-wrapper">
                     <!--:Slide-->
-                    <div class="swiper-slide" style="background-image:url('assets/img/shop/banners/03.jpg')">
+                    <div class="swiper-slide" style="background-image:url('/assets/img/zgane.jpg')">
                         <div class="bg-dark position-absolute start-0 top-0 w-100 h-100 opacity-25"></div>
                         <!--:container-->
                         <div class="container h-100 text-white position-relative z-index-1">
@@ -37,7 +37,7 @@
                         </div>
                     </div>
                     <!--:Slide-->
-                    <div class="swiper-slide" style="background-image:url('assets/img/shop/banners/06.jpg')">
+                    <div class="swiper-slide" style="background-image:url('/assets/img/dogotki.jpg')">
                         <div class="bg-dark position-absolute start-0 top-0 w-100 h-100 opacity-25"></div>
                         <!--:container-->
                         <div class="container h-100 text-white position-relative z-index-1">
@@ -67,7 +67,7 @@
                         </div>
                     </div>
                     <!--:Slide-->
-                    <div class="swiper-slide h-100" style="background-image:url('assets/img/shop/banners/07.jpg')">
+                    <div class="swiper-slide h-100" style="background-image:url('/assets/img/barimage.jpg')">
                         <div class="bg-dark position-absolute start-0 top-0 w-100 h-100 opacity-25"></div>
                         <!--:container-->
                         <div class="container h-100 text-white position-relative z-index-1">
