@@ -224,14 +224,14 @@
                             </div>
                             <div class="text-end">
                                 <button type="submit" class="btn btn-primary me-3">Apply</button>
-                                <button  class="btn btn-outline-gray-200 text-body">Clear</button>
+                                <button  onClick="resetCheckbox()" class="btn btn-outline-gray-200 text-body">Clear Filters</button>
                             </div>
                         </form>
                         <hr>
                     </div>
                     <div class="row mb-5">
                         @foreach($products as $product)
-                            <div class="col-md-6 col-xl-4 mb-4">
+                            <div class="col-md-6 col-lg-3 mb-4">
                                 <!--:card-hover-expand-->
                                 @if(isset($product->action))
                                     <div class="card overflow-hidden hover-lift card-product">

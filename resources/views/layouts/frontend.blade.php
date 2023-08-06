@@ -37,7 +37,6 @@
     </style>
 
 
-
     <title>Kosar E-shop</title>
 </head>
 
@@ -101,20 +100,21 @@
                                     <span
                                         class="text-muted d-block mb-2 text-lowercase">{{ Auth::user()->email }}</span>
                                     <div class="small d-inline-block link-underline fw-semibold text-muted">View
-                                        account</div>
+                                        account
+                                    </div>
                                 </div>
                             </div>
                         </a>
                         <a href="{{ route('logout') }}" class="dropdown-item rounded-top-0 p-3"
-                            onclick="event.preventDefault();
+                           onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">
                                     <span class="d-block text-end">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                              fill="currentColor" class="bx bx-box-arrow-right me-2" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd"
-                                                  d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+                                                  d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
                                             <path fill-rule="evenodd"
-                                                  d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                                                  d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
                                         </svg>
                                         Sign Out
                                     </span>
@@ -195,7 +195,7 @@
                     </ul>
                 </li>
                 <li class="nav-item nav-item dropdown position-static ">
-                    <a class="nav-link " href="{{ route('frontend.shop') }}" >
+                    <a class="nav-link " href="{{ route('frontend.shop') }}">
                         Trgovina
                     </a>
                 </li>
@@ -438,7 +438,7 @@
                 <h6 class="mb-4">Top Brands</h6>
                 <ul class="nav flex-column mb-0">
                     @foreach($brands as $brand)
-                    <li class="nav-item"><a class="nav-link" href="#!">{{ $brand->name }}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#!">{{ $brand->name }}</a></li>
                     @endforeach
                 </ul>
             </div>
@@ -460,7 +460,7 @@
                     </div>
 
                     <!-- Copyright -->
-                    <p class="small text-muted mb-0">© Assan. by Creative DM</p>
+                    <p class="small text-muted mb-0">© Kosar. by MarjanS.</p>
                     <!-- End Copyright -->
                 </div>
             </div>
@@ -620,8 +620,11 @@
     });
 </script>
 <script>
-    let form = document.getElementById("filter");
-
+    function resetCheckbox() {
+        $('input[type=checkbox]').each(function () {
+            this.checked = false;
+        });
+    }
 </script>
 </body>
 </html>
