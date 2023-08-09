@@ -37,7 +37,7 @@ Route::get('/profile', function () {
 })->middleware(['auth', 'verified']);
 
 //Admin-panel
-Route::middleware(['web', 'auth', 'check.role'])->prefix('dashboard')->group(function() {
+Route::middleware(['web', 'auth', 'check.role'])->prefix('Dashboard')->group(function() {
 
     //Users-web-route
     Route::get('/users', [App\Http\Controllers\UserController::class, 'index'])->name('users.index');
@@ -145,6 +145,14 @@ Route::middleware(['web', 'auth', 'check.role'])->prefix('dashboard')->group(fun
 
 });
 
+Route::middleware('auth')->prefix('User/Details')->group(function () {
+    Route::get('/{Detail}', [App\Http\Controllers\UserController::class, 'userProfile'])->name('frontend.profile');
+    Route::get('/Edit/{Detail}', [App\Http\Controllers\UserController::class, 'showProfile'])->name('frontend.showProfileDetails');
+    Route::put('/{Details}', [App\Http\Controllers\UserController::class, 'updateProfileDetails'])->name('frontend.updateProfileDetails');
+    Route::get('/Orders/{User}', [App\Http\Controllers\OrderController::class, 'listUserOrders'])->name('frontend.showProfileOrders');
+    Route::get('/Messages/{Message}', [App\Http\Controllers\ShippingController::class, 'viewMessage'])->name('frontend.userMessage');
+});
+
 // shopping Cart SESSION routes/////
 Route::post('/book', [App\Http\Controllers\ShoppingCartController::class, 'addToCart'])->name('add.to.cart');
 Route::patch('/update-shopping-cart', [App\Http\Controllers\ShoppingCartController::class, 'updateCart'])->name('update.sopping.cart');
@@ -158,8 +166,9 @@ Route::post('/Checkout/Order/Review', [App\Http\Controllers\OrderController::cla
 Route::get('/Checkout/OrderPayment', [App\Http\Controllers\OrderController::class, 'paymentInfo'])->name('frontend.payment');
 Route::get('/Checkout/Order/Status', [App\Http\Controllers\OrderController::class, 'processOrder'])->name('frontend.processOrder');
 Route::get('/ViewOrder', [App\Http\Controllers\OrderController::class, 'viewOrder'])->name('frontend.viewOrder');
-Route::delete('/Orders/{order}', [App\Http\Controllers\OrderController::class, 'deleteOrder'])->name('order.delete');
-Route::get('/Orders/{order}', [App\Http\Controllers\OrderController::class, 'viewUserOrder'])->name('user.viewOrder');
+//Route::delete('/Orders/{order}', [App\Http\Controllers\OrderController::class, 'deleteOrder'])->name('order.delete');
+//Route::get('/Orders/{order}', [App\Http\Controllers\OrderController::class, 'viewUserOrder'])->name('user.viewOrder');
+Route::get('/checkout', [App\Http\Controllers\OrderController::class, 'checkout'])->name('frontend.checkout');
 
 //Mysql Cart routes
 //Route::get('/cart', [App\Http\Controllers\FrontendController::class, 'cartList'])->name('frontend.shopCart');frontend.saveOrder
@@ -168,11 +177,7 @@ Route::get('/Orders/{order}', [App\Http\Controllers\OrderController::class, 'vie
 //Route::delete('/cart/{product}', [App\Http\Controllers\FrontendController::class, 'destroy'])->name('cart.destroy');
 
 //Frontend-routes
-Route::get('/Details', [App\Http\Controllers\ShippingController::class, 'userDetails'])->name('frontend.details');
-Route::post('/Details', [App\Http\Controllers\ShippingController::class, 'storeDetails'])->name('frontend.storeDetails');
-Route::get('/Details/{Details}', [App\Http\Controllers\ShippingController::class, 'showDetails'])->name('frontend.showDetails');
-Route::put('/Details/{Details}', [App\Http\Controllers\ShippingController::class, 'updateDetails'])->name('frontend.updateDetails');
-Route::get('/Details/Messages/{Message}', [App\Http\Controllers\ShippingController::class, 'viewMessage'])->name('frontend.userMessage');
+
 Route::get('/Reset', [App\Http\Controllers\FrontendController::class, 'preReset'])->name('frontend.reset');
 Route::get('/SignUp', [App\Http\Controllers\FrontendController::class, 'preSignUp'])->name('frontend.register');
 Route::post('/SaveComment', [App\Http\Controllers\CommentControler::class, 'frontendSave'])->name('comment.save');

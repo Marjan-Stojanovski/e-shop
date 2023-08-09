@@ -2,10 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
+use App\Models\Category;
+use App\Models\CompanyInfo;
 use App\Models\Country;
+use App\Models\Employee;
+use App\Models\Message;
+use App\Models\Order;
 use App\Models\Role;
+use App\Models\Shipping;
+use App\Models\ShoppingCart;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\Routing\Matcher\ExpressionLanguageProvider;
@@ -136,6 +145,83 @@ class UserController extends Controller
 
     }
 
+    public function userProfile($id)
+    {
+        dd($id);
+        $company = CompanyInfo::first();
+        $categoriesTree = Category::getTreeHP();
+        $brands = Brand::all();
+        $shippingDetails = Shipping::where('user_id', $id)->get();
+        $detailsCount = count($shippingDetails);
+        $userDetails = Shipping::where('user_id', $id)->first();
+        $orders = Order::where('user_id', $id)->paginate(10);
 
 
+        if ($detailsCount === 0) {
+
+            $data = [
+                'company' => $company,
+                'brands' => $brands,
+                'messages' => $messages,
+                'countries' => $countries,
+                'categoriesTree' => $categoriesTree,
+                'orders' => $orders
+            ];
+
+            return view('frontend.storeUserInfo')->with($data);
+        } else {
+            $data = [
+                'company' => $company,
+                'brands' => $brands,
+                'messages' => $messages,
+                'countries' => $countries,
+                'categoriesTree' => $categoriesTree,
+                'userDetails' => $userDetails,
+                'orders' => $orders
+            ];
+            return view('frontend.userProfile')->with($data);
+        }
+    }
+
+    public function showProfile($id)
+    {
+        $company = CompanyInfo::first();
+        $brands = Brand::all();
+        $userDetails = Shipping::where('user_id', $id)->first();
+        $countries = Country::all();
+        $categoriesTree = Category::getTreeHP();
+
+        $data = [
+            'company' => $company,
+            'brands' => $brands,
+            'countries' => $countries,
+            'categoriesTree' => $categoriesTree,
+            'userDetails' => $userDetails
+        ];
+
+        return view('frontend.updateUserProfile')->with($data);
+    }
+
+    public function updateProfileDetails(Request $request, $id)
+    {
+
+        $company = CompanyInfo::first();
+        $details = Shipping::FindorFail($id);
+
+        $input = $request->all();
+        $details->fill($input)->save();
+
+        $categoriesTree = Category::getTreeHP();
+        $userDetails = Shipping::FindorFail($id);
+        $brands = Brand::all();
+
+        $data = [
+            'company' => $company,
+            'brands' => $brands,
+            'categoriesTree' => $categoriesTree,
+            'userDetails' => $userDetails
+        ];
+
+        return view('frontend.userProfile')->with($data);
+    }
 }

@@ -72,7 +72,7 @@
                     <i class="bx bx-shopping-bag fs-4"></i>
                     <!--card badge-->
                     <span
-                        class="badge d-none d-lg-flex p-0 position-absolute end-0 top-0 me-n2 mt-n1 lh-1 fw-semibold width-1x height-1x bg-white shadow-sm rounded-circle flex-center text-dark">3</span>
+                        class="badge d-none d-lg-flex p-0 position-absolute end-0 top-0 me-n2 mt-n1 lh-1 fw-semibold width-1x height-1x bg-white shadow-sm rounded-circle flex-center text-dark">{{ count((array) session('cart')) }}</span>
                 </a>
             </div>
             <!--Search collapse trigger(hidden in desktop laptop)-->
@@ -89,16 +89,16 @@
                 </a>
                 @if(Auth::user())
                     <div class="dropdown-menu shadow-lg dropdown-menu-end dropdown-menu-xs p-0">
-                        <a href="#!" class="dropdown-header border-bottom p-4">
+                        <a href="{{ route('frontend.profile', $userDetails->user_id ) }}" class="dropdown-header border-bottom p-4">
                             <div class="d-flex align-items-center">
                                 <div>
                                     <img src="/assets/img/avatar/12.jpg" alt=""
                                          class="avatar xl rounded-pill me-3">
                                 </div>
                                 <div>
-                                    <h5 class="mb-0 text-body">{{ Auth::user()->firstName }} {{ Auth::user()->lastName }}</h5>
+                                    <h5 class="mb-0 text-body">{{ $userDetails->firstName }} {{ $userDetails->lastName }}</h5>
                                     <span
-                                        class="text-muted d-block mb-2 text-lowercase">{{ Auth::user()->email }}</span>
+                                        class="text-muted d-block mb-2 text-lowercase">{{ $userDetails->email }}</span>
                                     <div class="small d-inline-block link-underline fw-semibold text-muted">View
                                         account
                                     </div>
@@ -127,52 +127,20 @@
                 @else
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs position-absolute p-4">
                         <!--Login form-->
-                        <form class="needs-validation" novalidate>
-                            <div>
-                                <h3 class="mb-1"> Welcome back! </h3>
-                                <p class="mb-4 text-muted">
-                                    Please Sign In with details...
-                                </p>
-                            </div>
-                            <div class="input-icon-group mb-3">
-                                    <span class="input-icon">
-                                        <i class="bx bx-envelope"></i>
-                                    </span>
-                                <input type="email" required class="form-control" autofocus=""
-                                       placeholder="Username">
-                            </div>
-                            <div class="input-icon-group mb-3">
-                                    <span class="input-icon">
-                                        <i class="bx bx-key"></i>
-                                    </span>
-                                <input type="password" required class="form-control" placeholder="Password">
-                            </div>
-                            <div class="mb-3 d-flex justify-content-between">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                        Remember me
-                                    </label>
-                                </div>
-                                <div>
-                                    <label class="text-end d-block small mb-0">
-                                        <a href="#" class="text-muted link-decoration">Forget Password?
-                                        </a>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="d-grid">
-                                <button class="btn btn-primary btn-hover-arrow" type="submit">
+                            <h5 class="mb-0 text-center">
+                                Are you a customer?
+                            </h5>
+                            <br>
+                            <div class=" text-center">
+                                <a href="{{ route('login') }}" class="btn btn-primary btn-hover-arrow" style="border-radius: 30px; max-width: 200px">
                                     <span>Sign in</span>
-                                </button>
+                                </a>
                             </div>
                             <p class="pt-4 mb-0 text-muted">
-                                Don’t have an account yet? <a href="page-account-signup.html"
+                                Don’t have an account yet? <a href="{{ route('frontend.register') }}"
                                                               class="ms-2 pb-0 text-dark fw-semibold link-underline">Sign
                                     Up</a>
                             </p>
-                        </form>
                     </div>
                 @endif
             </div>
@@ -323,9 +291,12 @@
 <!--/end:Search bar modal-->
 
 <!--begin:Shopping Cart offcanvas-->
+<?php
+$carts = session()->get('cart', []);
+?>
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasCart">
     <div class="border-bottom offcanvas-header align-items-center justify-content-between">
-        <h5 class="mb-0">Your Cart (3)</h5>
+        <h5 class="mb-0">Your Cart ({{ count((array) session('cart')) }})</h5>
         <button type="button" class="btn-close text-reset p-0 m-0 width-3x height-3x flex-center ms-auto"
                 data-bs-dismiss="offcanvas" aria-label="Close">
             <button type="button"
@@ -337,53 +308,49 @@
     </div>
     <div class="offcanvas-body p-4">
         <ul class="list-unstyled no-animation mb-0">
+            <?php
+            $subTotal = 0;
+            ?>
+            @if(session('cart'))
+                @foreach(session('cart') as $id => $details)
             <li class="d-flex py-3 border-bottom">
                 <div class="me-1">
-                    <a href="#!"><img src="/assets/img/shop/backpack2.jpg"
+                    <a href="#!"><img src="/assets/img/products/thumbnails/{{ $details['image'] }}"
                                       class="height-10x hover-lift hover-shadow w-auto" alt=""></a>
                 </div>
                 <div class="flex-grow-1 px-4 mb-3">
-                    <a href="#!" class="text-dark d-block lh-sm fw-semibold mb-2">Laptop backpack water
-                        proof</a>
-                    <p class="mb-0 small"><strong>$36.00</strong> x
-                        <strong>1</strong>
+                    <a href="#!" class="text-dark d-block lh-sm fw-semibold mb-2">{{ $details['name'] }}</a>
+                    <p class="mb-0 small"><strong>€ {{ $details['unitPrice'] }}</strong> x
+                        <strong>{{ $details['quantity'] }}</strong>
                     </p>
                 </div>
+                <?php
+                    $productAmount = $details['productAmount'];
+                    $subTotal+= $productAmount;
+                    ?>
                 <div class="d-block text-end">
-                    <a href="#!" class="text-muted small text-decoration-underline">
-                        Remove
-                    </a>
+                    <form action="{{route('delete.cart', $id )}}" method="post">
+                        @csrf
+                        @method('delete')
+                        <button type="submit" class="text-muted small text-decoration-underline btn btn-hover-label" >
+                            Remove
+                        </button>
+                    </form>
+
                 </div>
             </li>
-            <li class="d-flex py-3">
-                <div class="me-1">
-                    <a href="#!"><img src="/assets/img/shop/jacket1.jpg"
-                                      class="height-10x hover-lift hover-shadow w-auto" alt=""></a>
-                </div>
-                <div class="flex-grow-1 px-4 mb-3">
-                    <a href="#!" class="text-dark d-block lh-sm fw-semibold mb-2">Brown denim jacket for
-                        mens</a>
-                    <p class="mb-0 small"><strong>$59.00</strong> x
-                        <strong>2</strong>
-                    </p>
-                </div>
-                <div class="d-block text-end">
-                    <a href="#!" class="text-muted small text-decoration-underline">
-                        Remove
-                    </a>
-                </div>
-            </li>
+                @endforeach
+            @endif
             <li class="d-flex p-3 mb-3 border-top justify-content-between align-items-center">
                 <span class="fw-normal">Subtotal</span>
-                <span class="text-dark fw-bold">$154.00</span>
+                <span class="text-dark fw-bold">€ {{ number_format($subTotal, 2) }}</span>
             </li>
         </ul>
     </div>
     <div class="offcanvas-footer p-4 border-top">
         <ul class="list-unstyled mb-0">
-
             <li class="pb-2 d-grid">
-                <a href="#" class="btn btn-secondary btn-hover-arrow"><span>View
+                <a href="{{ route('frontend.shoppingCart') }}" class="btn btn-secondary btn-hover-arrow"><span>View
                                 shopping cart</span></a>
             </li>
             <li class="d-grid">

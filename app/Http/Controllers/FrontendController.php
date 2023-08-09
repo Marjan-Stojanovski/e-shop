@@ -9,6 +9,7 @@ use App\Models\CompanyInfo;
 use App\Models\Country;
 use App\Models\Employee;
 use App\Models\Product;
+use App\Models\Shipping;
 use App\Models\Volume;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,23 +18,45 @@ class FrontendController extends Controller
 {
     public function index()
     {
-        $loggedUser = Auth::user();
-        $company = CompanyInfo::first();
-        $brands = Brand::all();
-        $categories = Category::all();
-        $categoriesTree = Category::getTreeHP();
-        $products = Product::whereNotNull('discount')->paginate(5);
+        if (Auth::user()) {
+
+            $company = CompanyInfo::first();
+            $brands = Brand::all();
+            $categories = Category::all();
+            $categoriesTree = Category::getTreeHP();
+            $products = Product::whereNotNull('discount')->paginate(5);
+            $userDetails = Shipping::where('user_id', Auth::user()->id)->first();
 
         $data = [
             'company' => $company,
-            'loggedUser' => $loggedUser,
             'brands' => $brands,
             'categoriesTree' => $categoriesTree,
             'categories' => $categories,
-            'products' => $products
+            'products' => $products,
+            'userDetails' => $userDetails
         ];
 
         return view('frontend.index')->with($data);
+
+        } else {
+
+            $company = CompanyInfo::first();
+            $brands = Brand::all();
+            $categories = Category::all();
+            $categoriesTree = Category::getTreeHP();
+            $products = Product::whereNotNull('discount')->paginate(5);
+
+
+            $data = [
+                'company' => $company,
+                'brands' => $brands,
+                'categoriesTree' => $categoriesTree,
+                'categories' => $categories,
+                'products' => $products,
+            ];
+
+            return view('frontend.index')->with($data);
+        }
     }
 
     public function product($slug)
@@ -247,10 +270,12 @@ class FrontendController extends Controller
     public function preSignUp()
     {
         $company = CompanyInfo::first();
+        $brands = Brand::all();
         $categoriesTree = Category::getTreeHP();
 
         $data = [
             'company' => $company,
+            'brands' => $brands,
             'categoriesTree' => $categoriesTree,
         ];
 
@@ -260,10 +285,12 @@ class FrontendController extends Controller
     public function preReset()
     {
         $company = CompanyInfo::first();
+        $brands = Brand::all();
         $categoriesTree = Category::getTreeHP();
 
         $data = [
             'company' => $company,
+            'brands' => $brands,
             'categoriesTree' => $categoriesTree,
         ];
 

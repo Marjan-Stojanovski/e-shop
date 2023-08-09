@@ -25,6 +25,7 @@ class ShoppingCartController extends Controller
     {
         $carts = session()->get('cart', []);
         $company = CompanyInfo::first();
+        $brands = Brand::all();
         $categoriesTree = Category::getTreeHP();
         $subTotal = 0;
         foreach ($carts as $cart) {
@@ -34,6 +35,7 @@ class ShoppingCartController extends Controller
 
         $data = [
             'company' => $company,
+            'brands' => $brands,
             'carts' => $carts,
             'categoriesTree' => $categoriesTree,
             'subTotal' => $subTotal
@@ -73,6 +75,7 @@ class ShoppingCartController extends Controller
                 "productAmount" => $productAmount
             ];
         }
+
         session()->put('cart', $cart);
 
         return redirect()->back();

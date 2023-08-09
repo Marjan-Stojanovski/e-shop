@@ -2,6 +2,8 @@
 
 namespace Illuminate\Foundation\Auth;
 
+use App\Models\Brand;
+use App\Models\CompanyInfo;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -29,8 +31,10 @@ trait ResetsPasswords
     {
         $token = $request->route()->parameter('token');
         $categoriesTree = Category::getTreeHP();
+        $brands = Brand::all();
+        $company = CompanyInfo::first();
         return view('frontend.passwordUpdate')->with(
-            ['token' => $token, 'email' => $request->email, 'categoriesTree' => $categoriesTree]
+            ['token' => $token, 'email' => $request->email, 'categoriesTree' => $categoriesTree, 'brands' => $brands, 'company' => $company]
         );
     }
 

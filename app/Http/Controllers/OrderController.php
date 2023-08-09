@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Helpers\PdfGeneration;
 use App\Mail\MailSender;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\CompanyInfo;
 use App\Models\Country;
@@ -37,6 +38,25 @@ class OrderController extends Controller
         ];
 
         return view('dashboard.orders.index')->with($data);
+    }
+
+    public function listUserOrders($firstName)
+    {
+        $orders = Order::where('firstName', $firstName)->paginate(12);
+        $brands = Brand::all();
+        $company = CompanyInfo::first();
+        $userDetails = Shipping::where('firstName', $firstName)->first();
+        $categoriesTree = Category::getTreeHP();
+
+        $data = [
+            'orders' => $orders,
+            'company' => $company,
+            'brands' => $brands,
+            'userDetails' => $userDetails,
+            'categoriesTree' => $categoriesTree,
+        ];
+
+        return view('frontend.userProfileOrders')->with($data);
     }
 
     public function getOrder($id)
@@ -531,6 +551,23 @@ class OrderController extends Controller
         ];
 
         return view('frontend.orders.finished-order')->with($data);
+    }
+    public function checkout()
+    {
+
+        $company = CompanyInfo::first();
+        $brands = Brand::all();
+        $categoriesTree = Category::getTreeHP();
+        $carts = session()->get('cart', []);
+
+        $data = [
+            'company' => $company,
+            'brands' => $brands,
+            'carts' => $carts,
+            'categoriesTree' => $categoriesTree,
+        ];
+
+        return view('frontend.cartCheckout')->with($data);
     }
 
 }
