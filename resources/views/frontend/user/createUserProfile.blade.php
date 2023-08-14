@@ -23,7 +23,7 @@
                     <li class="breadcrumb-item"><a href="{{ route('frontend.index') }}" class="text-dark">
                             <i class="bx bx-home fs-5"></i>
                         </a></li>
-                    <li class="breadcrumb-item active"><a href="" class="text-dark">Edit Profile</a></li>
+                    <li class="breadcrumb-item active"><a href="" class="text-dark">Create Profile</a></li>
                 </ol>
             </nav>
         </div>
@@ -42,19 +42,18 @@
                                 </nav>
 
                                 <div class="h-100">
-                                    <h5 class="mb-4">Edit Profile Details</h5>
+                                    <h5 class="mb-4">Profile Details</h5>
                                     <form class="form-horizontal"
-                                          action="{{route('frontend.updateProfileDetails', Auth::user()->id )}}"
+                                          action="{{route('frontend.storeProfileDetails')}}"
                                           method="POST">
                                         @csrf
-                                        @method('put')
                                         <div class="row align-items-center">
                                             <div class="col-md-6 mb-3">
                                                 <label for="firstName" class="form-label">First Name</label>
                                                 <input type="text" placeholder="First Name" id="firstName"
                                                        class="form-control"
                                                        name="firstName"
-                                                       autofocus value="{{$userDetails->firstName}}">
+                                                       autofocus>
                                                 @if ($errors->has('firstName'))
                                                     <span class="text-danger">{{ $errors->first('firstName') }}</span>
                                                 @endif
@@ -64,7 +63,7 @@
                                                 <input type="text" placeholder="Last Name" id="lastName"
                                                        class="form-control"
                                                        name="lastName"
-                                                       required autofocus value="{{$userDetails->lastName}}">
+                                                       required autofocus>
                                                 @if ($errors->has('lastName'))
                                                     <span class="text-danger">{{ $errors->first('lastName') }}</span>
                                                 @endif
@@ -72,7 +71,7 @@
                                             <div class="col-md-6 mb-3">
                                                 <label for="email" class="form-label">Email address</label>
                                                 <input type="email" placeholder="Email" id="email" class="form-control"
-                                                       name="email" required autofocus value="{{$userDetails->email}}">
+                                                       name="email" required autofocus>
                                                 @if ($errors->has('email'))
                                                     <span class="text-danger">{{ $errors->first('email') }}</span>
                                                 @endif
@@ -82,27 +81,32 @@
                                                 <input type="text" placeholder="Phone Number" id="phoneNumber"
                                                        class="form-control"
                                                        name="phoneNumber"
-                                                       required autofocus value="{{$userDetails->phoneNumber}}">
+                                                       required autofocus/>
                                                 @if ($errors->has('phoneNumber'))
                                                     <span class="text-danger">{{ $errors->first('phoneNumber') }}</span>
                                                 @endif
                                             </div>
                                             <div class="col-md-6 mb-3">
-                                                <label class="form-label">TAX Number</label>
-                                                <div class="form-control">{{ $userDetails->taxNumber }}
-                                                </div>
+                                                <label for="taxNumber" class="form-label">TAX Number</label>
+                                                <input type="text" placeholder="Company Tax Number" id="taxNumber"
+                                                       class="form-control"
+                                                       name="taxNumber"
+                                                       autofocus/>
                                             </div>
+
                                             <div class="col-md-6 mb-3">
-                                                <label class="form-label">Company</label>
-                                                <div class="form-control">{{ $userDetails->company }}
-                                                </div>
+                                                <label for="companyName" class="form-label">Company</label>
+                                                <input type="text" placeholder="Company Name" id="companyName"
+                                                       class="form-control"
+                                                       name="companyName"
+                                                       autofocus/>
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <label for="address" class="form-label">Address</label>
                                                 <input type="text" placeholder="Address" id="address"
                                                        class="form-control"
                                                        name="address" required autofocus
-                                                       value="{{$userDetails->address}}">
+                                                />
                                                 @if ($errors->has('address'))
                                                     <span class="text-danger">{{ $errors->first('address') }}</span>
                                                 @endif
@@ -110,7 +114,7 @@
                                             <div class="col-md-6 mb-3">
                                                 <label for="city" class="form-label">City</label>
                                                 <input type="text" placeholder="City" id="city" class="form-control"
-                                                       name="city" required autofocus value="{{$userDetails->city}}">
+                                                       name="city" required autofocus>
                                                 @if ($errors->has('city'))
                                                     <span class="text-danger">{{ $errors->first('city') }}</span>
                                                 @endif
@@ -119,7 +123,7 @@
                                                 <label for="zipcode" class="form-label">Zip Code</label>
                                                 <input type="number" placeholder="ZIP" id="zipcode" class="form-control"
                                                        name="zipcode" required autofocus
-                                                       value="{{$userDetails->zipcode}}">
+                                                >
                                                 @if ($errors->has('zipcode'))
                                                     <span class="text-danger">{{ $errors->first('zipcode') }}</span>
                                                 @endif
@@ -145,6 +149,7 @@
                                                 changes
                                             </button>
                                         </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>

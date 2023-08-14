@@ -145,12 +145,15 @@ Route::middleware(['web', 'auth', 'check.role'])->prefix('Dashboard')->group(fun
 
 });
 
-Route::middleware('auth')->prefix('User/Details')->group(function () {
-    Route::get('/{Detail}', [App\Http\Controllers\UserController::class, 'userProfile'])->name('frontend.profile');
-    Route::get('/Edit/{Detail}', [App\Http\Controllers\UserController::class, 'showProfile'])->name('frontend.showProfileDetails');
-    Route::put('/{Details}', [App\Http\Controllers\UserController::class, 'updateProfileDetails'])->name('frontend.updateProfileDetails');
+Route::middleware('auth')->prefix('User')->group(function () {
+    Route::get('/{User}', [App\Http\Controllers\UserController::class, 'userProfile'])->name('frontend.profile');
+    Route::get('/{User}/Edit', [App\Http\Controllers\UserController::class, 'showProfile'])->name('frontend.showProfileDetails');
+    Route::post('/', [App\Http\Controllers\ShippingController::class, 'storeProfileDetails'])->name('frontend.storeProfileDetails');
+    Route::put('/{User}', [App\Http\Controllers\UserController::class, 'updateProfileDetails'])->name('frontend.updateProfileDetails');
     Route::get('/Orders/{User}', [App\Http\Controllers\OrderController::class, 'listUserOrders'])->name('frontend.showProfileOrders');
-    Route::get('/Messages/{Message}', [App\Http\Controllers\ShippingController::class, 'viewMessage'])->name('frontend.userMessage');
+    Route::get('/OrderStatus/{Order}', [App\Http\Controllers\OrderController::class, 'viewUserOrder'])->name('frontend.showOrderDetails');
+    Route::get('/Messages/{User}', [App\Http\Controllers\MessageController::class, 'userMessages'])->name('frontend.userMessages');
+    Route::get('/Messages/Message/{User}', [App\Http\Controllers\MessageController::class, 'viewUserMessage'])->name('frontend.viewUserMessage');
 });
 
 // shopping Cart SESSION routes/////

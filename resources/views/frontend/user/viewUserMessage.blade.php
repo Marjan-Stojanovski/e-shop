@@ -25,7 +25,7 @@
                             <i class="bx bx-home fs-5"></i>
                         </a></li>
                     <li class="breadcrumb-item active"><a href=""
-                                                          class="text-dark">Messages</a></li>
+                                                          class="text-dark">View Message</a></li>
                 </ol>
             </nav>
         </div>
@@ -50,41 +50,52 @@
                                 <div class="h-100">
                                     <div class="row align-items-center">
                                         <div class="d-flex mb-4 align-items-center">
-                                            <h5 class="mb-0 me-3">User Orders</h5>
+                                            <h5 class="mb-0 me-3">Message</h5>
                                             <div class="pt-1 border-bottom flex-grow-1"></div>
                                         </div>
+                                        <div class="row">
+                                            <!-- Input -->
+                                            <div class="col-sm-6 mb-3 has-feedback">
+                                                <label class="form-label" for="fullName">Your name</label>
+                                                <p type="text" class="form-control"
+                                                   id="fullName" name="fullName">{{ $message->fullName }}</p>
+                                            </div>
+                                            <!-- End Input -->
+                                            <!-- Input -->
+                                            <div class="col-sm-6 mb-3 has-feedback">
+                                                <label class="form-label" for="email">Your email address</label>
+                                                <p type="email" class="form-control"
+                                                   id="email" name="email">{{ $message->email }}</p>
+                                            </div>
+                                            <div class="w-100"></div>
+                                            <!-- Input -->
+                                            <!-- Services -->
+                                            <div class="col-sm-6 mb-3 has-feedback">
+                                                <label class="form-label" for="phone">Phone No.</label>
+                                                <p type="text" class="form-control"
+                                                   id="phone" name="phone" >{{ $message->phone }}</p>
+                                            </div>
 
-                                        <div class="table-responsive mb-9">
-                                            <table class="table table-striped">
-                                                <thead>
-                                                <tr>
-                                                    <th class="align-middle" scope="col"></th>
-                                                    <th class="text-center align-middle" scope="col">Full Name</th>
-                                                    <th class="text-center align-middle" scope="col">E-Mail</th>
-                                                    <th class="text-center align-middle" scope="col">Subject</th>
-                                                    <th class="text-end align-middle" scope="col">Send</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                @foreach($messages as $message)
-                                                    <tr>
-                                                        <th class="align-middle"><a href="{{ route('frontend.viewUserMessage', $message->id ) }}">View</a></th>
-                                                        <td class="text-center align-middle">{{ $message->fullName }}</td>
-                                                        <td class="text-center align-middle">{{ $message->email }}</td>
-                                                        <td class="text-center align-middle">{{ $message->subject }}</td>
-                                                        <td class="text-end align-middle">{{ $message->created_at->diffForHumans() }}</td>
-                                                    </tr>
-                                                @endforeach
-                                                </tbody>
-                                            </table>
+                                            <div class="col-sm-6 mb-3 has-feedback">
+                                                <label class="form-label" for="subject">Subject</label>
+                                                <p type="text" class="form-control"
+                                                   id="subject" name="subject">{{ $message->subject }}</p>
+                                            </div>
+                                            <!-- End Input -->
                                         </div>
 
-
-                                    </div>
-                                    <div class="d-grid d-sm-flex justify-content-sm-center">
-                                        <div class="col-md-12 text-center">
-                                            {{ $messages->links() }}
+                                        <!-- Message -->
+                                        <div class="mb-3 has-feedback">
+                                            <label for="message" class="form-label">Message</label>
+                                            <p class="form-control" rows="6"
+                                                      id="message" name="message"
+                                                      placeholder="Your Message">{{ $message->message }}</p>
                                         </div>
+
+                                        <div class="d-md-flex justify-content-between align-items-center">
+
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>

@@ -279,7 +279,7 @@ class FrontendController extends Controller
             'categoriesTree' => $categoriesTree,
         ];
 
-        return view('frontend.register')->with($data);
+        return view('frontend.auth.register')->with($data);
     }
 
     public function preReset()
@@ -294,7 +294,7 @@ class FrontendController extends Controller
             'categoriesTree' => $categoriesTree,
         ];
 
-        return view('frontend.reset')->with($data);
+        return view('frontend.auth.reset')->with($data);
     }
 
     public function search(Request $request)

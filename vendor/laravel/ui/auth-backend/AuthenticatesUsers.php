@@ -38,7 +38,7 @@ trait AuthenticatesUsers
             'categoriesTree'        => $categoriesTree,
             'categories'            => $categories
         ];
-        return view('frontend.login')->with($data);
+        return view('frontend.auth.login')->with($data);
     }
 
     /**

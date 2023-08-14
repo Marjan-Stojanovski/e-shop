@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Order;
 
 class OrderProduct extends Model
 {
@@ -19,6 +21,7 @@ class OrderProduct extends Model
         'price',
         'order_parent'
     ];
+
 
     public function product()
     {

@@ -89,12 +89,6 @@ class Category extends Model
         return $dash;
     }
 
-    public function gallery()
-    {
-        return $this->hasMany(Gallery::class, 'cat_id');
-    }
-
-
     public static function getTreeHP()
     {
         $categories = self::all();
@@ -108,7 +102,7 @@ class Category extends Model
     }
 
     public static function renderNodeHP($node) {
-        $list = '<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="/e-shop/?category[]='.$node->id.'">'.$node->name.'</a>';
+        $list = '<li class="nav-item dropdown"><a class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" href="/e-shop/?category[]='.$node->id.'">'.$node->name.'</a>';
         if ( $node->children()->count() > 0 ) {
             $list .= '<ul class="dropdown-menu">';
             foreach($node->children as $child)
@@ -120,136 +114,6 @@ class Category extends Model
         return $list;
     }
 
-    public static function getTreeMobile()
-    {
-        $categories = self::all();
-        $lists = '';
-        $linkId = '';
-        $sub = '';
-
-        foreach ($categories as $category) {
-            if ($category['parent_id'] === null) {
-                $linkId = '';
-
-                $lists .= self::renderNodeMobile($category, $linkId);
-            }
-        }
-        return $lists;
-    }
-
-    public static function renderNodeMobile($node, $linkId)
-    {
-        if (count($node->children) > 0)
-        {
-            $linkId =  'class="menu-item-has-children"';
-        }
-
-        $list = '<li '.$linkId.'>
-                    <a '. $linkId .' href="/#filters" data-filter-id="'.$node->slug.'" aria-haspopup="true" aria-expanded="false">
-                               ' . $node->name . '
-                            </a>';
-
-        if (count($node->children)) {
-            $noSub = '';
-            $linkId = '';
-
-            $list .= '<ul class="sub-menu-mobile">';
-            foreach ($node->children as $child) {
-                $list .= self::renderNodeMobile($child, $linkId);
-            }
-            $list .= '</li></ul>';
-        }
-        return $list;
-    }
-
-    public static function renderGallery()
-    {
-        $categories = self::all();
-        $lists = '';
-        $linkId = '';
-        $sub = '';
-
-        foreach ($categories as $category) {
-            if ($category['parent_id'] === null) {
-                $linkId = '';
-
-                $lists .= self::renderNodeGallery($category, $linkId);
-            }
-        }
-        return $lists;
-    }
-
-    public static function renderNodeGallery($node, $linkId)
-    {
-        if (count($node->children) > 0)
-        {
-            $linkId =  'class="menu-item-has-children"';
-        }
-
-        $list = '<li '.$linkId.'>
-                    <a '. $linkId .' href="/'.$node->slug.'#photos" data-filter-id="'.$node->id.'" aria-haspopup="true" aria-expanded="false">
-                               ' . $node->name . '
-                            </a>';
-
-        if (count($node->children)) {
-            $noSub = '';
-            $linkId = '';
-
-            $list .= '<ul class="sub-menu-mobile">';
-            foreach ($node->children as $child) {
-                $list .= self::renderNodeGallery($child, $linkId);
-            }
-            $list .= '</li></ul>';
-        }
-        return $list;
-    }
-
-
-    public static function getGalleryMobile()
-    {
-        $categories = self::all();
-        $lists = '';
-        $linkId = '';
-        $sub = '';
-
-        foreach ($categories as $category) {
-            if ($category['parent_id'] === null) {
-                $linkId = '';
-
-                $lists .= self::renderGalleryMobile($category, $linkId);
-            }
-        }
-        return $lists;
-    }
-
-    public static function renderGalleryMobile($node, $linkId)
-    {
-        if (count($node->children) > 0)
-        {
-            $linkId =  'class="menu-item-has-children"';
-        }
-
-        $list = '<li '.$linkId.'>
-                    <a '. $linkId .' href="'.$node->slug.'#filters" data-filter-id="'.$node->id.'" aria-haspopup="true" aria-expanded="false">
-                               ' . $node->name . '
-                            </a>';
-
-        if (count($node->children)) {
-            $noSub = '';
-            $linkId = '';
-
-            $list .= '<ul class="sub-menu-mobile">';
-            foreach ($node->children as $child) {
-                $list .= self::renderGalleryMobile($child, $linkId);
-            }
-            $list .= '</li></ul>';
-        }
-        return $list;
-    }
-
-    public function hasChild() {
-        return self::where('parent_id', '=', $this->id)->get()->count() ? true : false;
-    }
 
     public function products()
     {

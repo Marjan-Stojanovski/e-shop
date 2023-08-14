@@ -49,7 +49,7 @@ class UserController extends Controller
         $countries = Country::all();
         $data = ['roles' => $roles, 'countries' => $countries];
 
-        return view('dashboard/users.create')->with($data);
+        return view('dashboard.users.create')->with($data);
     }
 
     public function store(Request $request)
@@ -145,12 +145,13 @@ class UserController extends Controller
 
     }
 
-    public function userProfile($id)
+    public function userProfile()
     {
-        dd($id);
+        $id = Auth::user()->id;
         $company = CompanyInfo::first();
         $categoriesTree = Category::getTreeHP();
         $brands = Brand::all();
+        $countries = Country::all();
         $shippingDetails = Shipping::where('user_id', $id)->get();
         $detailsCount = count($shippingDetails);
         $userDetails = Shipping::where('user_id', $id)->first();
@@ -162,29 +163,29 @@ class UserController extends Controller
             $data = [
                 'company' => $company,
                 'brands' => $brands,
-                'messages' => $messages,
                 'countries' => $countries,
                 'categoriesTree' => $categoriesTree,
                 'orders' => $orders
             ];
 
-            return view('frontend.storeUserInfo')->with($data);
+            return view('frontend.user.createUserProfile')->with($data);
+
         } else {
+
             $data = [
                 'company' => $company,
                 'brands' => $brands,
-                'messages' => $messages,
-                'countries' => $countries,
                 'categoriesTree' => $categoriesTree,
                 'userDetails' => $userDetails,
                 'orders' => $orders
             ];
-            return view('frontend.userProfile')->with($data);
+            return view('frontend.user.userProfile')->with($data);
         }
     }
 
     public function showProfile($id)
     {
+
         $company = CompanyInfo::first();
         $brands = Brand::all();
         $userDetails = Shipping::where('user_id', $id)->first();
@@ -199,20 +200,20 @@ class UserController extends Controller
             'userDetails' => $userDetails
         ];
 
-        return view('frontend.updateUserProfile')->with($data);
+        return view('frontend.user.updateUserProfile')->with($data);
     }
 
     public function updateProfileDetails(Request $request, $id)
     {
 
         $company = CompanyInfo::first();
-        $details = Shipping::FindorFail($id);
+        $details = Shipping::where('user_id', $id)->first();
 
         $input = $request->all();
         $details->fill($input)->save();
 
         $categoriesTree = Category::getTreeHP();
-        $userDetails = Shipping::FindorFail($id);
+        $userDetails = Shipping::where('user_id', $id)->first();
         $brands = Brand::all();
 
         $data = [
@@ -222,6 +223,8 @@ class UserController extends Controller
             'userDetails' => $userDetails
         ];
 
-        return view('frontend.userProfile')->with($data);
+        return view('frontend.user.userProfile')->with($data);
     }
+
+
 }

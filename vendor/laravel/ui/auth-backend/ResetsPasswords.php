@@ -33,7 +33,7 @@ trait ResetsPasswords
         $categoriesTree = Category::getTreeHP();
         $brands = Brand::all();
         $company = CompanyInfo::first();
-        return view('frontend.passwordUpdate')->with(
+        return view('frontend.auth.passwordUpdate')->with(
             ['token' => $token, 'email' => $request->email, 'categoriesTree' => $categoriesTree, 'brands' => $brands, 'company' => $company]
         );
     }

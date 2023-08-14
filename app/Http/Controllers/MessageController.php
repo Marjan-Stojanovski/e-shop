@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Mail\MailSender;
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\CompanyInfo;
 use App\Models\Message;
+use App\Models\Shipping;
 use Illuminate\Cache\RetrievesMultipleKeys;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -92,6 +95,7 @@ class MessageController extends Controller
         ];
         return view('dashboard.messages.index')->with($data);
     }
+
     public function answer($id)
     {
         $originalMessage = Message::FindorFail($id);
@@ -102,6 +106,7 @@ class MessageController extends Controller
 
         return view('dashboard.messages.answer')->with($data);
     }
+
     public function sendResponse(Request $request, $id)
     {
         $originalMessage = Message::FindorFail($id);
@@ -112,5 +117,42 @@ class MessageController extends Controller
 
         Mail::to($email)->send(new MailSender($msg, $subject, $company));
         return redirect()->back();
+    }
+
+    public function userMessages($id)
+    {
+
+        $company = CompanyInfo::first();
+        $categoriesTree = Category::getTreeHP();
+        $userDetails = Shipping::where('user_id', $id)->first();
+        $brands = Brand::all();
+        $messages = Message::where('user_id', $id)->paginate(12);
+
+        $data = [
+            'company' => $company,
+            'brands' => $brands,
+            'messages' => $messages,
+            'categoriesTree' => $categoriesTree,
+            'userDetails' => $userDetails
+        ];
+
+        return view('frontend.user.userMessages')->with($data);
+    }
+
+    public function viewUserMessage($id)
+    {
+        $message = Message::FindorFail($id);
+        $company = CompanyInfo::first();
+        $categoriesTree = Category::getTreeHP();
+        $brands = Brand::all();
+
+        $data = [
+            'company' => $company,
+            'brands' => $brands,
+            'message' => $message,
+            'categoriesTree' => $categoriesTree,
+        ];
+
+        return view('frontend.user.viewUserMessage')->with($data);
     }
 }

@@ -25,15 +25,42 @@ class ShippingController extends Controller
         $this->middleware('auth');
     }
 
+    public function storeProfileDetails(Request $request)
+    {
+        $user = Auth::user()->id;
+
+        Shipping::create([
+            'company' => $request->get('company'),
+            'taxNumber' => $request->get('taxNumber'),
+            'firstName' => $request->get('firstName'),
+            'lastName' => $request->get('lastName'),
+            'phoneNumber' => $request->get('phoneNumber'),
+            'email' => $request->get('email'),
+            'address' => $request->get('address'),
+            'country_id' => $request->get('country_id'),
+            'city' => $request->get('city'),
+            'zipcode' => $request->get('zipcode'),
+            'user_id' => $user,
+        ]);
+
+        $company = CompanyInfo::first();
+        $brands = Brand::all();
+        $categoriesTree = Category::getTreeHP();
+        $userDetails = Shipping::where('user_id', $user)->first();
+
+        $data = [
+            'company' => $company,
+            'categoriesTree' => $categoriesTree,
+            'brands' => $brands,
+            'userDetails' => $userDetails
+        ];
+
+        return view('frontend.user.userProfile')->with($data);
+    }
 
 
-
-
-
-
-
-
-    public function updateDetails(Request $request, $id)
+    public
+    function updateDetails(Request $request, $id)
     {
         $company = CompanyInfo::first();
         $employees = Employee::all();
@@ -46,8 +73,6 @@ class ShippingController extends Controller
             ->selectRaw('count(*) as total, name, price, quantity')
             ->get();
         $totalAmount = null;
-
-
 
 
         $data = [
@@ -65,7 +90,8 @@ class ShippingController extends Controller
         return view('frontend.userInfo')->with($data);
     }
 
-    public function viewMessage($id)
+    public
+    function viewMessage($id)
     {
 
         $message = Message::FindorFail($id);

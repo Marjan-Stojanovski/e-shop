@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Session;
 use PDF;
+use App\Models\Product;
 
 
 class OrderController extends Controller
@@ -40,12 +41,12 @@ class OrderController extends Controller
         return view('dashboard.orders.index')->with($data);
     }
 
-    public function listUserOrders($firstName)
+    public function listUserOrders($id)
     {
-        $orders = Order::where('firstName', $firstName)->paginate(12);
+        $orders = Order::where('user_id', $id)->paginate(12);
         $brands = Brand::all();
         $company = CompanyInfo::first();
-        $userDetails = Shipping::where('firstName', $firstName)->first();
+        $userDetails = Shipping::where('user_id', $id)->first();
         $categoriesTree = Category::getTreeHP();
 
         $data = [
@@ -56,7 +57,7 @@ class OrderController extends Controller
             'categoriesTree' => $categoriesTree,
         ];
 
-        return view('frontend.userProfileOrders')->with($data);
+        return view('frontend.user.userProfileOrders')->with($data);
     }
 
     public function getOrder($id)
@@ -90,26 +91,20 @@ class OrderController extends Controller
     public function viewUserOrder($id)
     {
         $order = Order::FindorFail($id);
-        $order_id = $order->id;
-        $orderProducts = OrderProduct::where('order_id', $order_id)->get();
+        $products = OrderProduct::where('order_id', $order->id)->get();
         $company = CompanyInfo::first();
         $categoriesTree = Category::getTreeHP();
+        $brands = Brand::all();
 
         $data = [
             'company' => $company,
+            'brands' => $brands,
             'categoriesTree' => $categoriesTree,
             'order' => $order,
-            'orderProducts' => $orderProducts
+            'products' => $products
         ];
 
-        return view('frontend.userOrder')->with($data);
-    }
-
-    public function deleteOrder($id)
-    {
-        $order = Order::FindorFail($id);
-        $order->delete();
-        return redirect()->back();
+        return view('frontend.user.orderDetails')->with($data);
     }
 
     public function delete($id)

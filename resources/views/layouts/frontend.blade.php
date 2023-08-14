@@ -89,16 +89,16 @@
                 </a>
                 @if(Auth::user())
                     <div class="dropdown-menu shadow-lg dropdown-menu-end dropdown-menu-xs p-0">
-                        <a href="{{ route('frontend.profile', $userDetails->user_id ) }}" class="dropdown-header border-bottom p-4">
+                        <a href="{{ route('frontend.profile', Auth::user()->id ) }}" class="dropdown-header border-bottom p-4">
                             <div class="d-flex align-items-center">
                                 <div>
                                     <img src="/assets/img/avatar/12.jpg" alt=""
                                          class="avatar xl rounded-pill me-3">
                                 </div>
                                 <div>
-                                    <h5 class="mb-0 text-body">{{ $userDetails->firstName }} {{ $userDetails->lastName }}</h5>
+                                    <h5 class="mb-0 text-body">{{ Auth::user()->firstName }} {{ Auth::user()->lastName }}</h5>
                                     <span
-                                        class="text-muted d-block mb-2 text-lowercase">{{ $userDetails->email }}</span>
+                                        class="text-muted d-block mb-2 text-lowercase">{{ Auth::user()->email }}</span>
                                     <div class="small d-inline-block link-underline fw-semibold text-muted">View
                                         account
                                     </div>
@@ -157,7 +157,7 @@
                     <a class="nav-link dropdown-toggle"
                        data-toggle="dropdown">Zgane Pijace</a>
                     <ul class="dropdown-menu">
-                        <li class="nav-link dropdown">
+                        <li class="nav-item dropdown">
                             {!! $categoriesTree !!}
                         </li>
                     </ul>

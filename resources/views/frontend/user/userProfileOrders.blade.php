@@ -8,7 +8,8 @@
                 <img src="/assets/img/shop/banners/06.jpg" class="bg-image bg-top-center opacity-75" alt="">
                 <div class="row align-items-center position-relative">
                     <div class="col-lg-10 mx-auto text-center">
-                        <h1 class="mb-0 display-5">{{ Auth::user()->firstName }} {{ Auth::user()->lastName }} <span class="text-muted">Profile</span>
+                        <h1 class="mb-0 display-5">{{ Auth::user()->firstName }} {{ Auth::user()->lastName }} <span
+                                class="text-muted">Profile</span>
                         </h1>
                     </div>
                 </div>
@@ -16,14 +17,16 @@
             </div>
         </div>
     </section>
-    <section class="position-relative bg-white border-bottom">
-        <div class="container pt-8 pt-lg-6 pb-8 pb-lg-6 position-relative">
+    <section class="position-relative bg-white">
+        <div class="container pt-6 pt-lg-6 pb-6 pb-lg-6 position-relative">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a href="{{ route('frontend.index') }}" class="text-dark">
                             <i class="bx bx-home fs-5"></i>
                         </a></li>
-                    <li class="breadcrumb-item active"><a href="" class="text-dark">{{ Auth::user()->firstName }} {{ Auth::user()->lastName }} Profile</a></li>
+                    <li class="breadcrumb-item active"><a href=""
+                                                          class="text-dark">{{ Auth::user()->firstName }} {{ Auth::user()->lastName }}
+                            Orders</a></li>
                 </ol>
             </nav>
         </div>
@@ -32,21 +35,17 @@
         <div class="container position-relative">
             <div class="">
                 <!--Profile info header-->
-                <div class="position-relative pt-9 pb-9 pb-lg-11">
+                <div class="position-relative pt-7 pb-9 pb-lg-11">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="d-flex flex-column">
                                 <nav class="nav mb-5 nav-pills">
-                                    <a href="{{ route('frontend.profile') }}" class="nav-link"> <i
+                                    <a href="{{ route('frontend.profile', Auth::user()->id) }}" class="nav-link "> <i
                                             class="bx bx-user-circle me-2"></i>My profile</a>
-                                    <a href="{{ route('frontend.showProfileDetails', $userDetails->id ) }}" class="nav-link"><i
-                                            class="bx bx-cog me-2"></i>Settings</a>
-                                    <a href="{{ route('frontend.showProfileOrders', $userDetails->firstName ) }}" class="nav-link active"><i
+                                    <a href="{{ route('frontend.showProfileOrders', Auth::user()->id) }}" class="nav-link active"><i
                                             class="bx bx-layer me-2"></i>Orders</a>
-                                    <a href="#" class="nav-link disabled"><i
-                                            class="bx bx-credit-card me-2"></i>Billing</a>
-                                    <a href="#" class="nav-link disabled"><i
-                                            class="bx bx-group me-2"></i>Followers</a>
+                                    <a href="{{ route('frontend.userMessages', Auth::user()->id) }}" class="nav-link"><i
+                                            class="bx bx-message-rounded-detail me-2"></i>Messages</a>
                                 </nav>
 
                                 <div class="h-100">
@@ -64,18 +63,29 @@
                                                     <th class="text-center align-middle" scope="col">Full Name</th>
                                                     <th class="text-center align-middle" scope="col">E-Mail</th>
                                                     <th class="text-center align-middle" scope="col">Total Price</th>
-                                                    <th class="text-end align-middle" scope="col">Payment type</th>
+                                                    <th class="text-center align-middle" scope="col">Payment type</th>
+                                                    <th class="text-end align-middle" scope="col">Payment status</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 @foreach($orders as $order)
-                                                <tr>
-                                                    <th class="align-middle">{{ $order->id }}</th>
-                                                    <td class="text-center align-middle" >{{ $order->firstName }} {{ $order->lastName }}</td>
-                                                    <td class="text-center align-middle">{{ $order->email }}</td>
-                                                    <td class="text-center align-middle">€ {{ number_format($order->total, 2) }}</td>
-                                                    <td class="text-end align-middle">{{ $order->payment_info }}</td>
-                                                </tr>
+                                                    <tr>
+                                                        <th class="align-middle"><a href="{{ route('frontend.showOrderDetails', $order->id ) }}"> {{ $order->id }}</a></th>
+                                                        <td class="text-center align-middle">{{ $order->firstName }} {{ $order->lastName }}</td>
+                                                        <td class="text-center align-middle">{{ $order->email }}</td>
+                                                        <td class="text-center align-middle">
+                                                            € {{ number_format($order->total, 2) }}</td>
+                                                        <td class="text-center align-middle">{{ $order->payment_info }}</td>
+                                                        @if($order->payment_status ==0)
+                                                            <td class="text-end align-middle" style="color: red">Not
+                                                                payed
+                                                            </td>
+                                                        @else
+                                                            <td class="text-end align-middle" style="color: green">
+                                                                Payed
+                                                            </td>
+                                                        @endif
+                                                    </tr>
                                                 @endforeach
                                                 </tbody>
                                             </table>
