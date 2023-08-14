@@ -154,8 +154,10 @@ Route::middleware('auth')->prefix('User')->group(function () {
     Route::get('/OrderStatus/{Order}', [App\Http\Controllers\OrderController::class, 'viewUserOrder'])->name('frontend.showOrderDetails');
     Route::get('/Messages/{User}', [App\Http\Controllers\MessageController::class, 'userMessages'])->name('frontend.userMessages');
     Route::get('/Messages/Message/{User}', [App\Http\Controllers\MessageController::class, 'viewUserMessage'])->name('frontend.viewUserMessage');
+    Route::delete('/Messages/{Message}', [App\Http\Controllers\MessageController::class, 'deleteUserMessage'])->name('frontend.deleteUserMessage');
 });
 
+Route::get('/ComingSoon', [App\Http\Controllers\FrontendController::class, 'coomingSoon'])->name('frontend.comingSoon');
 // shopping Cart SESSION routes/////
 Route::post('/book', [App\Http\Controllers\ShoppingCartController::class, 'addToCart'])->name('add.to.cart');
 Route::patch('/update-shopping-cart', [App\Http\Controllers\ShoppingCartController::class, 'updateCart'])->name('update.sopping.cart');

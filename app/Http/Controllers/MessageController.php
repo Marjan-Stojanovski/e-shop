@@ -155,4 +155,25 @@ class MessageController extends Controller
 
         return view('frontend.user.viewUserMessage')->with($data);
     }
+
+    public function deleteUserMessage($id)
+    {
+        $message = Message::FindorFail($id);
+
+        $message->delete();
+
+        $company = CompanyInfo::first();
+        $categoriesTree = Category::getTreeHP();
+        $brands = Brand::all();
+        $messages = Message::where('user_id', Auth::user()->id)->paginate(12);
+
+        $data = [
+            'company' => $company,
+            'brands' => $brands,
+            'messages' => $messages,
+            'categoriesTree' => $categoriesTree,
+        ];
+
+        return view('frontend.user.userMessages')->with($data);
+    }
 }

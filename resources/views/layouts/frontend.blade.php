@@ -210,6 +210,11 @@
                         Kontakt
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('frontend.comingSoon') }}">
+                        Coming Soon
+                    </a>
+                </li>
             </ul>
         </div>
 

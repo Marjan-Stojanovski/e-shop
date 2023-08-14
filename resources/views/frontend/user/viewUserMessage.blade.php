@@ -93,7 +93,15 @@
                                         </div>
 
                                         <div class="d-md-flex justify-content-between align-items-center">
-
+                                            <form method="post"
+                                                  action="{{ route('frontend.deleteUserMessage', $message->id) }}">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button
+                                                    class="btn btn-primary"
+                                                    type="submit">Delete Message
+                                                </button>
+                                            </form>
                                         </div>
 
                                     </div>
