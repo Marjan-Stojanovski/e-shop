@@ -37,7 +37,7 @@ Route::get('/profile', function () {
 })->middleware(['auth', 'verified']);
 
 //Admin-panel
-Route::middleware(['web', 'auth', 'check.role'])->prefix('Dashboard')->group(function() {
+Route::middleware(['web', 'auth', 'check.role'])->prefix('dashboard')->group(function() {
 
     //Users-web-route
     Route::get('/users', [App\Http\Controllers\UserController::class, 'index'])->name('users.index');
@@ -49,7 +49,6 @@ Route::middleware(['web', 'auth', 'check.role'])->prefix('Dashboard')->group(fun
     Route::delete('/users/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
 
     //Categories-web-route
-
     Route::get('/categories', [App\Http\Controllers\CategoryController::class, 'index'])->name('categories.index');
     Route::get('/categories/create', [App\Http\Controllers\CategoryController::class, 'create'])->name('categories.create');
     Route::post('/categories', [App\Http\Controllers\CategoryController::class, 'store'])->name('categories.store');
@@ -59,7 +58,6 @@ Route::middleware(['web', 'auth', 'check.role'])->prefix('Dashboard')->group(fun
     Route::delete('/categories/{category}', [\App\Http\Controllers\CategoryController::class, 'destroy'])->name('categories.destroy');
 
     //Products-web-route
-
     Route::get('/products', [App\Http\Controllers\ProductController::class, 'index'])->name('products.index');
     Route::get('/products/create', [\App\Http\Controllers\ProductController::class, 'create'])->name('products.create');
     Route::post('/products', [\App\Http\Controllers\ProductController::class, 'store'])->name('products.store');
@@ -69,7 +67,6 @@ Route::middleware(['web', 'auth', 'check.role'])->prefix('Dashboard')->group(fun
     Route::delete('/products/{product}', [\App\Http\Controllers\ProductController::class, 'destroy'])->name('products.destroy');
 
     //Settings-web-route
-
     Route::get('/company_info', [\App\Http\Controllers\CompanyInfoController::class, 'index'])->name('company_info.index');
     Route::get('/company_info/create', [\App\Http\Controllers\CompanyInfoController::class, 'create'])->name('company_info.create');
     Route::post('/company_info', [\App\Http\Controllers\CompanyInfoController::class, 'store'])->name('company_info.store');
@@ -77,7 +74,6 @@ Route::middleware(['web', 'auth', 'check.role'])->prefix('Dashboard')->group(fun
     Route::put('/company_info/{company_info}', [\App\Http\Controllers\CompanyInfoController::class, 'update'])->name('company_info.update');
 
     //Employee routes
-
     Route::get('/employees', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employees.index');
     Route::get('/employees/create', [App\Http\Controllers\EmployeeController::class, 'create'])->name('employees.create');
     Route::post('/employees', [App\Http\Controllers\EmployeeController::class, 'store'])->name('employees.store');
@@ -86,8 +82,7 @@ Route::middleware(['web', 'auth', 'check.role'])->prefix('Dashboard')->group(fun
     Route::put('/employees/{employee}', [\App\Http\Controllers\EmployeeController::class, 'update'])->name('employees.update');
     Route::delete('/employees/{employee}', [\App\Http\Controllers\EmployeeController::class, 'destroy'])->name('employees.destroy');
 
-    //Slyder-web-route
-
+    //Slider-web-route
     Route::get('/sliders', [App\Http\Controllers\SliderController::class, 'index'])->name('sliders.index');
     Route::get('/sliders/create', [App\Http\Controllers\SliderController::class, 'create'])->name('sliders.create');
     Route::post('/sliders', [App\Http\Controllers\SliderController::class, 'store'])->name('sliders.store');
@@ -99,7 +94,6 @@ Route::middleware(['web', 'auth', 'check.role'])->prefix('Dashboard')->group(fun
     Route::get('/mail', [\App\Http\Controllers\UserController::class, 'mail'])->name('send.mail');
 
     //Brands-web-route
-
     Route::get('/brands', [App\Http\Controllers\BrandController::class, 'index'])->name('brands.index');
     Route::get('/brands/create', [App\Http\Controllers\BrandController::class, 'create'])->name('brands.create');
     Route::post('/brands', [App\Http\Controllers\BrandController::class, 'store'])->name('brands.store');
@@ -109,7 +103,6 @@ Route::middleware(['web', 'auth', 'check.role'])->prefix('Dashboard')->group(fun
     Route::delete('/brands/{brand}', [\App\Http\Controllers\BrandController::class, 'destroy'])->name('brands.destroy');
 
     //Comment-web-route
-
     Route::get('/comments', [App\Http\Controllers\CommentControler::class, 'index'])->name('comments.index');
     Route::get('/comments/create', [App\Http\Controllers\CommentControler::class, 'create'])->name('comments.create');
     Route::post('/comments', [App\Http\Controllers\CommentControler::class, 'store'])->name('comments.store');
@@ -127,15 +120,14 @@ Route::middleware(['web', 'auth', 'check.role'])->prefix('Dashboard')->group(fun
 
     //Routes orders
     //Routes messages
-
     Route::get('/orders', [App\Http\Controllers\OrderController::class, 'listOrders'])->name('orders.list');
     Route::get('/orders/{order}', [App\Http\Controllers\OrderController::class, 'getOrder'])->name('orders.get');
     Route::delete('/orders/{order}', [\App\Http\Controllers\OrderController::class, 'delete'])->name('orders.delete');
     Route::put('/orders/{order}', [App\Http\Controllers\OrderController::class, 'changeStatus'])->name('orders.update');
-    //Route::post('/messages', [\App\Http\Controllers\MessageController::class, 'store'])->name('messages.store');
-    //Route::get('/messages/{message}/edit', [\App\Http\Controllers\MessageController::class, 'show'])->name('message.show');
-    //Route::put('/message/{message}', [\App\Http\Controllers\MessageController::class, 'update'])->name('message.update');
-    //Route::delete('messages/{message}', [\App\Http\Controllers\MessageController::class, 'delete'])->name('message.delete');
+    Route::post('/messages', [\App\Http\Controllers\MessageController::class, 'store'])->name('messages.store');
+    Route::get('/messages/{message}/edit', [\App\Http\Controllers\MessageController::class, 'show'])->name('message.show');
+    Route::put('/message/{message}', [\App\Http\Controllers\MessageController::class, 'update'])->name('message.update');
+    Route::delete('messages/{message}', [\App\Http\Controllers\MessageController::class, 'delete'])->name('message.delete');
 
     //Route feedback
     Route::get('/feedbacks/{feedback}', [\App\Http\Controllers\MessageController::class, 'answer'])->name('message.answer');
@@ -157,7 +149,7 @@ Route::middleware('auth')->prefix('User')->group(function () {
     Route::delete('/Messages/{Message}', [App\Http\Controllers\MessageController::class, 'deleteUserMessage'])->name('frontend.deleteUserMessage');
 });
 
-Route::get('/ComingSoon', [App\Http\Controllers\FrontendController::class, 'coomingSoon'])->name('frontend.comingSoon');
+Route::get('/ComingSoon', [App\Http\Controllers\FrontendController::class, 'comingSoon'])->name('frontend.comingSoon');
 // shopping Cart SESSION routes/////
 Route::post('/book', [App\Http\Controllers\ShoppingCartController::class, 'addToCart'])->name('add.to.cart');
 Route::patch('/update-shopping-cart', [App\Http\Controllers\ShoppingCartController::class, 'updateCart'])->name('update.sopping.cart');

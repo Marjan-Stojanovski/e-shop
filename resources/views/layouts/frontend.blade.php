@@ -24,6 +24,9 @@
     <!-- Main CSS -->
     <link href="/assets/css/theme-shop.min.css" rel="stylesheet">
 
+    <!--Mapbox-->
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet'/>
+
     <!--:Simplebar css ()-->
     <style type="text/css">
         .simplebar-track.simplebar-vertical {
@@ -212,7 +215,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('frontend.comingSoon') }}">
-                        Coming Soon
+                        Coming&nbsp;Soon
                     </a>
                 </li>
             </ul>
@@ -410,7 +413,7 @@ $carts = session()->get('cart', []);
                 <h6 class="mb-4">Top Brands</h6>
                 <ul class="nav flex-column mb-0">
                     @foreach($brands as $brand)
-                        <li class="nav-item"><a class="nav-link" href="#!">{{ $brand->name }}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{URL::to('/e-shop/?brand[]='.$brand->id)}}">{{ $brand->name }}</a></li>
                     @endforeach
                 </ul>
             </div>
@@ -483,6 +486,7 @@ $carts = session()->get('cart', []);
                 </ul>
                 <!-- End Links -->
             </div>
+
         </div>
     </div>
 </footer>
@@ -598,5 +602,8 @@ $carts = session()->get('cart', []);
         });
     }
 </script>
+
+<!--maps js-->
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
 </body>
 </html>

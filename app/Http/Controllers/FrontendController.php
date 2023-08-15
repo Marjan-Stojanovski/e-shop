@@ -11,6 +11,7 @@ use App\Models\Employee;
 use App\Models\Product;
 use App\Models\Shipping;
 use App\Models\Volume;
+use http\Env\Url;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -319,4 +320,8 @@ class FrontendController extends Controller
         }
     }
 
+    public function comingSoon()
+    {
+       return view('frontend.comingSoon');
+    }
 }
