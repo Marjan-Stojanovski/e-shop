@@ -147,8 +147,17 @@ Route::middleware('auth')->prefix('User')->group(function () {
     Route::get('/Messages/{User}', [App\Http\Controllers\MessageController::class, 'userMessages'])->name('frontend.userMessages');
     Route::get('/Messages/Message/{User}', [App\Http\Controllers\MessageController::class, 'viewUserMessage'])->name('frontend.viewUserMessage');
     Route::delete('/Messages/{Message}', [App\Http\Controllers\MessageController::class, 'deleteUserMessage'])->name('frontend.deleteUserMessage');
-});
 
+    //Whishlist
+
+});
+Route::middleware('auth')->group(function () {
+
+    Route::get('/Wishlists/{Wishlist}', [App\Http\Controllers\WishlistController::class, 'create'])->name('frontend.addToWishlist');
+    Route::get('/Wishlist', [App\Http\Controllers\WishlistController::class, 'index'])->name('frontend.wishlist');
+    Route::delete('/Wishlist/{Wishlist}', [App\Http\Controllers\WishlistController::class, 'delete'])->name('frontend.wishlistDelete');
+
+});
 Route::get('/ComingSoon', [App\Http\Controllers\FrontendController::class, 'comingSoon'])->name('frontend.comingSoon');
 // shopping Cart SESSION routes/////
 Route::post('/book', [App\Http\Controllers\ShoppingCartController::class, 'addToCart'])->name('add.to.cart');

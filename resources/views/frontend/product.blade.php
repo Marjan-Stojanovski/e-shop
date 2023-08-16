@@ -78,7 +78,7 @@
                                         </div>
                                     @endif
                                     <div>
-                                        <a href="#" class=" fw-semibold small"><i
+                                        <a href="{{ route('frontend.addToWishlist', $product->id ) }}" class="fw-semibold small"><i
                                                 class="bx bx-heart align-middle me-2"></i>Add
                                             to Wishlist</a>
                                     </div>

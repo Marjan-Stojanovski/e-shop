@@ -66,7 +66,7 @@
                         </span>
             </button>
             <div class="nav-item ms-0 me-4 me-lg-2">
-                <a href="demo-shop-wishlist.html" class="nav-link lh-1 position-relative">
+                <a href="{{ route('frontend.wishlist') }}" class="nav-link lh-1 position-relative">
                     <i class="bx bx-heart fs-4"></i>
                 </a>
             </div>
