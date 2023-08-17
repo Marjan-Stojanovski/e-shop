@@ -1429,7 +1429,7 @@ utils.toDashed = function( str ) {
 
 var console = window.console;
 /**
- * allow user to initialize classes via .js-namespace class
+ * allow users to initialize classes via .js-namespace class
  * htmlInit( Widget, 'widgetName' )
  * options are parsed from data-namespace-option attribute
  */

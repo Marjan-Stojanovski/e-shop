@@ -25,7 +25,7 @@ class WishlistController extends Controller
             'wishlists' => $wishlists
         ];
 
-        return view('frontend.user.wishlist')->with($data);
+        return view('frontend.users.wishlist')->with($data);
     }
     public function create($id)
     {
@@ -56,8 +56,9 @@ class WishlistController extends Controller
         return redirect()->back();
     }
 
-    public function addToCart_deleteWishlist(Request $request)
+    public function addToCart_deleteWishlist(Request $request, $id)
     {
+
         $product_id = $request->get('id');
         $productTemp = Product::where('id', $product_id)->first();
         $productSlug = $productTemp->slug;
@@ -89,6 +90,10 @@ class WishlistController extends Controller
         }
 
         session()->put('cart', $cart);
+
+        $product = Wishlist::FindorFail($id);
+
+        $product->delete();
 
         return redirect()->back();
     }

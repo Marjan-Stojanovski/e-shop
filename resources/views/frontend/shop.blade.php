@@ -29,34 +29,39 @@
             <div class="row justify-content-between">
                 <!--Products column-->
                 <div class="col-md-10 mx-auto pt-5">
-                    <!--Products top bar-->
-                    <div class="row mb-5 align-items-center">
-                        <div class="col-5 col-md-3 mb-3 mb-md-0">
-                            <a href="#shop_filters" data-bs-toggle="collapse" aria-expanded="false"
-                               class="btn btn-light btn-sm">
-                                <i class="bx bx-filter fs-5"></i> Filter
-                            </a>
-                        </div>
-                        <div class="col-sm-5 col-md-4 ms-auto">
-                            <div class="d-flex align-items-center">
-                                <span class="small text-muted">Short by</span>
-                                <div class="flex-grow-1 ps-2">
-                                    <select name="shortBy" class="form-control form-control-sm"
-                                            data-choices='{"searchEnabled":false,"itemSelectText":""}'
-                                            id="product-shortby">
-                                        <option value="Best selling" selected> Best selling</option>
-                                        <option value="Best rated"> Best rated</option>
-                                        <option value="Most recent"> Most recent</option>
-                                        <option value="Price - Low to High"> Price - Low to High</option>
-                                        <option value="Price - High to Low">Price - High to Low</option>
-                                    </select>
+                    <form action="{{ route('frontend.shop') }}" method="GET" id="filter">
+                        <!--Products top bar-->
+                        <div class="row mb-5 align-items-center">
+                            <div class="col-5 col-md-3 mb-3 mb-md-0">
+                                <a href="#shop_filters" data-bs-toggle="collapse" aria-expanded="false"
+                                   class="btn btn-light btn-sm">
+                                    <i class="bx bx-filter fs-5"></i> Filter
+                                </a>
+                            </div>
+                            <div class="col-sm-5 col-md-4 ms-auto">
+                                <div class="d-flex align-items-center">
+                                    <span class="small text-muted">Short by</span>
+                                    <div class="flex-grow-1 ps-2">
+                                        <?php
+                                        $checked = [];
+                                        if (isset($_GET['sort'])) {
+                                            $checked = $_GET['sort'];
+                                        }
+                                        ?>
+                                        <select class="form-control form-control-sm"
+                                                data-choices='{"searchEnabled":false,"itemSelectText":""}'
+                                                id="product-sortBy" name="sort[]">
+                                            <option @if(in_array('latest', $checked)) selected @endif value="latest"> Most recent</option>
+                                            <option @if(in_array('ASC', $checked)) selected @endif value="ASC"> Price - Low to High</option>
+                                            <option @if(in_array('DESC', $checked)) selected @endif value="DESC">Price - High to Low</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!--Filter collapse-->
-                    <div class="collapse" id="shop_filters">
-                        <form action="{{ route('frontend.shop') }}" method="GET" id="filter">
+                        <!--Filter collapse-->
+                        <div class="collapse" id="shop_filters">
+
                             <div class="row">
                                 <!--:Filter column-->
                                 <div class="col-sm-6 col-xl-3">
@@ -224,11 +229,14 @@
                             </div>
                             <div class="text-end">
                                 <button type="submit" class="btn btn-primary me-3">Apply</button>
-                                <button  onClick="resetCheckbox()" class="btn btn-outline-gray-200 text-body">Clear Filters</button>
+                                <button onClick="resetCheckbox()" class="btn btn-outline-gray-200 text-body">Clear
+                                    Filters
+                                </button>
                             </div>
-                        </form>
-                        <hr>
-                    </div>
+
+                            <hr>
+                        </div>
+                    </form>
                     <div class="row mb-5">
                         @foreach($products as $product)
                             <div class="col-md-6 col-lg-3 mb-4">
@@ -252,7 +260,7 @@
                                             <div class="card-product-body-overlay">
                                                 <!--Price-->
                                                 <span class="card-product-price">
-                                            <span style="color: red">${{ $product->action }}</span> <del>${{ $product->price }}</del>
+                                            <span style="color: red">€&nbsp;{{ $product->action }}</span> <del>€&nbsp;{{ $product->price }}</del>
                                         </span>
                                                 <!--Action-->
                                                 <span class="card-product-view-btn">
@@ -281,7 +289,7 @@
                                             <div class="card-product-body-overlay">
                                                 <!--Price-->
                                                 <span class="card-product-price">
-                                            <span>${{ $product->price }}</span>
+                                            <span>€&nbsp;{{ $product->price }}</span>
                                                 </span>
                                                 <!--Action-->
                                                 <span class="card-product-view-btn">

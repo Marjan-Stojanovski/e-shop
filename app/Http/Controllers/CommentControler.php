@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\CompanyInfo;
@@ -154,16 +155,8 @@ class CommentControler extends Controller
             'message' => $message
         ]);
 
-        $id = $product_id;
-        $company = CompanyInfo::first();
-        $product = Product::FindorFail($id);
-        $categoriesTree = Category::getTreeHP();
-        $category_id = $product['category_id'];
-        $categoryProducts = Product::where('category_id', $category_id)->get();
-        $comments = Comment::where('product_id', $product_id)->get();
-        $data = ['product' => $product, 'categoriesTree' => $categoriesTree, 'categoryProducts' => $categoryProducts, 'comments' => $comments, 'company' => $company];
 
-        return view('frontend.productView')->with($data);
+        return redirect()->back();
     }
 
 

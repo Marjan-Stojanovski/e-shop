@@ -1,7 +1,7 @@
 <?php
 
 /* An autoloader for ReCaptcha\Foo classes. This should be require()d
- * by the user before attempting to instantiate any of the ReCaptcha
+ * by the users before attempting to instantiate any of the ReCaptcha
  * classes.
  */
 

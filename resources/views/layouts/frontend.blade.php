@@ -24,22 +24,15 @@
     <!-- Main CSS -->
     <link href="/assets/css/theme-shop.min.css" rel="stylesheet">
 
-    <!--Mapbox-->
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet'/>
-
     <!--:Simplebar css ()-->
     <style type="text/css">
         .simplebar-track.simplebar-vertical {
             width: 7px;
         }
-
         .simplebar-scrollbar:before {
             background: currentColor;
         }
-
     </style>
-
-
     <title>Kosar E-shop</title>
 </head>
 
@@ -51,8 +44,7 @@
     <span class="small d-block ms-2">Loading...</span>
 </div>
 
-<nav
-    class="navbar navbar-search-w-icons position-sticky shadow top-0 z-index-fixed navbar-expand-lg navbar-light bg-white">
+<nav class="navbar navbar-search-w-icons position-sticky shadow top-0 z-index-fixed navbar-expand-lg navbar-light bg-white">
     <div class="container-fluid position-relative">
         <a class="navbar-brand" href="index.html">
             <img src="/assets/img/logo.jpg" alt="" class="img-fluid" style="width: 50px;">
@@ -79,12 +71,6 @@
                 </a>
             </div>
             <!--Search collapse trigger(hidden in desktop laptop)-->
-            <div class="nav-item ms-0 me-4 d-lg-none">
-                <a href="#searchCollapse" data-bs-target="#" data-bs-toggle="collapse"
-                   class="nav-link search-link lh-1">
-                    <i class="bx bx-search-alt-2 fs-4"></i>
-                </a>
-            </div>
             <div class="nav-item dropdown me-4 me-lg-0">
                 <a href="#" class="nav-link p-0" data-bs-auto-close="outside" data-bs-toggle="dropdown"
                    aria-expanded="false">
@@ -92,12 +78,9 @@
                 </a>
                 @if(Auth::user())
                     <div class="dropdown-menu shadow-lg dropdown-menu-end dropdown-menu-xs p-0">
-                        <a href="{{ route('frontend.profile', Auth::user()->id ) }}" class="dropdown-header border-bottom p-4">
+                        <a href="{{ route('frontend.profile', Auth::user()->id ) }}"
+                           class="dropdown-header border-bottom p-4">
                             <div class="d-flex align-items-center">
-                                <div>
-                                    <img src="/assets/img/avatar/12.jpg" alt=""
-                                         class="avatar xl rounded-pill me-3">
-                                </div>
                                 <div>
                                     <h5 class="mb-0 text-body">{{ Auth::user()->firstName }} {{ Auth::user()->lastName }}</h5>
                                     <span
@@ -126,24 +109,24 @@
                             </form>
                         </a>
                     </div>
-
                 @else
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs position-absolute p-4">
                         <!--Login form-->
-                            <h5 class="mb-0 text-center">
-                                Are you a customer?
-                            </h5>
-                            <br>
-                            <div class=" text-center">
-                                <a href="{{ route('login') }}" class="btn btn-primary btn-hover-arrow" style="border-radius: 30px; max-width: 200px">
-                                    <span>Sign in</span>
-                                </a>
-                            </div>
-                            <p class="pt-4 mb-0 text-muted">
-                                Don’t have an account yet? <a href="{{ route('frontend.register') }}"
-                                                              class="ms-2 pb-0 text-dark fw-semibold link-underline">Sign
-                                    Up</a>
-                            </p>
+                        <h5 class="mb-0 text-center">
+                            Are you a customer?
+                        </h5>
+                        <br>
+                        <div class=" text-center">
+                            <a href="{{ route('login') }}" class="btn btn-primary btn-hover-arrow"
+                               style="border-radius: 30px; max-width: 200px">
+                                <span>Sign in</span>
+                            </a>
+                        </div>
+                        <p class="pt-4 mb-0 text-muted">
+                            Don’t have an account yet? <a href="{{ route('frontend.register') }}"
+                                                          class="ms-2 pb-0 text-dark fw-semibold link-underline">Sign
+                                Up</a>
+                        </p>
                     </div>
                 @endif
             </div>
@@ -170,39 +153,6 @@
                         Trgovina
                     </a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle " data-bs-auto-close="outside" href="#" role="button"
-                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop
-
-                    </a>
-                    <div class="dropdown-menu">
-                        <div class="dropend">
-                            <a class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown"
-                               aria-expanded="false" href="#">Products</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="demo-shop-products.html">Sidebar</a>
-                                <a class="dropdown-item" href="demo-shop-products-full-width.html">Full
-                                    width</a>
-                                <a class="dropdown-item" href="demo-shop-product-category.html">Product
-                                    category</a>
-                            </div>
-                        </div>
-                        <div class="dropend">
-                            <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown"
-                               aria-expanded="false">Product</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="demo-shop-product-default.html">Product
-                                    Default</a>
-                                <a class="dropdown-item" href="demo-shop-single-product-option.html">Product
-                                    Option</a>
-                            </div>
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="demo-shop-wishlist.html">Wishlist</a>
-                        <a class="dropdown-item" href="demo-shop-cart.html">Cart</a>
-                        <a class="dropdown-item" href="demo-shop-checkout.html">Checkout</a>
-                    </div>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('frontend.about') }}">
                         O&nbsp;nas
@@ -221,82 +171,26 @@
             </ul>
         </div>
 
+        <!--begin:Search bar -->
         <div class="collapse collapse-search ms-xl-auto ms-lg-3 me-lg-1 d-lg-block" style="--navbar-search-width:280px;"
              id="searchCollapse">
-            <form action="#">
+            <form action="{{ route('frontend.search') }}" method="GET" role="search">
                 <div class="position-relative mt-3 mt-lg-0">
                             <span class="position-absolute start-0 top-50 translate-middle-y ms-3 opacity-50">
                                 <i class="bx bx-search-alt-2"></i>
                             </span>
-                    <input type="text" placeholder="Search Products..." class="form-control ps-6 rounded-pill">
-                    <!--With Submit button-->
-                    <!-- <button class="btn position-absolute end-0 top-0 flex-center p-0 width-4x h-100 rounded-pill btn-white">
-                        <i class="bx bx-search-alt-2"></i>
-                    </button>
-                    <input type="text" placeholder="Search here..." class="form-control border-0 shadow-none ps-4 pe-6 rounded-pill">
-               -->
+                    <input type="text" placeholder="Search Products..."
+                           value="{{ Request::get('search') }}"
+                           class="form-control ps-6 rounded-pill" name="search">
                 </div>
+                <button type="submit" hidden></button>
             </form>
         </div>
+        <!--/end:Search bar -->
     </div>
 </nav>
 <!--/end:Header shop-->
 
-<!--begin:Search bar modal-->
-<div id="modal-search-bar-2" class="modal fade" tabindex="-1" aria-labelledby="modal-search-bar-2"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-top modal-md">
-        <div class="modal-content position-relative border-0">
-            <div class="position-relative px-4">
-                <div
-                    class="position-absolute end-0 width-7x top-0 d-flex me-4 align-items-center h-100 justify-content-center">
-                    <button type="button" class="btn-close w-auto small" data-bs-dismiss="modal"
-                            aria-label="Close">Cancel
-                    </button>
-                </div>
-                <form class="mb-0">
-                    <div class="d-flex align-items-center">
-                        <div class="d-flex flex-grow-1 align-items-center">
-                            <i class="bx bx-search fs-4"></i>
-                            <input type="text" placeholder="Search...."
-                                   class="form-control shadow-none border-0 flex-grow-1 form-control-lg">
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <div class="p-4 border-top">
-                <div class="d-flex align-items-center mb-3">
-                    <i class="bx bx-trending-up fs-4"></i>
-                    <h6 class="mb-0 ms-2">
-                        Top searches
-                    </h6>
-                </div>
-                <div class="d-flex flex-wrap align-items-center">
-                            <span><a href="#!"
-                                     class="badge badge-pill border text-muted me-1 mb-1 px-3 py-1">Jeans</a></span>
-                    <span><a href="#!"
-                             class="badge badge-pill border text-muted me-1 mb-1 px-3 py-1">Shoes</a></span>
-                    <span><a href="#!"
-                             class="badge badge-pill border text-muted me-1 mb-1 px-3 py-1">Watches</a></span>
-                    <span><a href="#!"
-                             class="badge badge-pill border text-muted me-1 mb-1 px-3 py-1">Men's</a></span>
-                    <span><a href="#!"
-                             class="badge badge-pill border text-muted me-1 mb-1 px-3 py-1">Sneakers</a></span>
-                    <span><a href="#!"
-                             class="badge badge-pill border text-muted me-1 mb-1 px-3 py-1">Casual</a></span>
-                    <span><a href="#!"
-                             class="badge badge-pill border text-muted me-1 mb-1 px-3 py-1">Shirts</a></span>
-                    <span><a href="#!"
-                             class="badge badge-pill border text-muted me-1 mb-1 px-3 py-1">T-shirts</a></span>
-                    <span><a href="#!"
-                             class="badge badge-pill border text-muted me-1 mb-1 px-3 py-1">Lowers</a></span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!--/end:Search bar modal-->
 
 <!--begin:Shopping Cart offcanvas-->
 <?php
@@ -321,32 +215,33 @@ $carts = session()->get('cart', []);
             ?>
             @if(session('cart'))
                 @foreach(session('cart') as $id => $details)
-            <li class="d-flex py-3 border-bottom">
-                <div class="me-1">
-                    <a href="#!"><img src="/assets/img/products/thumbnails/{{ $details['image'] }}"
-                                      class="height-10x hover-lift hover-shadow w-auto" alt=""></a>
-                </div>
-                <div class="flex-grow-1 px-4 mb-3">
-                    <a href="#!" class="text-dark d-block lh-sm fw-semibold mb-2">{{ $details['name'] }}</a>
-                    <p class="mb-0 small"><strong>€ {{ $details['unitPrice'] }}</strong> x
-                        <strong>{{ $details['quantity'] }}</strong>
-                    </p>
-                </div>
-                <?php
-                    $productAmount = $details['productAmount'];
-                    $subTotal+= $productAmount;
-                    ?>
-                <div class="d-block text-end">
-                    <form action="{{route('delete.cart', $id )}}" method="post">
-                        @csrf
-                        @method('delete')
-                        <button type="submit" class="text-muted small text-decoration-underline btn btn-hover-label" >
-                            Remove
-                        </button>
-                    </form>
+                    <li class="d-flex py-3 border-bottom">
+                        <div class="me-1">
+                            <a href="#!"><img src="/assets/img/products/thumbnails/{{ $details['image'] }}"
+                                              class="height-10x hover-lift hover-shadow w-auto" alt=""></a>
+                        </div>
+                        <div class="flex-grow-1 px-4 mb-3">
+                            <a href="#!" class="text-dark d-block lh-sm fw-semibold mb-2">{{ $details['name'] }}</a>
+                            <p class="mb-0 small"><strong>€ {{ $details['unitPrice'] }}</strong> x
+                                <strong>{{ $details['quantity'] }}</strong>
+                            </p>
+                        </div>
+                            <?php
+                            $productAmount = $details['productAmount'];
+                            $subTotal += $productAmount;
+                            ?>
+                        <div class="d-block text-end">
+                            <form action="{{route('delete.cart', $id )}}" method="post">
+                                @csrf
+                                @method('delete')
+                                <button type="submit"
+                                        class="text-muted small text-decoration-underline btn btn-hover-label">
+                                    Remove
+                                </button>
+                            </form>
 
-                </div>
-            </li>
+                        </div>
+                    </li>
                 @endforeach
             @endif
             <li class="d-flex p-3 mb-3 border-top justify-content-between align-items-center">
@@ -369,13 +264,12 @@ $carts = session()->get('cart', []);
 </div>
 <!--/end:Shopping Cart offcanvas-->
 
-<main>
 
+<main>
 
     <!--begin:Main Content-->
     @yield('content')
     <!--/end:Main Content-->
-
 
 </main>
 
@@ -384,9 +278,9 @@ $carts = session()->get('cart', []);
 <footer class="position-relative bg-dark text-white overflow-hidden">
     <div class="container pt-9 pt-lg-11 pb-6 position-relative">
         <div class="row">
+            <!-- nav -->
             <div class="col-6 col-lg-3 col-xl-2 order-lg-2 ms-lg-auto mb-6">
                 <h6 class="mb-4">Account</h6>
-                <!-- nav -->
                 <ul class="nav flex-column mb-0">
                     <li class="nav-item"><a class="nav-link" href="#!">Placing an order</a></li>
                     <li class="nav-item"><a class="nav-link" href="#!">Shipping</a></li>
@@ -394,30 +288,33 @@ $carts = session()->get('cart', []);
                     <li class="nav-item"><a class="nav-link" href="#!">Orders</a></li>
                     <li class="nav-item"><a class="nav-link" href="#!">Assan Pay</a></li>
                 </ul>
-                <!-- /.nav -->
             </div>
+            <!-- /.nav -->
 
+            <!-- nav -->
             <div class="col-6 col-lg-3 col-xl-2 order-lg-3 ms-lg-auto mb-6">
                 <h6 class="mb-4">Company</h6>
-
                 <ul class="nav flex-column mb-0">
                     <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="#!">Become a seller</a></li>
                     <li class="nav-item"><a class="nav-link" href="#!">News &amp; Media</a></li>
                     <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
                 </ul>
-                <!-- /.nav -->
             </div>
+            <!-- nav -->
 
+            <!-- /Brands -->
             <div class="col-md-6 col-lg-3 col-xl-2 ms-lg-auto order-lg-4 mb-6">
                 <h6 class="mb-4">Top Brands</h6>
                 <ul class="nav flex-column mb-0">
                     @foreach($brands as $brand)
-                        <li class="nav-item"><a class="nav-link" href="{{URL::to('/e-shop/?brand[]='.$brand->id)}}">{{ $brand->name }}</a></li>
+                        <li class="nav-item"><a class="nav-link"
+                                                href="{{URL::to('/e-shop/?brand[]='.$brand->id)}}">{{ $brand->name }}</a>
+                        </li>
                     @endforeach
                 </ul>
             </div>
-
+            <!-- /Brands -->
             <div class="col-lg-3 col-md-6 order-lg-1 mb-6">
                 <div class="d-flex align-items-md-stretch flex-column h-100">
                     <div class="flex-grow-1 d-flex flex-column">
@@ -433,7 +330,6 @@ $carts = session()->get('cart', []);
                             </a>
                         </div>
                     </div>
-
                     <!-- Copyright -->
                     <p class="small text-muted mb-0">© Kosar. by MarjanS.</p>
                     <!-- End Copyright -->
@@ -457,7 +353,6 @@ $carts = session()->get('cart', []);
                 </div>
                 <!--:/payment options-->
             </div>
-
             <div class="col-md-2 col-xl-4 mb-3 mb-md-0">
                 <!-- Links -->
                 <ul class="list-inline small mb-0">
@@ -486,15 +381,10 @@ $carts = session()->get('cart', []);
                 </ul>
                 <!-- End Links -->
             </div>
-
         </div>
     </div>
 </footer>
 <!--/end:footer-->
-
-<!-- begin:Back to top -->
-
-<!-- end:Back to top -->
 
 
 <!-- scripts -->
@@ -602,7 +492,14 @@ $carts = session()->get('cart', []);
         });
     }
 </script>
+<script type="text/javascript">
 
+    jQuery(function () {
+        jQuery('#product-sortBy').change(function () {
+            this.form.submit();
+        });
+    });
+</script>
 <!--maps js-->
 <script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
 </body>

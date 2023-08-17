@@ -36,12 +36,12 @@
 
                                 </div>
                                 <div class="ps-md-9 pe-md-5">
-                                    <h2 class="margin-clear"><a href="{{route('frontend.brandView', $brand->name)}}">{{$brand->name}}</a></h2>
+                                    <h2 class="margin-clear"><a href="">{{$brand->name}}</a></h2>
                                     <p class="fs-4 mb-4">
                                         {!! $brand->description !!}
                                     </p>
 
-                                    <a href="#" class="btn btn-outline-secondary rounded-pill btn-hover-arrow">
+                                    <a href="{{URL::to('/e-shop/?brand[]='.$brand->id)}}" class="btn btn-outline-secondary rounded-pill btn-hover-arrow">
                                         <span>See all products</span>
 
                                     </a>

@@ -136,7 +136,7 @@ class MessageController extends Controller
             'userDetails' => $userDetails
         ];
 
-        return view('frontend.user.userMessages')->with($data);
+        return view('frontend.users.userMessages')->with($data);
     }
 
     public function viewUserMessage($id)
@@ -153,7 +153,7 @@ class MessageController extends Controller
             'categoriesTree' => $categoriesTree,
         ];
 
-        return view('frontend.user.viewUserMessage')->with($data);
+        return view('frontend.users.viewUserMessage')->with($data);
     }
 
     public function deleteUserMessage($id)
@@ -174,6 +174,6 @@ class MessageController extends Controller
             'categoriesTree' => $categoriesTree,
         ];
 
-        return view('frontend.user.userMessages')->with($data);
+        return view('frontend.users.userMessages')->with($data);
     }
 }

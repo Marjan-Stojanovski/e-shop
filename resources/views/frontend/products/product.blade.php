@@ -66,19 +66,20 @@
                                     @if(isset($product->action))
                                         <div>
                                             <p class="fs-5 mb-0"
-                                               style="color: red">{{ number_format($product->action, 2) }}&nbsp;€&nbsp;&nbsp;
-                                                <del class="text-muted"> {{ number_format($product->price, 2) }}
+                                               style="color: red">€&nbsp;{{ number_format($product->action, 2) }}
+                                                <del class="text-muted">€&nbsp;{{ number_format($product->price, 2) }}
                                                     &nbsp;€
                                                 </del>
                                             </p>
                                         </div>
                                     @else
                                         <div>
-                                            <p class="fs-5 mb-0">{{ number_format($product->price, 2) }}&nbsp;€&nbsp;&nbsp; </p>
+                                            <p class="fs-5 mb-0">€&nbsp;{{ number_format($product->price, 2) }} </p>
                                         </div>
                                     @endif
                                     <div>
-                                        <a href="{{ route('frontend.addToWishlist', $product->id ) }}" class="fw-semibold small"><i
+                                        <a href="{{ route('frontend.addToWishlist', $product->id ) }}"
+                                           class="fw-semibold small"><i
                                                 class="bx bx-heart align-middle me-2"></i>Add
                                             to Wishlist</a>
                                     </div>
@@ -162,10 +163,6 @@
                            aria-expanded="false">
                             Reviews
                         </a>
-                        <a href="#product-qa" class="nav-link" data-bs-toggle="tab" aria-haspopup="false"
-                           aria-expanded="false">
-                            Q&amp;A
-                        </a>
                     </nav>
                 </div>
                 <!--/.col-->
@@ -177,97 +174,53 @@
                             <p class="mb-5">
                                 {!! $product->description !!}
                             </p>
-                            <div class="text-end">
-                                <a href="#!" class="btn  btn-outline-secondary rounded-pill">Visit
-                                    Store</a>
-                            </div>
                         </div>
-                        <!--Tab-panel information
-                        <div class="tab-pane fade" id="information">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item bg-transparent px-0 py-3">MATERIAL: 100% POLYESTER
-                                </li>
-                                <li class="list-group-item bg-transparent px-0 py-3">Durable water repellent to
-                                    protect against light drizzles</li>
-                                <li class="list-group-item bg-transparent px-0 py-3">Insulated quilted vest to
-                                    protect in light winters
-                                </li>
-                                <li class="list-group-item bg-transparent px-0 py-3">Made in Germany</li>
-                            </ul>
-                        </div>
-                       Tab-panel information -->
                         <div class="tab-pane fade" id="reviews">
                             <div
                                 class="bg-gradient-secondary text-white d-flex justify-content-between align-items-center p-3 mb-5">
                                 <div>
-                      <span class="text-warning small d-block mb-2">
-                        <i class="bx bx-star"></i>
-                        <i class="bx bx-star"></i>
-                        <i class="bx bx-star"></i>
-                        <i class="bx bx-star"></i>
-                        <i class="bx bx-star"></i>
-                      </span>
-                                    <p class="mb-0"><span class="reviews small fw-normal">4.69 / 5</span>
-                                        <small class="text-muted">( {{ $commentsCount }} - Reviews)</small>
-                                    </p>
-
+                                    <h5 class="mb-4 mb-lg-5">Latest Reviews</h5>
+                                    <small class="text-muted">( {{ $comments->count() }} - Reviews)</small>
                                 </div>
                                 <div>
-                                    <a href="#!" class="link-underline fw-semibold pb-0">View all
-                                        Reviews</a>
-                                </div>
-                            </div>
-                            <h5 class="mb-4 mb-lg-5">Latest Reviews</h5>
-                            @foreach($comments as $comment)
-                                <!--Review-item-->
-                                <div class="d-flex mb-4">
-                                    <div>
-                                        <img src="/assets/img/avatar/3.jpg" alt=""
-                                             class="avatar sm me-3 rounded-circle shadow">
-                                    </div>
-                                    <div class="media-body">
-                      <span class="text-warning small d-block mb-2">
-                        <i class="bx bx-star"></i><i class="bx bx-star"></i><i class="bx bx-star"></i><i
-                              class="bx bx-star"></i><i class="bx bx-star"></i>
-                      </span>
-                                        <p class="mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                            sed
-                                            do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                        <div
-                                            class="d-flex border-bottom pb-4 justify-content-between align-items-center">
-                                            <h6 class="mb-0">Emma Patrik</h6>
-                                            <small class="text-muted">5 July 2021</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--End Review-item-->
-                            @endforeach
-                            <!--Review-item-->
-                            <div class="pt-3">
-                                <div class="d-flex justify-content-end mb-3">
                                     <a href="#" data-bs-target="#review-collapse" data-bs-toggle="collapse"
                                        aria-expanded="false"
                                        aria-haspopup="false" class="h6 collapse-link mb-0 link-underline">
                                         <i class="bx bx-plus-fill align-middle me-1"></i>Add Review</a>
                                 </div>
+                            </div>
+                            <!--Review-item-->
+                            <div class="pt-3">
+                                <div class="d-flex justify-content-end mb-3">
+                                </div>
                                 <div class="collapse" id="review-collapse">
                                     <div class="card card-body p-4">
-                                        <form class="needs-validation" novalidate>
+                                        <form class="needs-validation" method="post" action="{{route('comment.save')}}">
+                                            @csrf
                                             <div class="row">
                                                 <div class="col-12 col-sm-6">
                                                     <div class="mb-3">
-                                                        <label class="form-label" for="rating-name">Name</label>
-                                                        <input type="text" required id="rating-name"
-                                                               class="form-control">
+                                                        <label class="form-label" for="name">Name</label>
+                                                        <input type="text" required id="name"
+                                                               class="form-control" name="name"
+                                                               required>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-sm-6">
+                                                <div class="col-12 col-sm-6" hidden>
                                                     <div class="mb-3">
-                                                        <label class="form-label" for="rating-mail">Email
-                                                            Address</label>
-                                                        <input type="email" required class="form-control"
-                                                               id="rating-mail">
+                                                        <label class="form-label" for="subject">Subject
+                                                        </label>
+                                                        <input type="text" required class="form-control"
+                                                               id="rating-mail" value="{{ $product->id }}"
+                                                               name="subject">
                                                     </div>
+                                                </div>
+                                                <div class="form-group" hidden>
+                                                    <label for="product_id" class="form-label"></label>
+                                                    <select name="product_id" id="product_id"
+                                                            class="form-control">
+                                                        <option value="{{ $product->id }}"></option>
+                                                    </select>
                                                 </div>
                                                 <div class="w-100"></div>
                                                 <div class="col-12">
@@ -276,43 +229,43 @@
                                                         <div>
                                                             <div class="btn-group" role="group"
                                                                  aria-label="Basic radio toggle button group">
-                                                                <input type="radio" class="btn-check" name="btnradio"
-                                                                       id="btnrating1">
+                                                                <input type="radio" class="btn-check" value="1"
+                                                                       name="rating" id="btnrating1">
                                                                 <label class="btn btn-outline-warning btn-sm"
-                                                                       for="btnrating1"><i
-                                                                        class="bx bx-star"></i></label>
+                                                                       for="btnrating1">
+                                                                    <i class="bx bx-star"></i></label>
 
-                                                                <input type="radio" class="btn-check" name="btnradio"
-                                                                       id="btnrating2">
+                                                                <input type="radio" class="btn-check" value="2"
+                                                                       name="rating" id="btnrating2">
                                                                 <label class="btn btn-outline-warning btn-sm"
-                                                                       for="btnrating2"><i
-                                                                        class="bx bx-star"></i><i
-                                                                        class="bx bx-star"></i></label>
+                                                                       for="btnrating2">
+                                                                    <i class="bx bx-star"></i>
+                                                                    <i class="bx bx-star"></i></label>
 
-                                                                <input type="radio" class="btn-check" name="btnradio"
-                                                                       id="btnrating3">
+                                                                <input type="radio" class="btn-check" value="3"
+                                                                       name="rating" id="btnrating3">
                                                                 <label class="btn btn-outline-warning btn-sm"
-                                                                       for="btnrating3"><i
-                                                                        class="bx bx-star"></i><i
-                                                                        class="bx bx-star"></i><i
-                                                                        class="bx bx-star"></i></label>
-                                                                <input type="radio" class="btn-check" name="btnradio"
-                                                                       id="btnrating4">
+                                                                       for="btnrating3">
+                                                                    <i class="bx bx-star"></i>
+                                                                    <i class="bx bx-star"></i>
+                                                                    <i class="bx bx-star"></i></label>
+                                                                <input type="radio" class="btn-check" value="4"
+                                                                       name="rating" id="btnrating4">
                                                                 <label class="btn btn-outline-warning btn-sm"
-                                                                       for="btnrating4"><i
-                                                                        class="bx bx-star"></i><i
-                                                                        class="bx bx-star"></i><i
-                                                                        class="bx bx-star"></i><i
-                                                                        class="bx bx-star"></i></label>
-                                                                <input type="radio" class="btn-check" name="btnradio"
-                                                                       id="btnrating5" checked>
+                                                                       for="btnrating4">
+                                                                    <i class="bx bx-star"></i>
+                                                                    <i class="bx bx-star"></i>
+                                                                    <i class="bx bx-star"></i>
+                                                                    <i class="bx bx-star"></i></label>
+                                                                <input type="radio" class="btn-check" value="5"
+                                                                       name="rating" id="btnrating5" checked>
                                                                 <label class="btn btn-outline-warning btn-sm"
-                                                                       for="btnrating5"><i
-                                                                        class="bx bx-star"></i><i
-                                                                        class="bx bx-star"></i><i
-                                                                        class="bx bx-star"></i><i
-                                                                        class="bx bx-star"></i><i
-                                                                        class="bx bx-star"></i></label>
+                                                                       for="btnrating5">
+                                                                    <i class="bx bx-star"></i>
+                                                                    <i class="bx bx-star"></i>
+                                                                    <i class="bx bx-star"></i>
+                                                                    <i class="bx bx-star"></i>
+                                                                    <i class="bx bx-star"></i></label>
 
                                                             </div>
                                                         </div>
@@ -323,7 +276,8 @@
                                                     <div class="mb-3">
                                                         <label class="form-label" for="rating-message">Review
                                                             Message <small>(Optional)</small></label>
-                                                        <textarea class="form-control" id="rating-message"></textarea>
+                                                        <textarea class="form-control" id="rating-message" rows="8"
+                                                                  name="message" required></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -336,75 +290,48 @@
                                     </div>
                                 </div>
                             </div>
+                            <br>
+                            <br>
+                            @foreach($comments as $comment)
+                                <!--Review-item-->
+                                <div class="d-flex mb-4">
+                                    <div class="media-body">
+                      <span class="text-warning small d-block mb-2">
+                          @if($comment->rating === 1)
+                              <i class="bx bx-star"></i>
+                          @elseif($comment->rating === 2)
+                              <i class="bx bx-star"></i><i class="bx bx-star"></i>
+                          @elseif($comment->rating === 3)
+                              <i class="bx bx-star"></i><i class="bx bx-star"></i><i class="bx bx-star"></i>
+                          @elseif($comment->rating === 4)
+                              <i class="bx bx-star"></i><i class="bx bx-star"></i><i class="bx bx-star"></i><i
+                                  class="bx bx-star"></i>
+                          @elseif($comment->rating === 5)
+                              <i class="bx bx-star"></i><i class="bx bx-star"></i><i class="bx bx-star"></i><i
+                                  class="bx bx-star"></i><i class="bx bx-star"></i>
+                          @endif
+                      </span>
+                                        <p class="mb-2">
+                                            {{ $comment->message }}
+                                        </p>
+                                        <div
+                                            class="d-flex border-bottom pb-4 justify-content-between align-items-center">
+                                            <h6 class="mb-0">{{ $comment->name }}</h6>
+                                            <small
+                                                class="text-muted">&nbsp;&nbsp;&nbsp;{{ $comment->created_at->diffForHumans() }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--End Review-item-->
+                            @endforeach
+                            <div class="d-grid d-sm-flex justify-content-sm-center">
+                                <div class="col-md-12 text-center">
+                                    {{ $comments->links() }}
+                                </div>
+                            </div>
+
                         </div>
                         <!--Tab-pane-->
-                        <div class="tab-pane fade" id="product-qa">
-                            <div class="card border card-body mb-2 bg-transparent">
-                                <h5><i class="bx bx-question-mark me-2"></i>Is the item
-                                    durable?</h5>
-                                <p class="mb-0 d-flex align-items-stretch">
-                                    <strong class="small d-inline-block me-2 text-muted">Ans.</strong>
-                                    <span class="mb-0">
-                        Durability of shoes minimum 1 year if u used on daily basis. I think
-                        this is best at this price range as compare to all other popular
-                        brands.
-                      </span>
-                                </p>
-                            </div>
-                            <div class="card border card-body mb-2 bg-transparent">
-                                <h5><i class="bx bx-question-mark me-2"></i>Is the item
-                                    durable?</h5>
-                                <p class="mb-0 d-flex align-items-stretch">
-                                    <strong class="small d-inline-block me-2 text-muted">Ans.</strong>
-                                    <span class="mb-0">
-                        Durability of shoes minimum 1 year if u used on daily basis. I think
-                        this is best at this price range as compare to all other popular
-                        brands.
-                      </span>
-                                </p>
-                            </div>
-                            <div class="card border card-body mb-5 bg-transparent">
-                                <h5><i class="bx bx-question-mark me-2"></i>Is the item
-                                    durable?</h5>
-                                <p class="mb-0 d-flex align-items-stretch">
-                                    <strong class="small d-inline-block me-2 text-muted">Ans.</strong>
-                                    <span class="mb-0">
-                        Durability of shoes minimum 1 year if u used on daily basis. I think
-                        this is best at this price range as compare to all other popular
-                        brands.
-                      </span>
-                                </p>
-                            </div>
-                            <h5 class="mb-4">Feel free to Ask questions</h5>
-                            <form class="needs-validation" novalidate>
-                                <div class="row">
-                                    <div class="col-12 col-sm-6">
-                                        <div class="mb-3">
-                                            <input type="text" required class="form-control"
-                                                   placeholder="Enter your Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-6">
-                                        <div class="mb-3">
-                                            <input type="email" required class="form-control"
-                                                   placeholder="Enter your Email">
-                                        </div>
-                                    </div>
-                                    <div class="w-100"></div>
-                                    <div class="col-12">
-                                        <div class="mb-3">
-                                            <textarea required class="form-control"
-                                                      placeholder="Type your question here"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="text-end">
-                                    <button type="submit" class="btn btn-primary hover-translate-3d">
-                                        Send question <i class="bx bx-right-top-arrow-circle ms-1"></i>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
                     </div>
                     <!--Tab-pane-->
                 </div>

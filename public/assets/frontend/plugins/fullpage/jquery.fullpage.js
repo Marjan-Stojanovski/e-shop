@@ -800,7 +800,7 @@
 
                 var li = '<li><a href="#' + link + '"><span></span></a>';
 
-                // Only add tooltip if needed (defined by user)
+                // Only add tooltip if needed (defined by users)
                 var tooltip = options.navigationTooltips[i];
 
                 if (typeof tooltip !== 'undefined' && tooltip !== '') {
@@ -1417,7 +1417,7 @@
                     if(options.scrollBar){
 
                         /* Hack!
-                        The timeout prevents setting the most dominant section in the viewport as "active" when the user
+                        The timeout prevents setting the most dominant section in the viewport as "active" when the users
                         scrolled to a smaller section by using the mousewheel (auto scrolling) rather than draging the scroll bar.
 
                         When using scrollBar:true It seems like the scroll events still getting propagated even after the scrolling animation has finished.
@@ -1915,7 +1915,7 @@
 
         /**
         * Checks if the site needs to get responsive and disables autoScrolling if so.
-        * A class `fp-responsive` is added to the plugin's container in case the user wants to use it for his own responsive CSS.
+        * A class `fp-responsive` is added to the plugin's container in case the users wants to use it for his own responsive CSS.
         */
         function responsive(){
             var widthLimit = options.responsive || options.responsiveWidth; //backwards compatiblity
@@ -2646,7 +2646,7 @@
         * Sets the state for a variable with multiple states (original, and temporal)
         * Some variables such as `autoScrolling` or `recordHistory` might change automatically its state when using `responsive` or `autoScrolling:false`.
         * This function is used to keep track of both states, the original and the temporal one.
-        * If type is not 'internal', then we assume the user is globally changing the variable.
+        * If type is not 'internal', then we assume the users is globally changing the variable.
         */
         function setVariableState(variable, value, type){
             options[variable] = value;

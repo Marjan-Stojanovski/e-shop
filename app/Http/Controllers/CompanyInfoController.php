@@ -25,9 +25,12 @@ class CompanyInfoController extends Controller
         if (empty($company)) {
 
             return view('dashboard.company_info.create')->with($data);
+
         } else {
+
             $company = CompanyInfo::first();
             $data = ['users' => $users, "company" => $company];
+
             return view('dashboard.company_info.index')->with($data);
         }
     }

@@ -100,7 +100,7 @@ class UserController extends Controller
         $user = User::FindorFail($id);
         $roles = Role::all();
         $countries = Country::all();
-        $data = ['user' => $user, 'roles' => $roles, 'countries' => $countries];
+        $data = ['users' => $user, 'roles' => $roles, 'countries' => $countries];
         return view('dashboard.users.edit')->with($data);
     }
 
@@ -168,7 +168,7 @@ class UserController extends Controller
                 'orders' => $orders
             ];
 
-            return view('frontend.user.createUserProfile')->with($data);
+            return view('frontend.users.createUserProfile')->with($data);
 
         } else {
 
@@ -179,7 +179,7 @@ class UserController extends Controller
                 'userDetails' => $userDetails,
                 'orders' => $orders
             ];
-            return view('frontend.user.userProfile')->with($data);
+            return view('frontend.users.userProfile')->with($data);
         }
     }
 
@@ -200,7 +200,7 @@ class UserController extends Controller
             'userDetails' => $userDetails
         ];
 
-        return view('frontend.user.updateUserProfile')->with($data);
+        return view('frontend.users.updateUserProfile')->with($data);
     }
 
     public function updateProfileDetails(Request $request, $id)
@@ -223,7 +223,7 @@ class UserController extends Controller
             'userDetails' => $userDetails
         ];
 
-        return view('frontend.user.userProfile')->with($data);
+        return view('frontend.users.userProfile')->with($data);
     }
 
 

@@ -57,7 +57,7 @@ class OrderController extends Controller
             'categoriesTree' => $categoriesTree,
         ];
 
-        return view('frontend.user.userProfileOrders')->with($data);
+        return view('frontend.users.userProfileOrders')->with($data);
     }
 
     public function getOrder($id)
@@ -104,7 +104,7 @@ class OrderController extends Controller
             'products' => $products
         ];
 
-        return view('frontend.user.orderDetails')->with($data);
+        return view('frontend.users.orderDetails')->with($data);
     }
 
     public function delete($id)

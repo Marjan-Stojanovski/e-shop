@@ -75,11 +75,11 @@ class ReCaptcha
     }
 
     /**
-     * Calls the reCAPTCHA siteverify API to verify whether the user passes
+     * Calls the reCAPTCHA siteverify API to verify whether the users passes
      * CAPTCHA test.
      *
      * @param string $response The value of 'g-recaptcha-response' in the submitted form.
-     * @param string $remoteIp The end user's IP address.
+     * @param string $remoteIp The end users's IP address.
      * @return Response Response from the service.
      */
     public function verify($response, $remoteIp = null)

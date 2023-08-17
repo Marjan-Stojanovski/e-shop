@@ -48,7 +48,7 @@
 
 		return this;
 	};
-	//Globally expose the defaults to allow for user updating/changing
+	//Globally expose the defaults to allow for users updating/changing
 	Chart.defaults = {
 		global: {
 			// Boolean - Whether to animate the chart
@@ -451,9 +451,9 @@
 				}
 				//We can fit in double the amount of scale points on the scale
 				else{
-					//If user has declared ints only, and the step value isn't a decimal
+					//If users has declared ints only, and the step value isn't a decimal
 					if (integersOnly && rangeOrderOfMagnitude >= 0){
-						//If the user has said integers only, we need to check that making the scale more granular wouldn't make it a float
+						//If the users has said integers only, we need to check that making the scale more granular wouldn't make it a float
 						if(stepValue/2 % 1 === 0){
 							stepValue /=2;
 							numberOfSteps = Math.round(graphRange/stepValue);
@@ -524,7 +524,7 @@
 					"');}return p.join('');"
 				);
 
-				// Provide some basic currying to the user
+				// Provide some basic currying to the users
 				return data ? fn( data ) : fn;
 			}
 			return tmpl(templateString,valuesObject);
@@ -964,7 +964,7 @@
 					chartInstance.draw(easeDecimal, stepDecimal, animationObject.currentStep);
 				};
 
-				// user events
+				// users events
 				animation.onAnimationProgress = this.options.onAnimationProgress;
 				animation.onAnimationComplete = this.options.onAnimationComplete;
 
@@ -1391,8 +1391,8 @@
 		easing: "", // the easing to use for this animation
 		render: null, // render function used by the animation service
 
-		onAnimationProgress: null, // user specified callback to fire on each step of the animation
-		onAnimationComplete: null, // user specified callback to fire when the animation finishes
+		onAnimationProgress: null, // users specified callback to fire on each step of the animation
+		onAnimationComplete: null, // users specified callback to fire when the animation finishes
 	});
 
 	Chart.Tooltip = Chart.Element.extend({

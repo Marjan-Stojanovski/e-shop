@@ -44,7 +44,7 @@ class RequestParameters
     private $response;
 
     /**
-     * Remote user's IP address.
+     * Remote users's IP address.
      * @var string
      */
     private $remoteIp;

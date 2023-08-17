@@ -26,7 +26,7 @@
                         </a></li>
                     <li class="breadcrumb-item active"><a href=""
                                                           class="text-dark">{{ Auth::user()->firstName }} {{ Auth::user()->lastName }}
-                            Profile</a></li>
+                            Wishlist</a></li>
                 </ol>
             </nav>
         </div>
@@ -65,30 +65,32 @@
                                                 </h5>
                                                 <small>
                                                     @if(isset($wishlist->product->action))
-                                                        {{ $wishlist->product->action }}&nbsp;€
+                                                        €&nbsp;{{ $wishlist->product->action }}
                                                     @else
-                                                        {{ $wishlist->product->price }}&nbsp;€
+                                                        €&nbsp;{{ $wishlist->product->price }}
                                                     @endif
                                                 </small>
                                             </div>
                                         </td>
                                         <td class="text-center align-middle">
                                             @if(isset($wishlist->product->action))
-                                                {{ $wishlist->product->action }}&nbsp;€
+                                                €&nbsp;{{ $wishlist->product->action }}
                                             @else
-                                                {{ $wishlist->product->price }}&nbsp;€
+                                                €&nbsp;{{ $wishlist->product->price }}
                                             @endif
                                         </td>
                                         <td class="text-center align-middle">
 
-                                                <form action="{{ route('add.to.cart')}}"  method="POST" class="clearfix"
+                                                <form action="{{ route('addToCart.wishlistDelete', $wishlist->id)}}"  method="POST" class="clearfix"
                                                       enctype="multipart/form-data">
                                                     @csrf
+                                                    @method('delete')
                                                     <input type="hidden" value="{{ $wishlist->product->id }}" name="id">
                                                     <input type="hidden" value="{{ $wishlist->product->title }}"
                                                            name="title">
                                                     <input type="hidden" value="{{ $wishlist->product->brand->name }}"
                                                            name="brand">
+                                                    <input type="hidden" value="1" name="quantity">
                                                     @if(isset($wishlist->product->action))
                                                         <input type="hidden" value="{{ $wishlist->product->action }}"
                                                                name="price">

@@ -66,46 +66,20 @@ class FrontendController extends Controller
         $brands = Brand::all();
         $product = Product::where('slug', $slug)->first();
         $categoriesTree = Category::getTreeHP();
-        $comments = Comment::where('product_id', $product['id'])->get();
-        $commentsCount = $comments->count();
-        $products = Product::where('category_id', $product->category_id)->get();
+        $comments = Comment::where('product_id', $product['id'])
+            ->latest('created_at')
+            ->paginate(12);
 
 
         $data = [
             'company' => $company,
             'brands' => $brands,
             'product' => $product,
-            'products' => $products,
             'categoriesTree' => $categoriesTree,
             'comments' => $comments,
-            'commentsCount' => $commentsCount,
         ];
 
-        return view('frontend.product')->with($data);
-    }
-
-    public function productView($slug)
-    {
-        $company = CompanyInfo::first();
-        $brands = Brand::all();
-        $product = Product::where('slug', $slug)->first();
-        $categoriesTree = Category::getTreeHP();
-        $comments = Comment::where('product_id', $product['id'])->paginate(5);
-        $commentsCount = $comments->count();
-        $products = Product::where('category_id', $product->category_id)->get();
-
-        $data = [
-            'company' => $company,
-            'brands' => $brands,
-            'product' => $product,
-            'products' => $products,
-            'categoriesTree' => $categoriesTree,
-            'comments' => $comments,
-            'commentsCount' => $commentsCount
-        ];
-
-
-        return view('frontend.productView')->with($data);
+        return view('frontend.products.product')->with($data);
     }
 
     public function categories()
@@ -155,22 +129,6 @@ class FrontendController extends Controller
 
         return view('frontend.brands')->with($data);
     }
-    public function brandView($name)
-    {
-        $company = CompanyInfo::first();
-        $brand = Brand::where('name', $name)->first();
-        $products = Product::where('brand_id', $brand->id)->paginate(8);
-        $categoriesTree = Category::getTreeHP();
-
-        $data = [
-            'company' => $company,
-            'brand' => $brand,
-            'products' => $products,
-            'categoriesTree' => $categoriesTree
-        ];
-
-        return view('frontend.brandView')->with($data);
-    }
 
     public function contact_us()
     {
@@ -205,23 +163,9 @@ class FrontendController extends Controller
         return view('frontend.about')->with($data);
     }
 
-    public function products()
-    {
-        $company = CompanyInfo::first();
-        $products = Product::all();
-        $categoriesTree = Category::getTreeHP();
-
-        $data = [
-            'company' => $company,
-            'products' => $products,
-            'categoriesTree' => $categoriesTree,
-        ];
-
-        return view('frontend.products')->with($data);
-    }
-
     public function shop()
     {
+
         if (isset($_GET)) {
             $builder = Product::query();
             if (!empty($_GET['category'])) {
@@ -244,7 +188,19 @@ class FrontendController extends Controller
                 $country = $_GET['discount'];
                 $builder->whereNotNull('discount');
             }
+
+            if (!empty($_GET['sort'])) {
+
+                if ($_GET['sort'][0] == 'DESC') {
+                    $builder->orderBy('price', 'DESC');
+                } else if ($_GET['sort'] == 'ASC') {
+                    $builder->orderBy('price', 'ASC');
+                } else if ($_GET['sort'] === 'latest') {
+                    $builder->latest('updated_at');
+                }
+            }
             $products = $builder->paginate(5);
+
         } else {
             $products = Product::all()->paginate(5);
         }
@@ -300,23 +256,34 @@ class FrontendController extends Controller
 
     public function search(Request $request)
     {
-        if ($request->search) {
 
-            $searchProducts = Product::where('title', 'LIKE', '%'.$request->search.'%')->latest()->paginate(12);
+        if ($_GET['search']) {
+
+            $products = Product::where('title', 'LIKE', '%'.$_GET['search'].'%')->latest()->paginate(12);
+
+            if ($products->count() == 0) {
+
+                return redirect()->back()->with('message', "Products don't exist!");
+            }
             $company = CompanyInfo::first();
             $categoriesTree = Category::getTreeHP();
+            $brands = Brand::all();
+            $categories = Category::all();
+            $volumes = Volume::all();
+            $countries = Country::all();
 
             $data = [
                 'company' => $company,
+                'brands' => $brands,
+                'categories' => $categories,
+                'volumes' => $volumes,
+                'countries' => $countries,
                 'categoriesTree' => $categoriesTree,
-                'searchProducts' => $searchProducts,
+                'products' => $products,
             ];
 
-            return view('frontend.products')->with($data);
+            return view('frontend.shop')->with($data);
 
-        } else {
-
-            return redirect()->back()->with('message', "Products don't exist!");
         }
     }
 
