@@ -178,7 +178,8 @@ class OrderController extends Controller
         return view('frontend.orderDetails')->with($data);
     }
 
-    public function saveOrderInfo(Request $request)
+
+    public function processOrder(Request $request)
     {
         $firstName = $request->get('firstName');
         $lastName = $request->get('lastName');
@@ -201,6 +202,42 @@ class OrderController extends Controller
         $shipZipcode = $request->get('shipZipcode');
         $shipCity = $request->get('shipCity');
         $shipCountry_id = $request->get('shipCountry_id');
+        $methodForPayment = $request->get('methodForPayment');
+        $paymentFullName = $request->get('paymentFullName');
+        $cardName = $request->get('cardName');
+        $cardNumber = $request->get('cardNumber');
+        $expDateMonth = $request->get('expDateMonth');
+        $expDateYear = $request->get('expDateYear');
+        $csv = $request->get('csv');
+
+        if ($methodForPayment === 'Credit Card') {
+            $validator = Validator::make($request->all(), [
+                'paymentFullName' => 'required',
+                'cardName' => 'required',
+                'cardNumber' => 'required|min:16|max:16',
+                'expDateMonth' => 'required|min:2|max:2',
+                'expDateYear' => 'required|min:4|max:4',
+                'csv' => 'required|min:3|max:3'
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->route('frontend.payment')
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+        }
+
+        $paymentInfo = [
+            'methodForPayment' => $methodForPayment,
+            'paymentFullName' => $paymentFullName,
+            'cardName' => $cardName,
+            'cardNumber' => $cardNumber,
+            'expDateMonth' => $expDateMonth,
+            'expDateYear' => $expDateYear,
+            'csv' => $csv,
+        ];
+
+
         $shipCountry = null;
         if (isset($shipCountry_id)) {
             $shipCountry_temp = Country::where('id', $shipCountry_id)->get();
@@ -240,162 +277,6 @@ class OrderController extends Controller
         $total = $subTotal + $shippingCharges - $discountPrice;
         // End Total Charges Calculation
 
-        // Creating and saving in session orderInfo
-        if (Auth::user()) {
-            $user_id = Auth::user()->id;
-            $orderInfo = [
-                'user_id' => $user_id,
-                'firstName' => $firstName,
-                'lastName' => $lastName,
-                'phoneNumber' => $phoneNumber,
-                'email' => $email,
-                'address' => $address,
-                'zipcode' => $zipcode,
-                'city' => $city,
-                'country_id' => $country_id,
-                'country' => $country,
-                'comment' => $comment,
-                'companyName' => $companyName,
-                'taxNumber' => $taxNumber,
-                'shipFirstName' => $shipFirstName,
-                'shipLastName' => $shipLastName,
-                'shipPhoneNumber' => $shipPhoneNumber,
-                'shipEmail' => $shipEmail,
-                'shipAddress' => $shipAddress,
-                'shipZipcode' => $shipZipcode,
-                'shipCity' => $shipCity,
-                'shipCountry_id' => $shipCountry_id,
-                'shipCountry' => $shipCountry,
-                'shipComment' => $shipComment,
-                'discount' => $discount,
-                'subTotal' => $subTotal,
-                'discountPrice' => $discountPrice,
-                'total' => $total,
-                'shippingCharges' => $shippingCharges
-            ];
-            Session::put('orderInfo', $orderInfo);
-        } else {
-            $orderInfo = [
-                'firstName' => $firstName,
-                'lastName' => $lastName,
-                'phoneNumber' => $phoneNumber,
-                'email' => $email,
-                'address' => $address,
-                'zipcode' => $zipcode,
-                'city' => $city,
-                'country_id' => $country_id,
-                'country' => $country,
-                'comment' => $comment,
-                'companyName' => $companyName,
-                'taxNumber' => $taxNumber,
-                'shipFirstName' => $shipFirstName,
-                'shipLastName' => $shipLastName,
-                'shipPhoneNumber' => $shipPhoneNumber,
-                'shipEmail' => $shipEmail,
-                'shipAddress' => $shipAddress,
-                'shipZipcode' => $shipZipcode,
-                'shipCity' => $shipCity,
-                'shipCountry_id' => $shipCountry_id,
-                'shipCountry' => $shipCountry,
-                'shipComment' => $shipComment,
-                'discount' => $discount,
-                'subTotal' => $subTotal,
-                'discountPrice' => $discountPrice,
-                'total' => $total,
-                'shippingCharges' => $shippingCharges
-            ];
-            Session::put('orderInfo', $orderInfo);
-        }
-        // End Creating and saving in session orderInfo
-
-        // View data preparation
-        $company = CompanyInfo::first();
-        $categoriesTree = Category::getTreeHP();
-
-        $data = [
-            'company' => $company,
-            'products' => $products,
-            'categoriesTree' => $categoriesTree,
-            'orderInfo' => $orderInfo
-        ];
-
-        return view('frontend.payment')->with($data);
-
-    }
-
-    public function paymentInfo()
-    {
-        $company = CompanyInfo::first();
-        $categoriesTree = Category::getTreeHP();
-
-        $data = [
-            'company' => $company,
-            'categoriesTree' => $categoriesTree,
-        ];
-
-        return view('frontend.payment')->with($data);
-    }
-
-    public function savePaymentInfo(Request $request)
-    {
-        $methodForPayment = $request->get('methodForPayment');
-        $paymentFullName = $request->get('paymentFullName');
-        $cardName = $request->get('cardName');
-        $cardNumber = $request->get('cardNumber');
-        $expDateMonth = $request->get('expDateMonth');
-        $expDateYear = $request->get('expDateYear');
-        $csv = $request->get('csv');
-
-        if ($methodForPayment === 'Credit Card') {
-            $validator = Validator::make($request->all(), [
-                'paymentFullName' => 'required',
-                'cardName' => 'required',
-                'cardNumber' => 'required|min:16|max:16',
-                'expDateMonth' => 'required|min:2|max:2',
-                'expDateYear' => 'required|min:4|max:4',
-                'csv' => 'required|min:3|max:3'
-            ]);
-
-            if ($validator->fails()) {
-                return redirect()->route('frontend.payment')
-                    ->withErrors($validator)
-                    ->withInput();
-            }
-        }
-
-        $paymentInfo = [
-            'methodForPayment' => $methodForPayment,
-            'paymentFullName' => $paymentFullName,
-            'cardName' => $cardName,
-            'cardNumber' => $cardNumber,
-            'expDateMonth' => $expDateMonth,
-            'expDateYear' => $expDateYear,
-            'csv' => $csv,
-        ];
-        Session::put('paymentInfo', $paymentInfo);
-
-
-        $company = CompanyInfo::first();
-        $categoriesTree = Category::getTreeHP();
-        $paymentInfo = session()->get('paymentInfo');
-        $orderInfo = session()->get('orderInfo');
-        $products = session()->get('cart', []);
-
-        $data = [
-            'company' => $company,
-            'categoriesTree' => $categoriesTree,
-            'paymentInfo' => $paymentInfo,
-            'orderInfo' => $orderInfo,
-            'products' => $products,
-
-        ];
-
-        return view('frontend.orderReview')->with($data);
-    }
-
-
-    public function processOrder(Request $request)
-    {
         //PROCESS PAYMENT
         // payment_status "0" -> not paid
         // payment_status "1" -> paid
@@ -547,13 +428,33 @@ class OrderController extends Controller
 
         return view('frontend.orders.finished-order')->with($data);
     }
+
+    //Used
     public function checkout()
     {
+        if (Auth::user()) {
+            $company = CompanyInfo::first();
+            $brands = Brand::all();
+            $categoriesTree = Category::getTreeHP();
+            $carts = session()->get('cart', []);
+            $countries = Country::all();
+
+            $data = [
+                'company' => $company,
+                'brands' => $brands,
+                'carts' => $carts,
+                'categoriesTree' => $categoriesTree,
+                'countries' => $countries,
+            ];
+
+            return view('frontend.cartCheckout')->with($data);
+        }
 
         $company = CompanyInfo::first();
         $brands = Brand::all();
         $categoriesTree = Category::getTreeHP();
         $carts = session()->get('cart', []);
+
 
         $data = [
             'company' => $company,
@@ -562,7 +463,7 @@ class OrderController extends Controller
             'categoriesTree' => $categoriesTree,
         ];
 
-        return view('frontend.cartCheckout')->with($data);
+        return redirect()->route('login')->with($data);
     }
 
 }

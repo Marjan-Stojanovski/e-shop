@@ -257,7 +257,7 @@ $carts = session()->get('cart', []);
                                 shopping cart</span></a>
             </li>
             <li class="d-grid">
-                <a href="#" class="btn btn-primary btn-hover-arrow"><span>Checkout</span></a>
+                <a href="{{ route('frontend.checkout')}}" class="btn btn-primary btn-hover-arrow"><span>Checkout</span></a>
             </li>
         </ul>
     </div>

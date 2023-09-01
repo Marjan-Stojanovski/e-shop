@@ -259,7 +259,8 @@ class FrontendController extends Controller
 
         if ($_GET['search']) {
 
-            $products = Product::where('title', 'LIKE', '%'.$_GET['search'].'%')->latest()->paginate(12);
+            $search = $_GET['search'];
+            $products = Product::where('title', 'LIKE', '%'.$search.'%')->paginate(12);
 
             if ($products->count() == 0) {
 

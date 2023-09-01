@@ -8,7 +8,7 @@
                     <li class="breadcrumb-item"><a href="{{ route('frontend.index') }}" class="text-dark">
                             <i class="bx bx-home fs-5"></i>
                         </a></li>
-                    <li class="breadcrumb-item"><a href="" class="text-dark">Products</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('frontend.shop') }}" class="text-dark">Products</a></li>
                     <li class="breadcrumb-item active" aria-current="page">{{ $product->title }}</li>
                 </ol>
             </nav>
