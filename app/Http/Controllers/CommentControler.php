@@ -124,6 +124,7 @@ class CommentControler extends Controller
         return view('dashboard.comments.index')->with($data);
     }
 
+    //USED
     public function frontendSave(Request $request)
     {
 

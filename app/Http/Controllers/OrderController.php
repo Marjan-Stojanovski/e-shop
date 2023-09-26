@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Helpers\PdfGeneration;
 use App\Mail\MailSender;
 use App\Models\Brand;
 use App\Models\Category;
@@ -18,6 +17,7 @@ use Illuminate\Support\Facades\Validator;
 use Session;
 use PDF;
 use App\Models\Product;
+use App\Models\Link;
 
 
 class OrderController extends Controller
@@ -181,6 +181,8 @@ class OrderController extends Controller
 
     public function processOrder(Request $request)
     {
+
+        $paymentOption = $request->get('paymentOption');
         $firstName = $request->get('firstName');
         $lastName = $request->get('lastName');
         $phoneNumber = $request->get('phoneNumber');
@@ -200,9 +202,9 @@ class OrderController extends Controller
         $shipEmail = $request->get('shipEmail');
         $shipAddress = $request->get('shipAddress');
         $shipZipcode = $request->get('shipZipcode');
+        $shipComment = $request->get('shipComment');
         $shipCity = $request->get('shipCity');
         $shipCountry_id = $request->get('shipCountry_id');
-        $methodForPayment = $request->get('methodForPayment');
         $paymentFullName = $request->get('paymentFullName');
         $cardName = $request->get('cardName');
         $cardNumber = $request->get('cardNumber');
@@ -210,7 +212,163 @@ class OrderController extends Controller
         $expDateYear = $request->get('expDateYear');
         $csv = $request->get('csv');
 
-        if ($methodForPayment === 'Credit Card') {
+        //Unique order_id generator///
+        do {
+            $uniqueNumber = mt_rand(100000, 999999);
+            $temp = Order::where('order_id', $uniqueNumber)->get();
+        } while (!isset($temp));
+        //END Unique order_id generator///
+
+        // Total Charges Calculation
+        $products = session()->get('cart', []);
+        $total = 0;
+        $subTotal = 0;
+        foreach ($products as $product) {
+            $tempTotal = $product['productAmount'];
+            $subTotal += $tempTotal;
+        }
+        $shippingCharges = 0;
+        if ($subTotal < 50) {
+            $shippingCharges = 5;
+        }
+        $total = $subTotal + $shippingCharges;
+        // End Total Charges Calculation
+
+//SO FAR OK
+
+        if ($paymentOption === 'offer') {
+            //OFFER, SO NOT PAYED -->0
+            $paymentStatus = 0;
+            if (Auth::user()) {
+                $user_id = Auth::user()->id;
+                Order::create([
+                    'user_id' => $user_id,
+                    'firstName' => $firstName,
+                    'lastName' => $lastName,
+                    'phoneNumber' => $phoneNumber,
+                    'email' => $email,
+                    'address' => $address,
+                    'zipcode' => $zipcode,
+                    'city' => $city,
+                    'country_id' => $country_id,
+                    'comment' => $comment,
+                    'companyName' => $companyName,
+                    'taxNumber' => $taxNumber,
+                    'shipFirstName' => $shipFirstName,
+                    'shipLastName' => $shipLastName,
+                    'shipPhoneNumber' => $shipPhoneNumber,
+                    'shipEmail' => $shipEmail,
+                    'shipAddress' => $shipAddress,
+                    'shipZipcode' => $shipZipcode,
+                    'shipCity' => $shipCity,
+                    'shipCountry_id' => $shipCountry_id,
+                    'shipComment' => $shipComment,
+                    'subTotal' => $subTotal,
+                    'total' => $total,
+                    'shippingCharges' => $shippingCharges,
+                    'order_id' => $uniqueNumber,
+                    'payment_status' => $paymentStatus,
+                    'uniqueNumber' => $uniqueNumber
+                ]);
+            } else {
+                Order::create([
+                    'firstName' => $firstName,
+                    'lastName' => $lastName,
+                    'phoneNumber' => $phoneNumber,
+                    'email' => $email,
+                    'address' => $address,
+                    'zipcode' => $zipcode,
+                    'city' => $city,
+                    'country_id' => $country_id,
+                    'comment' => $comment,
+                    'companyName' => $companyName,
+                    'taxNumber' => $taxNumber,
+                    'shipFirstName' => $shipFirstName,
+                    'shipLastName' => $shipLastName,
+                    'shipPhoneNumber' => $shipPhoneNumber,
+                    'shipEmail' => $shipEmail,
+                    'shipAddress' => $shipAddress,
+                    'shipZipcode' => $shipZipcode,
+                    'shipCity' => $shipCity,
+                    'shipCountry_id' => $shipCountry_id,
+                    'shipComment' => $shipComment,
+                    'subTotal' => $subTotal,
+                    'total' => $total,
+                    'shippingCharges' => $shippingCharges,
+                    'order_id' => $uniqueNumber,
+                    'payment_status' => $paymentStatus,
+                    'uniqueNumber' => $uniqueNumber
+                ]);
+            }
+
+            $carts = session()->get('cart', []);
+            // Saving OrderProducts
+            $order = Order::where('order_id', $uniqueNumber)->first();
+            $order_id = $order->id;
+            foreach ($carts as $cart) {
+                $product_id = $cart['product_id'];
+                $quantity = $cart['quantity'];
+                $unitPrice = $cart['unitPrice'];
+                $price = $cart['productAmount'];
+                OrderProduct::create([
+                    'order_id' => $order_id,
+                    'product_id' => $product_id,
+                    'quantity' => $quantity,
+                    'unitPrice' => $unitPrice,
+                    'price' => $price,
+                    'order_parent' => $uniqueNumber
+                ]);
+            }
+
+            //CREATE AND SAVE PO
+            $company = CompanyInfo::first();
+            $categoriesTree = Category::getTreeHP();
+            $orderInfo = Order::where('order_id', $uniqueNumber)->first();
+            $orderProducts = OrderProduct::where('order_parent', $uniqueNumber)->get();
+
+            $data = [
+                'company' => $company,
+                'categoriesTree' => $categoriesTree,
+                'orderInfo' => $orderInfo,
+                'orderProducts' => $orderProducts
+            ];
+
+            $year = date('y');
+            $pdf = Pdf::loadView('pdf.invoice', $data);
+            $pdf->save('assets/pdf/invoice/' . $year . '-' . $orderInfo->id . ' .pdf');
+
+            //SEND CONFIRM EMAIL
+            $data["email"] = "$orderInfo->email";
+            $data["title"] = "Predplačilo -PRIMER";
+            $data["orderID"] = "$year-$orderInfo->id";
+            $files = [
+                public_path('assets/pdf/invoice/' . $year . '-' . $orderInfo->id . ' .pdf'),
+            ];
+
+            Mail::send('mail.beforePay', $data, function ($message) use ($data, $files) {
+                $message->to($data["email"])
+                    ->subject($data["title"]);
+                foreach ($files as $file) {
+                    $message->attach($file);
+                }
+            });
+
+            //LINK ORDER_ID with file
+            Link::create([
+                'order_id' => $orderInfo->id,
+                'pdf' => $data["orderID"]
+            ]);
+
+            dd($year);
+            /*
+            public function mail()
+            {
+                $msg = "Zdravo";
+                Mail::to('stojanovskim@yahoo.com')->send(new MailSender($msg));
+            }
+*/
+        } elseif ($paymentOption === 'creditCard') {
+
             $validator = Validator::make($request->all(), [
                 'paymentFullName' => 'required',
                 'cardName' => 'required',
@@ -221,197 +379,96 @@ class OrderController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return redirect()->route('frontend.payment')
+                return redirect()->back()
                     ->withErrors($validator)
                     ->withInput();
             }
-        }
 
-        $paymentInfo = [
-            'methodForPayment' => $methodForPayment,
-            'paymentFullName' => $paymentFullName,
-            'cardName' => $cardName,
-            'cardNumber' => $cardNumber,
-            'expDateMonth' => $expDateMonth,
-            'expDateYear' => $expDateYear,
-            'csv' => $csv,
-        ];
+            $paymentInfo = [
+                'paymentFullName' => $paymentFullName,
+                'cardName' => $cardName,
+                'cardNumber' => $cardNumber,
+                'expDateMonth' => $expDateMonth,
+                'expDateYear' => $expDateYear,
+                'csv' => $csv,
+            ];
 
-
-        $shipCountry = null;
-        if (isset($shipCountry_id)) {
-            $shipCountry_temp = Country::where('id', $shipCountry_id)->get();
-            $shipCountry = $shipCountry_temp[0]['name'];
-        }
-        $shipComment = $request->get('shipComment');
-        $discountCode = $request->get('discount');
-
-        //  Discount Calculation
-        $discount = 0;
-        if ($discountCode == 'A') {
-            $discount = 5;
-        } elseif ($discountCode == 'B') {
-            $discount = 10;
-        } elseif ($discountCode == 'C') {
-            $discount = 15;
-        } elseif ($discountCode == 'D') {
-            $discount = 20;
-        } elseif ($discountCode == 'E') {
-            $discount = 25;
-        };
-        // End Discount Calculation
-
-        // Total Charges Calculation
-        $products = session()->get('cart', []);
-        $total = 0;
-        $subTotal = 0;
-        foreach ($products as $product) {
-            $tempTotal = $product['productAmount'];
-            $subTotal += $tempTotal;
-        }
-        $discountPrice = $subTotal * $discount / 100;
-        $shippingCharges = 0;
-        if ($subTotal < 50) {
-            $shippingCharges = 5;
-        }
-        $total = $subTotal + $shippingCharges - $discountPrice;
-        // End Total Charges Calculation
-
-        //PROCESS PAYMENT
-        // payment_status "0" -> not paid
-        // payment_status "1" -> paid
-        $paymentInfo = session()->get('paymentInfo');
-
-        if ($paymentInfo['methodForPayment'] === 'Credit Card') {
             dd('SetUp Stripe');
             $paymentStatus = 1;
-        }
 
-        $paymentStatus = 0;
-        $orderInfo = session()->get('orderInfo');
-        // GET ORDER INFO FROM SESSION  //
-        $firstName = $orderInfo['firstName'];
-        $lastName = $orderInfo['lastName'];
-        $phoneNumber = $orderInfo['phoneNumber'];
-        $email = $orderInfo['email'];
-        $address = $orderInfo['address'];
-        $zipcode = $orderInfo['zipcode'];
-        $city = $orderInfo['city'];
-        $country_id = $orderInfo['country_id'];
-        $comment = $orderInfo['comment'];
-        $companyName = $orderInfo['companyName'];
-        $taxNumber = $orderInfo['taxNumber'];
-        $shipFirstName = $orderInfo['shipFirstName'];
-        $shipLastName = $orderInfo['shipLastName'];
-        $shipPhoneNumber = $orderInfo['shipPhoneNumber'];
-        $shipEmail = $orderInfo['shipEmail'];
-        $shipAddress = $orderInfo['shipAddress'];
-        $shipZipcode = $orderInfo['shipZipcode'];
-        $shipCity = $orderInfo['shipCity'];
-        $shipCountry_id = $orderInfo['shipCountry_id'];
-        $shipComment = $orderInfo['shipComment'];
-        $discount = $orderInfo['discount'];
-        $subTotal = $orderInfo['subTotal'];
-        $discountPrice = $orderInfo['discountPrice'];
-        $total = $orderInfo['total'];
-        $shippingCharges = $orderInfo['shippingCharges'];
-        $payment_info = $paymentInfo['methodForPayment'];
+            if (Auth::user()) {
+                $user_id = Auth::user()->id;
+                Order::create([
+                    'user_id' => $user_id,
+                    'firstName' => $firstName,
+                    'lastName' => $lastName,
+                    'phoneNumber' => $phoneNumber,
+                    'email' => $email,
+                    'address' => $address,
+                    'zipcode' => $zipcode,
+                    'city' => $city,
+                    'country_id' => $country_id,
+                    'comment' => $comment,
+                    'companyName' => $companyName,
+                    'taxNumber' => $taxNumber,
+                    'shipFirstName' => $shipFirstName,
+                    'shipLastName' => $shipLastName,
+                    'shipPhoneNumber' => $shipPhoneNumber,
+                    'shipEmail' => $shipEmail,
+                    'shipAddress' => $shipAddress,
+                    'shipZipcode' => $shipZipcode,
+                    'shipCity' => $shipCity,
+                    'shipCountry_id' => $shipCountry_id,
+                    'shipComment' => $shipComment,
+                    'subTotal' => $subTotal,
+                    'total' => $total,
+                    'shippingCharges' => $shippingCharges,
+                    'order_id' => $uniqueNumber,
+                    'payment_status' => $paymentStatus,
+                    'uniqueNumber' => $uniqueNumber
+                ]);
+            } else {
+                Order::create([
+                    'firstName' => $firstName,
+                    'lastName' => $lastName,
+                    'phoneNumber' => $phoneNumber,
+                    'email' => $email,
+                    'address' => $address,
+                    'zipcode' => $zipcode,
+                    'city' => $city,
+                    'country_id' => $country_id,
+                    'comment' => $comment,
+                    'companyName' => $companyName,
+                    'taxNumber' => $taxNumber,
+                    'shipFirstName' => $shipFirstName,
+                    'shipLastName' => $shipLastName,
+                    'shipPhoneNumber' => $shipPhoneNumber,
+                    'shipEmail' => $shipEmail,
+                    'shipAddress' => $shipAddress,
+                    'shipZipcode' => $shipZipcode,
+                    'shipCity' => $shipCity,
+                    'shipCountry_id' => $shipCountry_id,
+                    'shipComment' => $shipComment,
+                    'subTotal' => $subTotal,
+                    'total' => $total,
+                    'shippingCharges' => $shippingCharges,
+                    'order_id' => $uniqueNumber,
+                    'payment_status' => $paymentStatus,
+                    'uniqueNumber' => $uniqueNumber
+                ]);
+            }
 
-        //Unique order_id generator///
-        do {
-            $uniqueNumber = mt_rand(100000, 999999);
-            $temp = Order::where('order_id', $uniqueNumber)->get();
-        } while (!isset($temp));
-
-        //END Unique order_id generator///
-        if (Auth::user()) {
-            $user_id = Auth::user()->id;
-            Order::create([
-                'user_id' => $user_id,
-                'firstName' => $firstName,
-                'lastName' => $lastName,
-                'phoneNumber' => $phoneNumber,
-                'email' => $email,
-                'address' => $address,
-                'zipcode' => $zipcode,
-                'city' => $city,
-                'country_id' => $country_id,
-                'comment' => $comment,
-                'companyName' => $companyName,
-                'taxNumber' => $taxNumber,
-                'shipFirstName' => $shipFirstName,
-                'shipLastName' => $shipLastName,
-                'shipPhoneNumber' => $shipPhoneNumber,
-                'shipEmail' => $shipEmail,
-                'shipAddress' => $shipAddress,
-                'shipZipcode' => $shipZipcode,
-                'shipCity' => $shipCity,
-                'shipCountry_id' => $shipCountry_id,
-                'shipComment' => $shipComment,
-                'discount' => $discount,
-                'subTotal' => $subTotal,
-                'discountPrice' => $discountPrice,
-                'total' => $total,
-                'shippingCharges' => $shippingCharges,
-                'order_id' => $uniqueNumber,
-                'payment_status' => $paymentStatus,
-                'payment_info' => $payment_info,
-            ]);
         } else {
-            Order::create([
-                'firstName' => $firstName,
-                'lastName' => $lastName,
-                'phoneNumber' => $phoneNumber,
-                'email' => $email,
-                'address' => $address,
-                'zipcode' => $zipcode,
-                'city' => $city,
-                'country_id' => $country_id,
-                'comment' => $comment,
-                'companyName' => $companyName,
-                'taxNumber' => $taxNumber,
-                'shipFirstName' => $shipFirstName,
-                'shipLastName' => $shipLastName,
-                'shipPhoneNumber' => $shipPhoneNumber,
-                'shipEmail' => $shipEmail,
-                'shipAddress' => $shipAddress,
-                'shipZipcode' => $shipZipcode,
-                'shipCity' => $shipCity,
-                'shipCountry_id' => $shipCountry_id,
-                'shipComment' => $shipComment,
-                'discount' => $discount,
-                'subTotal' => $subTotal,
-                'discountPrice' => $discountPrice,
-                'total' => $total,
-                'shippingCharges' => $shippingCharges,
-                'order_id' => $uniqueNumber,
-                'payment_status' => $paymentStatus,
-                'payment_info' => $payment_info,
-            ]);
+
+            return redirect()->back();
+
         }
 
-        $carts = session()->get('cart', []);
-        // Saving OrderProducts
-        $order = Order::where('order_id', $uniqueNumber)->first();
-        $order_id = $order->id;
-        foreach ($carts as $cart) {
-            $product_id = $cart['product_id'];
-            $quantity = $cart['quantity'];
-            $unitPrice = $cart['unitPrice'];
-            $price = $cart['productAmount'];
-            OrderProduct::create([
-                'order_id' => $order_id,
-                'product_id' => $product_id,
-                'quantity' => $quantity,
-                'unitPrice' => $unitPrice,
-                'price' => $price,
-                'order_parent' => $uniqueNumber
-            ]);
-        }
-        // DELETE SESION INFO
+
+        //OK AFTER THIS
+
+        // DELETE SESSION INFO
         session()->forget('cart');
-        session()->forget('orderInfo');
-
 
         //BACK TO VIEW -> Invoice View
         $company = CompanyInfo::first();
@@ -429,7 +486,7 @@ class OrderController extends Controller
         return view('frontend.orders.finished-order')->with($data);
     }
 
-    //Used
+    //USED
     public function checkout()
     {
         if (Auth::user()) {

@@ -1,163 +1,307 @@
-@section('content')
-    <!-- breadcrumb start -->
-    <!-- ================ -->
-    <div class="breadcrumb-container">
-        <div class="container">
-            <ol class="breadcrumb">
-                <li><i class="fa fa-home pr-10"></i><a href="../index.html">Home</a></li>
-                <li class="active">Product Title</li>
-            </ol>
-        </div>
-    </div>
-    <!-- breadcrumb end -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>A simple, clean, and responsive HTML invoice template</title>
 
-    <!-- main-container start -->
-    <!-- ================ -->
-    <section class="main-container">
+    <style>
+        @page {
+            size: 8.5in 11in;
+            margin: 0.1in;
+        }
 
-        <div class="container">
-            <div class="row">
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            border: none;
+            box-shadow: none;
+            font-size: 12px;
+            line-height: 20px;
+            font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+            color: black;
+        }
 
-                <!-- main start -->
-                <!-- ================ -->
-                <div class="main col-md-12">
+        .invoice-box table {
+            width: 100%;
+            line-height: inherit;
+            text-align: left;
+        }
 
-                    <!-- page-title start -->
-                    <!-- ================ -->
-                    <h1 class="page-title text-center">Order Details</h1>
-                    <div class="separator"></div>
-                    <!-- page-title end -->
+        .invoice-box table td {
+            padding: 5px;
+            vertical-align: top;
+        }
 
-                    <div id="invoice-container" class="invoice-container">
-                        <div class="row">
-                            <!-- Company info SELLER -->
-                            <div class="col-sm-6">
-                                <img style="width: 50px"
-                                     src="/assets/img/logo.jpg"
-                                     alt="The Project">
-                                <p class="invoice-slogan"></p>
-                                <address class="small">
-                                    <strong>{{ $company->name }}</strong><br>
-                                    {{ $company->info }}<br>
-                                    <br>
-                                    {{ $company->address }}<br>
-                                    <abbr title="Phone">P:</abbr> {{ $company->phone }}<br>
-                                    E-mail: <a href="mailto:{{ $company->mail }}">{{ $company->mail }}</a>
-                                </address>
-                            </div>
-                            <!-- Recipient info -->
-                            @if(isset($orderDetail->companyName))
-                                <div class="col-sm-offset-3 col-sm-3">
-                                    <p class="text-right small"><strong>Invoice #{{ $lastOrder->id }}
-                                            /{{ $dateYear }}</strong> <br> {{ $dateOrder }} </p>
-                                    <h5 class="text-right"> {{ $lastOrder->firstName }}  {{ $lastOrder->lastName }}</h5>
-                                    <p class="text-right small">
-                                        <strong>Name:</strong>
-                                        <span> {{ $lastOrder->firstName }}  {{ $lastOrder->lastName }}</span> <br>
-                                        <strong>Company:</strong> John Doe <br>
-                                        <strong>Address:</strong> {{ $lastOrder->address }} <br>
-                                        <strong>Tel:</strong> {{ $lastOrder->phoneNumber }} <br>
-                                        <strong>Vat:</strong> 1231231231
-                                    </p>
-                                </div>
-                            @endif
-                            @if(!isset($orderDetail->companyName))
-                                <div class="col-sm-offset-3 col-sm-3">
-                                    <p class="text-right small"><strong>Invoice #{{ $lastOrder->id }}
-                                            /{{ $dateYear }}</strong> <br> {{ $dateOrder }} </p>
-                                    <br>
-                                    <h5 class="text-right"> {{ $lastOrder->firstName }}  {{ $lastOrder->lastName }}</h5>
-                                    <p class="text-right small">
-                                        <br>
-                                        <strong>Address:</strong> {{ $lastOrder->address }} <br>
-                                        <strong>Country:</strong> {{ $lastOrder->country->name }} <br>
-                                        <strong>Tel:</strong> {{ $lastOrder->phoneNumber }} <br>
-                                    </p>
-                                </div>
-                            @endif
-                        </div>
-                        <p class="small"><strong>Comments/PO:</strong>{{ $lastOrder->comment }}</p>
-                        <table class="table cart table-bordered " style="table-layout: fixed;width: 100%">
-                            <thead>
-                            <tr>
-                                <th class="text-center" style="width:8%">Product</th>
-                                <th class="text-center" style="width:42%">Description</th>
-                                <th class="text-center" style="width:15%">Unit price</th>
-                                <th class="text-center" style="width:15%">Quantity</th>
-                                <th class="text-right" style="width:20%">Price</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            $subTotal = 0;
-                            ?>
-                            @foreach($orderDetails as $orderDetail)
-                                <tr>
-                                        <?php
-                                        $unitPrice = 0;
-                                        if (isset($orderDetail->product->action)) {
-                                            $unitPrice = $orderDetail->product->action;
-                                        } else {
-                                            $unitPrice = $orderDetail->product->price;
-                                        }
-                                        $sub = $unitPrice * $orderDetail->quantity;
-                                        $price = number_format($sub, 2);
-                                        $subTotal += $price;
-                                        $discount = $subTotal * $lastOrder->discount /100;
-                                        $grandTotal = $lastOrder->total + $lastOrder->shippingCharges - $discount;
-                                        ?>
-                                    <td class="text-center">
-                                        <img style="width: 50px;position: center"
-                                             src="/assets/img/products/thumbnails/{{ $orderDetail->product->image }}"
-                                             alt="{{ $orderDetail->product->title }}">
-                                    </td>
-                                    <td class="text-center product"><a
-                                            href="shop-product.html">{{ $orderDetail->product->title }}</a>
-                                        <small>{{ $orderDetail->product->brand->name }}</small></td>
-                                    @if(isset($orderDetail->product->action))
-                                        <td class="text-center price">{{ $orderDetail->product->action }} €</td>
-                                    @endif
-                                    @if(!isset($orderDetail->product->action))
-                                        <td class="text-center price">{{ $orderDetail->product->price }} €</td>
-                                    @endif
-                                    <td class="text-center quantity">{{ $orderDetail->quantity }} </td>
-                                    <td class="amount text-end">{{ $price }} €</td>
-                                </tr>
-                            @endforeach
-                            <tr>
-                                <td colspan="2"></td>
-                                <td class="total-quantity text-center" colspan="2">Subtotal</td>
-                                <td class="amount">{{ number_format($subTotal, 2) }} €</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2"></td>
-                                <td class="total-quantity text-center" colspan="2">Discount &nbsp&nbsp&nbsp {{ $lastOrder->discount }} %</td>
-                                <td class="amount">{{  $discount }} €</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2"></td>
-                                <td class="total-quantity text-center" colspan="2">Shipping</td>
-                                <td class="amount">{{ number_format($lastOrder->shippingCharges, 2) }} €</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2"></td>
-                                <td class="total-quantity text-center" colspan="2">Total {{ $orderProductsCount }} Items</td>
-                                <td class="total-amount">{{ number_format($grandTotal, 2) }} €</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <p class="small">Dear <br>If you have any questions concerning this invoice, contact <br><br>
-                            <strong>{{ $company->name }}</strong>, <br> tel: <strong>{{ $company->phone }}</strong>,<br>
-                            email:
-                            <strong>{{ $company->mail }}</strong><br><br> Thank you for your business!</p>
-                        <hr>
-                    </div>
-                </div>
-                <!-- main end -->
+        .invoice-box table tr td:nth-child(2) {
+            text-align: right;
+        }
 
-            </div>
-        </div>
-    </section>
-    <!-- main-container end -->
+        .invoice-box table tr.top table td {
+            padding-bottom: 20px;
+        }
 
-@endsection
+        .invoice-box table tr.top table td.title {
+            font-size: 45px;
+            line-height: 35px;
+            color: black;
+        }
+
+        .invoice-box table tr.information table td {
+            padding-bottom: 40px;
+        }
+
+        .invoice-box table tr.heading td {
+            background: #eee;
+            font-size: 10px;
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .invoice-box table tr.details td {
+            padding-bottom: 20px;
+        }
+
+        .invoice-box table tr.item td {
+            border-bottom: none;
+            text-align: center;
+        }
+
+        .invoice-box table tr.item.last td {
+            border-bottom: none;
+        }
+
+        .invoice-box table tr.total td:nth-child(2) {
+            font-weight: bold;
+        }
+
+        .invoice-box table tr.final {
+            border-top: 2px solid black;
+        }
+
+        @media only screen and (max-width: 700px) {
+            .invoice-box table tr.top table td {
+                width: 100%;
+                display: block;
+                text-align: center;
+            }
+
+            .invoice-box table tr.information table td {
+                width: 100%;
+                display: block;
+                text-align: center;
+            }
+        }
+
+        /** RTL **/
+        .invoice-box.rtl {
+            direction: rtl;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .invoice-box.rtl table {
+            text-align: right;
+        }
+
+        .invoice-box.rtl table tr td:nth-child(2) {
+            text-align: left;
+        }
+
+
+    </style>
+</head>
+
+<body>
+<div class="invoice-box">
+    <table cellpadding="0" cellspacing="0">
+        <tr class="top">
+            <td colspan="9">
+                <table>
+                    <tr>
+                        <td class="title">
+                            <img
+                                src="assets/img/logo-new.jpg"
+                                style="width: 70%; max-width: 80px"
+                            />
+                        </td>
+
+                        <td>
+                            KOŠAR, Darko Stojanovski s.p. <br />
+                            {{ $company->address }}<br />
+                            ID št. za DDV SI63434989<br />
+                            Tel. {{ $company->phone }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr class="information">
+            <td colspan="9">
+                <table>
+                    <tr>
+                        <td>
+                            <strong>NORMALA, GOSTINSTVO, D.O.O.</strong><br />
+                            MAISTROVA ULICA 8<br />
+                            1000 LJUBLJANA
+                        </td>
+
+                        <td>
+                            <strong><u>Račun številka: 23-0566</u></strong><br />
+                            Ljubljana, 28.08.2023<br />
+                            Datum zapadlosti: 01.09.2023<br />
+                            Datum opr. storitve: 26.08.2023<br />
+                            Veza na dobavnico: 2023-00535<br />
+                            Način plačila: nakazilo na TR<br />
+                            TRR: SI56 0313 4100 0511 918<br />
+                            Sklic: 00 23-0566
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr class="heading">
+            <td style="text-align: left">Poz</td>
+            <td>Sifra</td>
+            <td>Vrsta Blaga-storitev</td>
+            <td>Kol.</td>
+            <td>Cena brez DDV</td>
+            <td>R %</td>
+            <td>Cena s popustom</td>
+            <td>DDV%</td>
+            <td style="text-align: right">Vrednost brez DDV</td>
+        </tr>
+
+        <tr class="item">
+            <td style="text-align: left">1</td>
+            <td>123456</td>
+            <td>Website design</td>
+            <td>2 pcs</td>
+            <td>$20.00</td>
+            <td>0%</td>
+            <td>22$</td>
+            <td>$40.00</td>
+            <td style="text-align: right">$300.00</td>
+        </tr>
+        <tr class="item">
+            <td style="text-align: left">1</td>
+            <td>123456</td>
+            <td>Website design</td>
+            <td>2 pcs</td>
+            <td>$20.00</td>
+            <td>0%</td>
+            <td>22$</td>
+            <td>$40.00</td>
+            <td style="text-align: right">$300.00</td>
+        </tr>
+        <tr class="item">
+            <td style="text-align: left">1</td>
+            <td>123456</td>
+            <td>Website design</td>
+            <td>2 pcs</td>
+            <td>$20.00</td>
+            <td>0%</td>
+            <td>22$</td>
+            <td>$40.00</td>
+            <td style="text-align: right">$300.00</td>
+        </tr>
+        <tr class="item">
+            <td style="text-align: left">1</td>
+            <td>123456</td>
+            <td>Website design</td>
+            <td>2 pcs</td>
+            <td>$20.00</td>
+            <td>0%</td>
+            <td>22$</td>
+            <td>$40.00</td>
+            <td style="text-align: right">$300.00</td>
+        </tr>
+        <tr class="final">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+
+            <td></td>
+            <td style="text-align: right">Znesek brez popusta: </td>
+
+            <td style="text-align: right"> $385.00</td>
+        </tr>
+        <tr class="total">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+
+            <td></td>
+            <td style="text-align: right">Popust: </td>
+
+            <td style="text-align: right"> $385.00</td>
+        </tr>
+        <tr class="total">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+
+            <td></td>
+            <td style="text-align: right">Skupaj vrednost brez DDV: </td>
+
+            <td style="text-align: right"> $385.00</td>
+        </tr>
+        <tr class="total">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+
+            <td></td>
+            <td style="text-align: right">Osnova 22%:  </td>
+
+            <td style="text-align: right"> $385.00</td>
+        </tr>
+        <tr class="total">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+
+            <td></td>
+            <td style="text-align: right">DDV 22%:  </td>
+
+            <td style="text-align: right"> $385.00</td>
+        </tr>
+        <tr class="total">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+
+            <td></td>
+            <td style="text-align: right">Za plačilo EUR:</td>
+
+            <td style="text-align: right"> $385.00</td>
+        </tr>
+    </table>
+    <p>Računalniško izdelan račun velja brez podpisa in žiga</p>
+    <p>Reklamacije sprejemamo v roku 8 dni od dneva izstavitve računa.<br> V primeru neplačila lahko zaračunavamo zakonsko določene zamudne obresti</p>
+    <p>Izjavljamo, da smo vključeni v sistem ravnanja z odpadno embalažo ter izpolnjujemo proizvajalčeve razširjene odgovornosti za odpadno
+        embalažo.</p>
+</div>
+</body>
+</html>

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 class WishlistController extends Controller
 {
+    //USED
     public function index()
     {
         $wishlists = Wishlist::where('user_id', Auth::user()->id)->paginate(12);
@@ -27,6 +28,8 @@ class WishlistController extends Controller
 
         return view('frontend.users.wishlist')->with($data);
     }
+
+    //USED
     public function create($id)
     {
         $product = Wishlist::where('product_id', $id)
@@ -47,6 +50,7 @@ class WishlistController extends Controller
         return redirect()->back();
     }
 
+    //USED
     public function delete($id)
     {
         $product = Wishlist::FindorFail($id);
@@ -56,6 +60,7 @@ class WishlistController extends Controller
         return redirect()->back();
     }
 
+    //USED
     public function addToCart_deleteWishlist(Request $request, $id)
     {
 

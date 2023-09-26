@@ -50,9 +50,4 @@ class Order extends Model
         return $this->belongsTo(Country::class, 'country_id', 'id');
     }
 
-
-    public function shipCountry()
-    {
-        return $this->belongsTo(Country::class, 'shipCountry_id', 'id');
-    }
 }

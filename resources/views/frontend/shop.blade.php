@@ -28,7 +28,7 @@
             </nav>
             <div class="row justify-content-between">
                 <!--Products column-->
-                <div class="col-md-10 mx-auto pt-5">
+                <div class="col-md-12 mx-auto pt-5">
                     <form action="{{ route('frontend.shop') }}" method="GET" id="filter">
                         <!--Products top bar-->
                         <div class="row mb-5 align-items-center">

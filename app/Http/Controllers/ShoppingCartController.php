@@ -21,6 +21,7 @@ class ShoppingCartController extends Controller
         return view('products', compact('carts'));
     }
 
+    //USED
     public function viewCart()
     {
         $carts = session()->get('cart', []);
@@ -44,6 +45,7 @@ class ShoppingCartController extends Controller
         return view('frontend.shoppingCart')->with($data);
     }
 
+    //USED
     public function addToCart(Request $request)
     {
         $product_id = $request->get('id');
@@ -81,6 +83,7 @@ class ShoppingCartController extends Controller
         return redirect()->back();
     }
 
+    //USED
     public function deleteProduct(Request $request, $id)
     {
         if ($id) {

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 
 class FrontendController extends Controller
 {
+    //USED
     public function index()
     {
         if (Auth::user()) {
@@ -60,6 +61,7 @@ class FrontendController extends Controller
         }
     }
 
+    //USED
     public function product($slug)
     {
         $company = CompanyInfo::first();
@@ -82,39 +84,7 @@ class FrontendController extends Controller
         return view('frontend.products.product')->with($data);
     }
 
-    public function categories()
-    {
-        $company = CompanyInfo::first();
-        $categories = Category::all();
-        $categoriesTree = Category::getTreeHP();
-
-        $data = [
-            'company' => $company,
-            'categoriesTree' => $categoriesTree,
-            'categories' => $categories
-        ];
-
-        return view('frontend.categories')->with($data);
-    }
-    public function categoryView($slug)
-    {
-        $company = CompanyInfo::first();
-        $category = Category::where('slug',$slug)->first();
-        $categories = Category::all();
-        $products = Product::where('category_id', $category->id)->get();
-        $categoriesTree = Category::getTreeHP();
-
-        $data = [
-            'company' => $company,
-            'categories' => $categories,
-            'category' => $category,
-            'products' => $products,
-            'categoriesTree' => $categoriesTree
-        ];
-
-        return view('frontend.categoryView')->with($data);
-    }
-
+    //USED
     public function brands()
     {
         $company = CompanyInfo::first();
@@ -130,6 +100,7 @@ class FrontendController extends Controller
         return view('frontend.brands')->with($data);
     }
 
+    //USED
     public function contact_us()
     {
         $company = CompanyInfo::first();
@@ -145,6 +116,7 @@ class FrontendController extends Controller
         return view('frontend.feedback')->with($data);
     }
 
+    //USED
     public function about_us()
     {
         $company = CompanyInfo::first();
@@ -163,6 +135,7 @@ class FrontendController extends Controller
         return view('frontend.about')->with($data);
     }
 
+    //USED
     public function shop()
     {
 
@@ -224,6 +197,7 @@ class FrontendController extends Controller
         return view('frontend.shop')->with($data);
     }
 
+    //USED
     public function preSignUp()
     {
         $company = CompanyInfo::first();
@@ -239,6 +213,7 @@ class FrontendController extends Controller
         return view('frontend.auth.register')->with($data);
     }
 
+    //USED
     public function preReset()
     {
         $company = CompanyInfo::first();
@@ -254,13 +229,15 @@ class FrontendController extends Controller
         return view('frontend.auth.reset')->with($data);
     }
 
+    //USED-TO BE CHECKED
     public function search(Request $request)
     {
+
 
         if ($_GET['search']) {
 
             $search = $_GET['search'];
-            $products = Product::where('title', 'LIKE', '%'.$search.'%')->paginate(12);
+            $products = Product::where('brand', 'LIKE', $search)->paginate(12);
 
             if ($products->count() == 0) {
 

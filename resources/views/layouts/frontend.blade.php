@@ -29,8 +29,16 @@
         .simplebar-track.simplebar-vertical {
             width: 7px;
         }
+
         .simplebar-scrollbar:before {
             background: currentColor;
+        }
+
+        #offer {
+            display: none;
+        }
+        #creditCard {
+            display: none;
         }
     </style>
     <title>Kosar E-shop</title>
@@ -44,7 +52,8 @@
     <span class="small d-block ms-2">Loading...</span>
 </div>
 
-<nav class="navbar navbar-search-w-icons position-sticky shadow top-0 z-index-fixed navbar-expand-lg navbar-light bg-white">
+<nav
+    class="navbar navbar-search-w-icons position-sticky shadow top-0 z-index-fixed navbar-expand-lg navbar-light bg-white">
     <div class="container-fluid position-relative">
         <a class="navbar-brand" href="index.html">
             <img src="/assets/img/logo.jpg" alt="" class="img-fluid" style="width: 50px;">
@@ -389,8 +398,6 @@ $carts = session()->get('cart', []);
 
 <!-- scripts -->
 <script src="/assets/js/theme.bundle.js"></script>
-
-
 <!--Page Countdown + Swiper Slider scripts-->
 <script src="/assets/vendor/node_modules/js/jquery.min.js"></script>
 <script src="/assets/vendor/node_modules/js/jquery.countdown.min.js"></script>
@@ -435,15 +442,16 @@ $carts = session()->get('cart', []);
     });
 
     function onSelectChangeHandler() {
-        let val = document.getElementById("type").value;
+        let val = document.getElementById("paymentOption").value;
+        console.log( val);
         switch (val) {
-            case "private":
-                document.getElementById("companyPrivate").style.display = "block";
-                document.getElementById("companyCompany").style.display = "none";
+            case "offer":
+                document.getElementById("offer").style.display = "block";
+                document.getElementById("creditCard").style.display = "none";
                 break;
-            case "company":
-                document.getElementById("companyPrivate").style.display = "none";
-                document.getElementById("companyCompany").style.display = "block";
+            case "creditCard":
+                document.getElementById("offer").style.display = "none";
+                document.getElementById("creditCard").style.display = "block";
                 break;
         }
     }
@@ -500,7 +508,5 @@ $carts = session()->get('cart', []);
         });
     });
 </script>
-<!--maps js-->
-<script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
 </body>
 </html>

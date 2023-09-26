@@ -165,6 +165,7 @@
     <!--begin:Partners section-->
     <section class="position-relative">
         <div class="container py-9 py-lg-11 position-relative z-index-1">
+            <!-- Old Brands
             <div class="row mb-2 align-items-center">
                 <div class="col-md-7 mb-4">
                     <h2 class="mb-0 display-5">
@@ -178,6 +179,22 @@
                             <span class="btn-hover-label label-hover">View all brands</span>
                         </a>
                     </div>
+                </div>
+            </div>
+            -->
+            <div class="row mb-7 align-items-end justify-content-between">
+                <!--begin: Section headings-->
+                <div class="col-lg-7 mb-4 mb-lg-0">
+                    <!--Heading-->
+                    <h2 class="mb-2 display-5" data-aos="fade-right">Our Brands</h2>
+                </div>
+                <!--end: Section headings-->
+                <div class="col-12 col-lg-3 text-lg-end" data-aos="fade-left" data-aos-delay="150">
+                    <!--begin: button-->
+                    <a href="{{ route('frontend.brands') }}" class="btn btn-outline-secondary btn-hover-arrow hover-lift">
+                        <span>View Brands</span>
+                    </a>
+                    <!--end: button-->
                 </div>
             </div>
             <div class="row">

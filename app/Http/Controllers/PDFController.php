@@ -91,4 +91,29 @@ class PDFController extends Controller
         $pdf->save('assets/pdf/invoice/1.pdf');
         return $pdf->download('demo.pdf');
     }
+
+    public function index()
+    {
+        $company = CompanyInfo::first();
+        $lastOrder = Order::latest('created_at')
+            ->first();
+        $lastOrderId = $lastOrder->id;
+        $orderDetails = OrderProduct::where('order_id', $lastOrderId)->get();
+        $orderProductsCount = $orderDetails->count();
+        $tempDate = $lastOrder->created_at;
+        $dateYear = Carbon::now()->format('Y');
+        $dateOrder = Carbon::createFromFormat('Y-m-d H:i:s', $tempDate)->format('M-d-Y');
+
+        $customPaper = array(0,0,720,1440);
+        $pdf = PDF::loadView('pdf.invoice',[
+            'company' => $company,
+            'lastOrder' => $lastOrder,
+            'orderDetails' => $orderDetails,
+            'dateYear' => $dateYear,
+            'dateOrder' => $dateOrder,
+            'orderProductsCount' => $orderProductsCount
+        ])->setPaper($customPaper);;
+
+        return $pdf->stream('resume.pdf');
+    }
 }

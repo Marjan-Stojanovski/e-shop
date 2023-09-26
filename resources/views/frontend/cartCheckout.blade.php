@@ -152,7 +152,8 @@
             <!--Form billing information-->
             <div class="row">
                 <div class="col-lg-10 mx-auto">
-                    <form class="needs-validation" novalidate="">
+                    <form action="{{ route('frontend.processOrder') }}" class="needs-validation" method="post">
+                        @csrf
                         <h4 class="mb-4">Billing information</h4>
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -314,82 +315,104 @@
                             </tr>
                             </tfoot>
                         </table>
-                        <h4 class="mb-4">Method of payment</h4>
+
+                        <label for="paymentOption" class="form-label">Select Payment Option</label>
+                        <select id="paymentOption" name="paymentOption" class="form-control" data-choices='{"searchEnabled":false, "allowHTML":true,"itemSelectText":""}' onchange='onSelectChangeHandler()'>
+                            <option value="default" selected>Choose Method</option>
+                            <option value="offer">Offer for payment</option>
+                            <option value="creditCard">Credit Card</option>
+                        </select>
+
                         <div class="mb-3" id="payment_methods">
-                            <div class="position-relative border border-secondary overflow-hidden mb-2">
-                                <input type="radio" class="btn-check" name="payment_options"
-                                       id="payment_option_card" autocomplete="off" checked>
-                                <label
-                                    class="btn btn-outline-secondary border-0 shadow-none text-start d-flex w-100 align-items-center justify-content-between rounded-0"
-                                    for="payment_option_card" data-bs-target="#mothod_payment_card"
-                                    aria-expanded="true" data-bs-toggle="collapse">Debit Credit card
-                                    <div>
-                                        <img src="/assets/img/payment/visa.svg" class="width-35 me-2">
-                                        <img src="/assets/img/payment/american_express.svg"
-                                             class="width-35 me-2">
-                                        <img src="/assets/img/payment/rupay.svg" class="width-35">
-                                    </div>
-                                </label>
-                                <div class="collapse show" id="method_payment_card"
-                                     data-bs-parent="#payment_methods">
-                                    <div class="px-3 py-4">
-                                        <div class="row">
-                                            <div class="mb-3 col-md-8">
-                                                <label for="card_number" class="form-label">Card Number</label>
-                                                <input required type="text" id="card_number" data-format="card"
-                                                       placeholder="XXXX XXXX XXXX XXXX" autocomplete="off"
-                                                       class="form-control">
-                                            </div>
-                                            <div class="mb-3 col-md-4">
-                                                <label for="card_cvc" class="form-label">CVC Number</label>
-                                                <input required type="text" data-format="cvc" autocomplete="off"
-                                                       id="card_cvc" placeholder="XXX" class="form-control">
-                                            </div>
-                                            <div class="mb-3 col-md-6">
-                                                <label for="card_ex_month" class="form-label">Expiry
-                                                    Month</label>
-                                                <input required type="text" autocomplete="off"
-                                                       data-format="custom" id="card_ex_month" data-blocks="2"
-                                                       placeholder="" class="form-control">
-                                            </div>
-                                            <div class="mb-3 col-md-6">
-                                                <label for="card_ex_year" class="form-label">Expiry Year</label>
-                                                <input required type="text" data-format="custom"
-                                                       id="card_ex_year" data-blocks="4" placeholder=""
-                                                       class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="position-relative border border-secondary overflow-hidden">
-                                <input type="radio" class="btn-check" name="payment_options"
-                                       id="payment_option_paypal">
+                            <div id="offer" class="position-relative border border-secondary overflow-hidden mb-2">
+                                <input type="radio" class="btn-check"
+                                       id="payment_option_paypal" checked>
                                 <label
                                     class="btn btn-outline-secondary border-0 text-start d-flex w-100 align-items-center justify-content-between rounded-0"
                                     for="payment_option_paypal" data-bs-target="#mothod_payment_paypal"
                                     aria-expanded="false" data-bs-toggle="collapse">Payment Order
                                     <div>
-                                        <img src="/assets/img/payment/paypal.svg" class="width-35">
+                                        <img src="/assets/img/payment/adobe-pdf-2.svg" class="width-35">
                                     </div>
                                 </label>
-                                <div class="collapse" id="mothod_payment_paypal"
+                                <div class="collapse show" id="mothod_payment_paypal"
                                      data-bs-parent="#payment_methods">
                                     <div class="px-3 py-4">
                                         <p>Order must be payed before sending. After receiving of funds the order will be sent. Do you agree?</p>
                                         <div class="form-check form-switch">
-                                            <input style="border-radius: 15px" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
+                                            <input style="border-radius: 15px" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="sendOffer">
                                             <label class="form-check-label" for="flexSwitchCheckChecked">Check if you agree</label>
                                         </div>
                                     </div>
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-lg hover-lift btn-hover-text btn-primary">
+                                            <span class="btn-hover-label label-default">Place your order</span>
+                                            <span class="btn-hover-label label-hover">Place your order</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-lg hover-lift btn-hover-text btn-primary">
-                                <span class="btn-hover-label label-default">Place your order</span>
-                                <span class="btn-hover-label label-hover">Place your order</span>
-                            </button>
+                            <div id="creditCard" class="position-relative border border-secondary overflow-hidden">
+                                <input type="radio" class="btn-check"
+                                       id="payment_option_card" checked>
+                                <label
+                                    class="btn btn-outline-secondary border-0 text-start d-flex w-100 align-items-center justify-content-between rounded-0"
+                                    for="payment_option_card" data-bs-target="#method_payment_card"
+                                    aria-expanded="false" data-bs-toggle="collapse">Debit Card
+                                    <div>
+                                        <img src="/assets/img/payment/visa.svg" class="width-35 me-2">
+                                        <img src="assets/img/payment/american_express.svg"
+                                             class="width-35 me-2">
+                                        <img src="/assets/img/payment/mastercard-6.svg"
+                                             class="width-35">
+                                    </div>
+                                </label>
+                                <div class="collapse show" id="method_payment_card"
+                                     data-bs-parent="#payment_methods">
+                                    <div class="px-3 py-4">
+                                        <div class="form-check form-switch">
+                                            <div class="row">
+                                                <div class="mb-3 col-md-7">
+                                                    <label for="card_fullName" class="form-label">Card Holder Name</label>
+                                                    <input type="text" id="card_fullName" data-format="card"
+                                                           placeholder="" autocomplete="off" name="card_fullName"
+                                                           class="form-control">
+                                                </div>
+                                                <div class="mb-3 col-md-8">
+                                                    <label for="card_number" class="form-label">Card Number</label>
+                                                    <input type="text" id="card_number" data-format="card"
+                                                           placeholder="XXXX XXXX XXXX XXXX" autocomplete="off"
+                                                           class="form-control" name="card_number">
+                                                </div>
+                                                <div class="mb-3 col-md-4">
+                                                    <label for="card_cvc" class="form-label">CVC Number</label>
+                                                    <input type="text" data-format="cvc" autocomplete="off"
+                                                           id="card_cvc" placeholder="XXX" class="form-control" name="card_cvc">
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="card_ex_month" class="form-label">Expiry
+                                                        Month</label>
+                                                    <input type="text" autocomplete="off"
+                                                           data-format="custom" id="card_ex_month" data-blocks="2"
+                                                           placeholder="" class="form-control" name="card_ex_month">
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="card_ex_year" class="form-label">Expiry Year</label>
+                                                    <input type="text" data-format="custom"
+                                                           id="card_ex_year" data-blocks="4" placeholder=""
+                                                           class="form-control" name="card_ex_year">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-lg hover-lift btn-hover-text btn-primary">
+                                            <span class="btn-hover-label label-default">Place your order</span>
+                                            <span class="btn-hover-label label-hover">Place your order</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>

@@ -131,7 +131,9 @@
                             </div>
                         </div>
                         <div class="border-top border-2 border-secondary my-4 my-lg-5" data-aos="fade-up"></div>
-
+<div class="row">
+    <a href="{{ route('pdf') }}">PDF</a>
+</div>
                     </div>
                 </div>
             </div>
