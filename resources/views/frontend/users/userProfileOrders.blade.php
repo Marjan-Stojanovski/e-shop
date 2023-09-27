@@ -42,7 +42,8 @@
                                 <nav class="nav mb-5 nav-pills">
                                     <a href="{{ route('frontend.profile', Auth::user()->id) }}" class="nav-link "> <i
                                             class="bx bx-user-circle me-2"></i>My profile</a>
-                                    <a href="{{ route('frontend.showProfileOrders', Auth::user()->id) }}" class="nav-link active"><i
+                                    <a href="{{ route('frontend.showProfileOrders', Auth::user()->id) }}"
+                                       class="nav-link active"><i
                                             class="bx bx-layer me-2"></i>Orders</a>
                                     <a href="{{ route('frontend.userMessages', Auth::user()->id) }}" class="nav-link"><i
                                             class="bx bx-message-rounded-detail me-2"></i>Messages</a>
@@ -64,18 +65,24 @@
                                                     <th class="text-center align-middle" scope="col">E-Mail</th>
                                                     <th class="text-center align-middle" scope="col">Total Price</th>
                                                     <th class="text-center align-middle" scope="col">Payment type</th>
+                                                    <th class="text-center align-middle" scope="col">Invoice</th>
                                                     <th class="text-end align-middle" scope="col">Payment status</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 @foreach($orders as $order)
                                                     <tr>
-                                                        <th class="align-middle"><a href="{{ route('frontend.showOrderDetails', $order->id ) }}"> {{ $order->id }}</a></th>
+                                                        <th class="align-middle"><a
+                                                                href="{{ route('frontend.showOrderDetails', $order->id ) }}"> {{ $order->id }}</a>
+                                                        </th>
                                                         <td class="text-center align-middle">{{ $order->firstName }} {{ $order->lastName }}</td>
                                                         <td class="text-center align-middle">{{ $order->email }}</td>
                                                         <td class="text-center align-middle">
                                                             € {{ number_format($order->total, 2) }}</td>
                                                         <td class="text-center align-middle">{{ $order->payment_info }}</td>
+
+                                                        <td class="text-center align-middle"><a
+                                                                href="{{ route('pdf.downloadInvoice', $order->id ) }}">Download Invoice</a></td>
                                                         @if($order->payment_status ==0)
                                                             <td class="text-end align-middle" style="color: red">Not
                                                                 payed

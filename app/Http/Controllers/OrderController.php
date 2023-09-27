@@ -325,9 +325,11 @@ class OrderController extends Controller
             $categoriesTree = Category::getTreeHP();
             $orderInfo = Order::where('order_id', $uniqueNumber)->first();
             $orderProducts = OrderProduct::where('order_parent', $uniqueNumber)->get();
+            $brands = Brand::all();
 
             $data = [
                 'company' => $company,
+                'brands' => $brands,
                 'categoriesTree' => $categoriesTree,
                 'orderInfo' => $orderInfo,
                 'orderProducts' => $orderProducts
@@ -359,14 +361,10 @@ class OrderController extends Controller
                 'pdf' => $data["orderID"]
             ]);
 
-            dd($year);
-            /*
-            public function mail()
-            {
-                $msg = "Zdravo";
-                Mail::to('stojanovskim@yahoo.com')->send(new MailSender($msg));
-            }
-*/
+            session()->forget('cart');
+
+            return view('frontend.finishOrder')->with($data);
+
         } elseif ($paymentOption === 'creditCard') {
 
             $validator = Validator::make($request->all(), [
@@ -457,6 +455,70 @@ class OrderController extends Controller
                     'uniqueNumber' => $uniqueNumber
                 ]);
             }
+
+            $carts = session()->get('cart', []);
+            // Saving OrderProducts
+            $order = Order::where('order_id', $uniqueNumber)->first();
+            $order_id = $order->id;
+            foreach ($carts as $cart) {
+                $product_id = $cart['product_id'];
+                $quantity = $cart['quantity'];
+                $unitPrice = $cart['unitPrice'];
+                $price = $cart['productAmount'];
+                OrderProduct::create([
+                    'order_id' => $order_id,
+                    'product_id' => $product_id,
+                    'quantity' => $quantity,
+                    'unitPrice' => $unitPrice,
+                    'price' => $price,
+                    'order_parent' => $uniqueNumber
+                ]);
+            }
+
+            //CREATE AND SAVE PO
+            $company = CompanyInfo::first();
+            $categoriesTree = Category::getTreeHP();
+            $orderInfo = Order::where('order_id', $uniqueNumber)->first();
+            $orderProducts = OrderProduct::where('order_parent', $uniqueNumber)->get();
+            $brands = Brand::all();
+
+            $data = [
+                'company' => $company,
+                'brands' => $brands,
+                'categoriesTree' => $categoriesTree,
+                'orderInfo' => $orderInfo,
+                'orderProducts' => $orderProducts
+            ];
+
+            $year = date('y');
+            $pdf = Pdf::loadView('pdf.invoice', $data);
+            $pdf->save('assets/pdf/invoice/' . $year . '-' . $orderInfo->id . ' .pdf');
+
+            //SEND CONFIRM EMAIL
+            $data["email"] = "$orderInfo->email";
+            $data["title"] = "Predplačilo -PRIMER";
+            $data["orderID"] = "$year-$orderInfo->id";
+            $files = [
+                public_path('assets/pdf/invoice/' . $year . '-' . $orderInfo->id . ' .pdf'),
+            ];
+
+            Mail::send('mail.beforePay', $data, function ($message) use ($data, $files) {
+                $message->to($data["email"])
+                    ->subject($data["title"]);
+                foreach ($files as $file) {
+                    $message->attach($file);
+                }
+            });
+
+            //LINK ORDER_ID with file
+            Link::create([
+                'order_id' => $orderInfo->id,
+                'pdf' => $data["orderID"]
+            ]);
+
+            session()->forget('cart');
+
+            return view('frontend.finishOrderPayed')->with($data);
 
         } else {
 

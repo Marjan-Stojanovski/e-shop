@@ -140,6 +140,7 @@ Route::middleware('auth')->prefix('User')->group(function () {
     Route::post('/', [App\Http\Controllers\ShippingController::class, 'storeProfileDetails'])->name('frontend.storeProfileDetails');
     Route::put('/{User}', [App\Http\Controllers\UserController::class, 'updateProfileDetails'])->name('frontend.updateProfileDetails');
     Route::get('/Orders/{User}', [App\Http\Controllers\OrderController::class, 'listUserOrders'])->name('frontend.showProfileOrders');
+    Route::get('/Orders/Download/{pdf}', [App\Http\Controllers\DownloadFileController::class, 'downloadInvoice'])->name('pdf.downloadInvoice');
     Route::get('/OrderStatus/{Order}', [App\Http\Controllers\OrderController::class, 'viewUserOrder'])->name('frontend.showOrderDetails');
     Route::get('/Messages/{User}', [App\Http\Controllers\MessageController::class, 'userMessages'])->name('frontend.userMessages');
     Route::get('/Messages/Message/{User}', [App\Http\Controllers\MessageController::class, 'viewUserMessage'])->name('frontend.viewUserMessage');
@@ -175,11 +176,7 @@ Route::get('/ViewOrder', [App\Http\Controllers\OrderController::class, 'viewOrde
 
 
 
-//// test PDF creation
-Route::get('pdf/preview', [App\Http\Controllers\PDFController::class, 'preview'])->name('pdf.preview');
-Route::get('pdf/generate', [App\Http\Controllers\PDFController::class, 'generatePDF'])->name('pdf.generate');
 
-Route::get('/resume', [App\Http\Controllers\PDFController::class, 'index'])->name('pdf');
 //
 //
 //
@@ -226,4 +223,7 @@ Route::post('/checkout/order', [App\Http\Controllers\OrderController::class, 'pr
 
 //Needs WORK
 Route::get('/search', [App\Http\Controllers\FrontendController::class, 'search'])->name('frontend.search');
-
+//// test PDF creation
+Route::get('pdf/preview', [App\Http\Controllers\PDFController::class, 'preview'])->name('pdf.preview');
+Route::get('pdf/{pdf}', [App\Http\Controllers\PDFController::class, 'download'])->name('pdf.generate');
+Route::get('/resume', [App\Http\Controllers\PDFController::class, 'index'])->name('pdf');

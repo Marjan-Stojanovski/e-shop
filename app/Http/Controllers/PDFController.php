@@ -5,6 +5,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\CompanyInfo;
 use App\Models\Employee;
+use App\Models\Link;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
@@ -116,4 +117,5 @@ class PDFController extends Controller
 
         return $pdf->stream('resume.pdf');
     }
+
 }
