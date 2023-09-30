@@ -148,22 +148,6 @@ Route::middleware('auth')->prefix('User')->group(function () {
 
 });
 
-//   AFTER Check
-Route::middleware('auth')->prefix('User')->group(function () {
-
-//Needs WORK
-
-    Route::get('/Checkout/ShippingDetails', [App\Http\Controllers\OrderController::class, 'orderDetails'])->name('frontend.orderDetails');
-    Route::post('/Checkout/OrderPayment', [App\Http\Controllers\OrderController::class, 'saveOrderInfo'])->name('frontend.saveOrderInfo');
-    Route::post('/Checkout/Order/Review', [App\Http\Controllers\OrderController::class, 'savePaymentInfo'])->name('frontend.savePaymentInfo');
-    Route::get('/Checkout/OrderPayment', [App\Http\Controllers\OrderController::class, 'paymentInfo'])->name('frontend.payment');
-    Route::get('/ViewOrder', [App\Http\Controllers\OrderController::class, 'viewOrder'])->name('frontend.viewOrder');
-
-
-
-});
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/search', [App\Http\Controllers\FrontendController::class, 'search'])->name('frontend.search');

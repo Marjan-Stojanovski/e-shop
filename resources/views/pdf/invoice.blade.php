@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <title>A simple, clean, and responsive HTML invoice template</title>
@@ -16,9 +16,9 @@
             padding: 30px;
             border: none;
             box-shadow: none;
-            font-size: 12px;
+            font-size: 10px;
             line-height: 20px;
-            font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+            font-family: DejaVu Sans, sans-serif;
             color: black;
         }
 
@@ -42,8 +42,8 @@
         }
 
         .invoice-box table tr.top table td.title {
-            font-size: 45px;
-            line-height: 35px;
+            font-size: 30px;
+            line-height: 30px;
             color: black;
         }
 
@@ -53,7 +53,7 @@
 
         .invoice-box table tr.heading td {
             background: #eee;
-            font-size: 10px;
+            font-size: 9px;
             border-top: 1px solid black;
             border-bottom: 1px solid black;
             font-weight: bold;
@@ -98,7 +98,7 @@
         /** RTL **/
         .invoice-box.rtl {
             direction: rtl;
-            font-family: 'Times New Roman', Times, serif;
+            font-family: DejaVu Sans, sans-serif;
         }
 
         .invoice-box.rtl table {
@@ -127,7 +127,7 @@
                             />
                         </td>
 
-                        <td>
+                        <td style="font-family: DejaVu Sans, sans-serif;">
                             KOŠAR, Darko Stojanovski s.p. <br />
                             {{ $company->address }}<br />
                             ID št. za DDV SI63434989<br />
