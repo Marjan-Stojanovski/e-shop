@@ -14,6 +14,7 @@ use App\Models\Volume;
 use http\Env\Url;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class FrontendController extends Controller
 {
@@ -42,22 +43,22 @@ class FrontendController extends Controller
 
         } else {
 
-            $company = CompanyInfo::first();
-            $brands = Brand::all();
-            $categories = Category::all();
-            $categoriesTree = Category::getTreeHP();
-            $products = Product::whereNotNull('discount')->paginate(5);
+          //  $company = CompanyInfo::first();
+            //$brands = Brand::all();
+            //$categories = Category::all();
+            //$categoriesTree = Category::getTreeHP();
+            //$products = Product::whereNotNull('discount')->paginate(5);
 
 
-            $data = [
-                'company' => $company,
-                'brands' => $brands,
-                'categoriesTree' => $categoriesTree,
-                'categories' => $categories,
-                'products' => $products,
-            ];
+            //$data = [
+            //    'company' => $company,
+            //    'brands' => $brands,
+            //    'categoriesTree' => $categoriesTree,
+            //    'categories' => $categories,
+            //    'products' => $products,
+            //];
 
-            return view('frontend.index')->with($data);
+            return redirect()->route('frontend.comingSoon');
         }
     }
 
@@ -175,7 +176,9 @@ class FrontendController extends Controller
             $products = $builder->paginate(5);
 
         } else {
+
             $products = Product::all()->paginate(5);
+
         }
         $company = CompanyInfo::first();
         $brands = Brand::all();
@@ -233,16 +236,13 @@ class FrontendController extends Controller
     public function search(Request $request)
     {
 
-
         if ($_GET['search']) {
 
             $search = $_GET['search'];
-            $products = Product::where('brand', 'LIKE', $search)->paginate(12);
 
-            if ($products->count() == 0) {
+            $products = Product::search($search);
 
-                return redirect()->back()->with('message', "Products don't exist!");
-            }
+
             $company = CompanyInfo::first();
             $categoriesTree = Category::getTreeHP();
             $brands = Brand::all();
@@ -263,6 +263,26 @@ class FrontendController extends Controller
             return view('frontend.shop')->with($data);
 
         }
+
+        $products = Product::paginate(5);
+        $company = CompanyInfo::first();
+        $categoriesTree = Category::getTreeHP();
+        $brands = Brand::all();
+        $categories = Category::all();
+        $volumes = Volume::all();
+        $countries = Country::all();
+
+        $data = [
+            'company' => $company,
+            'brands' => $brands,
+            'categories' => $categories,
+            'volumes' => $volumes,
+            'countries' => $countries,
+            'categoriesTree' => $categoriesTree,
+            'products' => $products,
+        ];
+
+        return view('frontend.shop')->with($data);
     }
 
     public function comingSoon()

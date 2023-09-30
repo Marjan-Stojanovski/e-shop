@@ -27,6 +27,17 @@ class Product extends Model
         'country_id'
     ];
 
+    public static function search($keyword)
+    {
+        return Product::join('brands', 'products.brand_id', '=', 'brands.id')
+            ->select('products.*', 'brands.name as brand_name')
+            ->where(function ($query) use ($keyword) {
+                $query->where('products.title', 'like', '%' . $keyword . '%')
+                    ->orWhere('brands.name', 'like', '%' . $keyword . '%');
+            })
+            ->paginate(5);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

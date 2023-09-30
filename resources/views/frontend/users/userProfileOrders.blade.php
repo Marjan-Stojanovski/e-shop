@@ -82,7 +82,7 @@
                                                         <td class="text-center align-middle">{{ $order->payment_info }}</td>
 
                                                         <td class="text-center align-middle"><a
-                                                                href="{{ route('pdf.downloadInvoice', $order->id ) }}">Download Invoice</a></td>
+                                                                href="{{ route('pdf.viewAndDownload', $order->id ) }}">Download Invoice</a></td>
                                                         @if($order->payment_status ==0)
                                                             <td class="text-end align-middle" style="color: red">Not
                                                                 payed

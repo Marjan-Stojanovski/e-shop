@@ -23,6 +23,7 @@
           rel="stylesheet">
     <!-- Main CSS -->
     <link href="/assets/css/theme-shop.min.css" rel="stylesheet">
+    <link href="/assets/css/theme.min.css" rel="stylesheet">
 
     <!--:Simplebar css ()-->
     <style type="text/css">
@@ -37,6 +38,7 @@
         #offer {
             display: none;
         }
+
         #creditCard {
             display: none;
         }
@@ -172,11 +174,6 @@
                         Kontakt
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('frontend.comingSoon') }}">
-                        Coming&nbsp;Soon
-                    </a>
-                </li>
             </ul>
         </div>
 
@@ -283,118 +280,86 @@ $carts = session()->get('cart', []);
 </main>
 
 
-<!--begin:footer-->
-<footer class="position-relative bg-dark text-white overflow-hidden">
-    <div class="container pt-9 pt-lg-11 pb-6 position-relative">
+<!--Footer Start-->
+<!--begin:Footer-->
+<footer id="footer" class="position-relative footer overflow-hidden bg-dark text-white">
+    <div class="container pt-9 pt-lg-11 pb-5">
         <div class="row">
-            <!-- nav -->
-            <div class="col-6 col-lg-3 col-xl-2 order-lg-2 ms-lg-auto mb-6">
-                <h6 class="mb-4">Account</h6>
+            <div class="col-md-3 col-sm-6 mb-5">
+                <h5 class="mb-4">Company</h5>
                 <ul class="nav flex-column mb-0">
-                    <li class="nav-item"><a class="nav-link" href="#!">Placing an order</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!">Shipping</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!">Track order</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!">Orders</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!">Assan Pay</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('frontend.index') }}"><i
+                                class="bx bx-home"></i> Domov</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('frontend.shop') }}"><i
+                                class="bx bx-shopping-bag"></i> Trgovina</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('frontend.about') }}"><i
+                                class="bx bx-credit-card-front"></i> O nas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('frontend.feedback') }}"><i
+                                class="bx bx-phone-call"></i> Kontakt</a></li>
                 </ul>
             </div>
-            <!-- /.nav -->
-
-            <!-- nav -->
-            <div class="col-6 col-lg-3 col-xl-2 order-lg-3 ms-lg-auto mb-6">
-                <h6 class="mb-4">Company</h6>
-                <ul class="nav flex-column mb-0">
-                    <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!">Become a seller</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!">News &amp; Media</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
-                </ul>
-            </div>
-            <!-- nav -->
-
-            <!-- /Brands -->
-            <div class="col-md-6 col-lg-3 col-xl-2 ms-lg-auto order-lg-4 mb-6">
-                <h6 class="mb-4">Top Brands</h6>
-                <ul class="nav flex-column mb-0">
-                    @foreach($brands as $brand)
-                        <li class="nav-item"><a class="nav-link"
-                                                href="{{URL::to('/e-shop/?brand[]='.$brand->id)}}">{{ $brand->name }}</a>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-            <!-- /Brands -->
-            <div class="col-lg-3 col-md-6 order-lg-1 mb-6">
-                <div class="d-flex align-items-md-stretch flex-column h-100">
-                    <div class="flex-grow-1 d-flex flex-column">
-                        <small class="d-block mb-3">
-                            745K Followers
-                        </small>
-                        <div class="mb-4">
-                            <a href="#!" class="btn btn-outline-white btn-rise">
-                                <div class="btn-rise-bg bg-white"></div>
-                                <div class="btn-rise-text">
-                                    <i class="bx bxl-instagram me-1 align-middle fs-5"></i> Follow us on IG
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <!-- Copyright -->
-                    <p class="small text-muted mb-0">© Kosar. by MarjanS.</p>
-                    <!-- End Copyright -->
+            <div class="col-md-4 col-sm-6 mb-5">
+                <h5 class="mb-4">Košar, Darko Stojanovski s.p.</h5>
+                <div class="footer-info-details">
+                    <p>
+                        <a href="mailus@domain.com" class="link-hover-underline"><i
+                                class="bx bx-mail-send"></i> {{ $company->mail }}</a>
+                    </p>
+                    <p class="mb-0"><a class="link-hover-underline" href="tel:+1123456789"><i
+                                class="bx bx-phone-call"></i> {{ $company->phone }}</a>
+                    </p>
                 </div>
+
+                <hr class="my-4">
+                <h6 class="mb-4">Follow us</h6>
+                <div class="d-flex align-items-center">
+                    <!-- Social button -->
+                    <a target=”_blank” href="{{ $company->facebook }}" class="d-inline-block mb-1 me-2 si rounded-pill si-hover-facebook">
+                        <i class="bx bxl-facebook fs-5"></i>
+                        <i class="bx bxl-facebook fs-5"></i>
+                    </a>
+                    <!-- Social button -->
+                    <a target=”_blank” href="{{ $company->instagram }}" class="d-inline-block mb-1 si rounded-pill si-hover-instagram">
+                        <i class="bx bxl-instagram fs-5"></i>
+                        <i class="bx bxl-instagram fs-5"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-5 mb-5">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d581.5696712468791!2d14.531543512757764!3d46.102394609794175!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476532eaadf80047%3A0x22da06c9ba2f5b40!2sKo%C5%A1ar%2C%20gostinske%20storitve%2C%20Darko%20Stojanovski%20s.p.!5e0!3m2!1sen!2smk!4v1696079350236!5m2!1sen!2smk"
+                        width="500" height="300" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
-        <hr class="bg-transparent border-top border-white opacity-25 mb-6 mt-0">
-        <div class="row align-items-md-center">
-            <div class="col-md-4 mb-3 mb-md-0">
-                <!--:payment options-->
-                <div class="d-flex justify-content-start">
-                    <div class="d-block me-2 my-1">
-                        <img src="/assets/img/payment/american_express.svg" alt="">
-                    </div>
-                    <div class="d-block me-2 my-1">
-                        <img src="/assets/img/payment/paypal.svg" alt="paypal">
-                    </div>
-                    <div class="d-block my-1">
-                        <img src="/assets/img/payment/visa.svg" alt="visa">
-                    </div>
+        <hr class="mb-5 mt-0">
+        <div class="row align-items-center">
+            <div class="col-sm-7 mb-4 mb-sm-0">
+                <div class="d-flex small align-items-center">
+                    <a class="d-block" href="#">Privacy &amp; Policy</a>
+                    <a class="d-block ms-3" href="#">Terms &amp; Conditions</a>
                 </div>
-                <!--:/payment options-->
             </div>
-            <div class="col-md-2 col-xl-4 mb-3 mb-md-0">
-                <!-- Links -->
+            <div class="col-sm-5 text-sm-end">
                 <ul class="list-inline small mb-0">
                     <li class="list-inline-item me-3">
-                        <a class="d-block" target=”_blank” href="{{ $company->facebook }}">
-                            <i class="bx bxl-facebook fs-4"></i>
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a class="d-block" target=”_blank” href="{{ $company->instagram }}">
-                            <i class="bx bxl-instagram fs-4"></i>
-                        </a>
+                        <p class="small text-muted mb-0"><span class="d-block lh-sm small text-muted">&copy; Copyright
+                             <script>
+                                 document.write(new Date().getFullYear())
+                             </script>. by MarjanS.
+                         </span> </p>
                     </li>
                 </ul>
-                <!-- End Links -->
-            </div>
-            <div class="col-md-6 col-xl-4 text-md-end">
-                <!-- Links -->
-                <ul class="list-inline small mb-0">
-                    <li class="list-inline-item me-3">
-                        <a class="d-block" href="#!">Privacy &amp; Policy</a>
-                    </li>
-                    <li class="list-inline-item me-3">
-                        <a class="d-block" href="#!">Terms &amp; Conditions</a>
-                    </li>
-                </ul>
-                <!-- End Links -->
             </div>
         </div>
     </div>
 </footer>
-<!--/end:footer-->
+<!--end:Footer-->
 
+<!-- begin Back to Top button -->
+<a href="#" class="toTop">
+    <i class="bx bxs-up-arrow"></i>
+</a>
 
 <!-- scripts -->
 <script src="/assets/js/theme.bundle.js"></script>
@@ -443,7 +408,7 @@ $carts = session()->get('cart', []);
 
     function onSelectChangeHandler() {
         let val = document.getElementById("paymentOption").value;
-        console.log( val);
+        console.log(val);
         switch (val) {
             case "offer":
                 document.getElementById("offer").style.display = "block";
@@ -499,6 +464,112 @@ $carts = session()->get('cart', []);
             this.checked = false;
         });
     }
+</script>
+<script>
+    //Main Hero Slider
+    var sliderThumbs = new Swiper('.progress-swiper-thumbs', {
+        watchSlidesVisibility: true,
+        watchSlidesProgress: true,
+        history: false,
+        breakpoints: {
+            480: {
+                slidesPerView: 2,
+                spaceBetween: 16,
+            },
+            768: {
+                slidesPerView: 3,
+                spaceBetween: 16,
+            },
+            1024: {
+                slidesPerView: 3,
+                spaceBetween: 16,
+            },
+        },
+        on: {
+            'afterInit': function (swiper) {
+                swiper.el.querySelectorAll('.swiper-pagination-progress-inner')
+                    .forEach($progress => $progress.style.transitionDuration =
+                        `${swiper.params.autoplay.delay}ms`)
+            }
+        }
+    });
+    var swiperClassic = new Swiper(".swiper-classic", {
+        slidesPerView: 1,
+        spaceBetween: 0,
+        loop: true,
+        grabCursor: true,
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+        effect: "creative",
+        creativeEffect: {
+            prev: {
+                shadow: true,
+                translate: ["-20%", 0, -1],
+            },
+            next: {
+                translate: ["100%", 0, 0],
+            },
+        },
+        thumbs: {
+            swiper: sliderThumbs
+        },
+    });
+
+    //swiper partners
+    var swiperPartners5 = new Swiper(".swiper-partners", {
+        slidesPerView: 2,
+        loop: true,
+        spaceBetween: 16,
+        autoplay: true,
+        breakpoints: {
+            768: {
+                slidesPerView: 4
+            },
+            1024: {
+                slidesPerView: 5
+            }
+        },
+        pagination: {
+            el: ".swiper-partners-pagination",
+            clickable: true
+        },
+        navigation: {
+            nextEl: ".swiper-partners-button-next",
+            prevEl: ".swiper-partners-button-prev"
+        }
+    });
+
+
+    //swiper Testimonials
+    var swiperTestimonails = new Swiper(".swiper-testimonials", {
+        autoHeight: true,
+        spaceBetween: 16,
+        breakpoints: {
+            640: {
+                slidesPerView: 1,
+                spaceBetween: 16
+            },
+            768: {
+                slidesPerView: 2,
+                spaceBetween: 16
+            },
+            1024: {
+                slidesPerView: 3,
+                spaceBetween: 30
+            }
+        },
+        pagination: {
+            el: ".swiper-testimonials-pagination",
+            clickable: true
+        },
+        navigation: {
+            nextEl: ".swiper-testimonials-button-next",
+            prevEl: ".swiper-testimonials-button-prev"
+        }
+    });
+
 </script>
 <script type="text/javascript">
 

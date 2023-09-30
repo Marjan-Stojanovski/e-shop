@@ -140,7 +140,7 @@ Route::middleware('auth')->prefix('User')->group(function () {
     Route::post('/', [App\Http\Controllers\ShippingController::class, 'storeProfileDetails'])->name('frontend.storeProfileDetails');
     Route::put('/{User}', [App\Http\Controllers\UserController::class, 'updateProfileDetails'])->name('frontend.updateProfileDetails');
     Route::get('/Orders/{User}', [App\Http\Controllers\OrderController::class, 'listUserOrders'])->name('frontend.showProfileOrders');
-    Route::get('/Orders/Download/{pdf}', [App\Http\Controllers\DownloadFileController::class, 'downloadInvoice'])->name('pdf.downloadInvoice');
+    Route::get('/Orders/Download/{pdf}', [App\Http\Controllers\PDFController::class, 'view'])->name('pdf.viewAndDownload');
     Route::get('/OrderStatus/{Order}', [App\Http\Controllers\OrderController::class, 'viewUserOrder'])->name('frontend.showOrderDetails');
     Route::get('/Messages/{User}', [App\Http\Controllers\MessageController::class, 'userMessages'])->name('frontend.userMessages');
     Route::get('/Messages/Message/{User}', [App\Http\Controllers\MessageController::class, 'viewUserMessage'])->name('frontend.viewUserMessage');
@@ -148,82 +148,62 @@ Route::middleware('auth')->prefix('User')->group(function () {
 
 });
 
-Route::get('/ComingSoon', [App\Http\Controllers\FrontendController::class, 'comingSoon'])->name('frontend.comingSoon');
-
-
-
-Route::get('/Checkout/ShippingDetails', [App\Http\Controllers\OrderController::class, 'orderDetails'])->name('frontend.orderDetails');
-Route::post('/Checkout/OrderPayment', [App\Http\Controllers\OrderController::class, 'saveOrderInfo'])->name('frontend.saveOrderInfo');
-Route::post('/Checkout/Order/Review', [App\Http\Controllers\OrderController::class, 'savePaymentInfo'])->name('frontend.savePaymentInfo');
-Route::get('/Checkout/OrderPayment', [App\Http\Controllers\OrderController::class, 'paymentInfo'])->name('frontend.payment');
-
-Route::get('/ViewOrder', [App\Http\Controllers\OrderController::class, 'viewOrder'])->name('frontend.viewOrder');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //   AFTER Check
+Route::middleware('auth')->prefix('User')->group(function () {
 
-Route::get('/', [App\Http\Controllers\FrontendController::class, 'index'])->name('frontend.index');
-Route::get('/e-shop', [App\Http\Controllers\FrontendController::class, 'shop'])->name('frontend.shop');
-Route::get('/contactus', [App\Http\Controllers\FrontendController::class, 'contact_us'])->name('frontend.feedback');
-Route::get('/aboutus', [App\Http\Controllers\FrontendController::class, 'about_us'])->name('frontend.about');
-Route::get('/brands', [App\Http\Controllers\FrontendController::class, 'brands'])->name('frontend.brands');
-Route::get('/products/{slug}', [App\Http\Controllers\FrontendController::class, 'product'])->name('frontend.product');
-Route::post('/save-comment', [App\Http\Controllers\CommentControler::class, 'frontendSave'])->name('comment.save');
+//Needs WORK
 
-// shopping Cart SESSION routes/////
-Route::prefix('shoppingcart')->group(function () {
-    Route::get('/', [App\Http\Controllers\ShoppingCartController::class, 'viewCart'])->name('frontend.shoppingCart');
-    Route::post('/add-to-cart', [App\Http\Controllers\ShoppingCartController::class, 'addToCart'])->name('add.to.cart');
-    Route::delete('/delete/{product}', [App\Http\Controllers\ShoppingCartController::class, 'deleteProduct'])->name('delete.cart');
-});
-// Whishlist
-Route::middleware('auth')->prefix('whishlists')->group(function () {
-    Route::get('/', [App\Http\Controllers\WishlistController::class, 'index'])->name('frontend.wishlist');
-    Route::get('/{wishlist}', [App\Http\Controllers\WishlistController::class, 'create'])->name('frontend.addToWishlist');
-    Route::delete('/{wishlist}', [App\Http\Controllers\WishlistController::class, 'delete'])->name('frontend.wishlistDelete');
-    Route::delete('/{wishlist}/transfer', [App\Http\Controllers\WishlistController::class, 'addToCart_deleteWishlist'])->name('addToCart.wishlistDelete');
+    Route::get('/Checkout/ShippingDetails', [App\Http\Controllers\OrderController::class, 'orderDetails'])->name('frontend.orderDetails');
+    Route::post('/Checkout/OrderPayment', [App\Http\Controllers\OrderController::class, 'saveOrderInfo'])->name('frontend.saveOrderInfo');
+    Route::post('/Checkout/Order/Review', [App\Http\Controllers\OrderController::class, 'savePaymentInfo'])->name('frontend.savePaymentInfo');
+    Route::get('/Checkout/OrderPayment', [App\Http\Controllers\OrderController::class, 'paymentInfo'])->name('frontend.payment');
+    Route::get('/ViewOrder', [App\Http\Controllers\OrderController::class, 'viewOrder'])->name('frontend.viewOrder');
+
+
+
 });
 
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/search', [App\Http\Controllers\FrontendController::class, 'search'])->name('frontend.search');
+    Route::get('/e-shop', [App\Http\Controllers\FrontendController::class, 'shop'])->name('frontend.shop');
+    Route::get('/contactus', [App\Http\Controllers\FrontendController::class, 'contact_us'])->name('frontend.feedback');
+    Route::get('/aboutus', [App\Http\Controllers\FrontendController::class, 'about_us'])->name('frontend.about');
+    Route::get('/brands', [App\Http\Controllers\FrontendController::class, 'brands'])->name('frontend.brands');
+    Route::get('/products/{slug}', [App\Http\Controllers\FrontendController::class, 'product'])->name('frontend.product');
+    Route::post('/save-comment', [App\Http\Controllers\CommentControler::class, 'frontendSave'])->name('comment.save');
+
+    // Whishlist
+    Route::prefix('whishlists')->group(function () {
+        Route::get('/', [App\Http\Controllers\WishlistController::class, 'index'])->name('frontend.wishlist');
+        Route::get('/{wishlist}', [App\Http\Controllers\WishlistController::class, 'create'])->name('frontend.addToWishlist');
+        Route::delete('/{wishlist}', [App\Http\Controllers\WishlistController::class, 'delete'])->name('frontend.wishlistDelete');
+        Route::delete('/{wishlist}/transfer', [App\Http\Controllers\WishlistController::class, 'addToCart_deleteWishlist'])->name('addToCart.wishlistDelete');
+
+
+    });
+    // shopping Cart SESSION routes/////
+    Route::prefix('shoppingcart')->group(function () {
+        Route::get('/', [App\Http\Controllers\ShoppingCartController::class, 'viewCart'])->name('frontend.shoppingCart');
+        Route::post('/add-to-cart', [App\Http\Controllers\ShoppingCartController::class, 'addToCart'])->name('add.to.cart');
+        Route::delete('/delete/{product}', [App\Http\Controllers\ShoppingCartController::class, 'deleteProduct'])->name('delete.cart');
+    });
+
+
+//ORDERS ROUTES
+    Route::get('/checkout', [App\Http\Controllers\OrderController::class, 'checkout'])->name('frontend.checkout');
+    Route::post('/checkout/order', [App\Http\Controllers\OrderController::class, 'processOrder'])->name('frontend.processOrder');
+
+    //// test PDF creation
+    Route::get('pdf/preview', [App\Http\Controllers\PDFController::class, 'preview'])->name('pdf.preview');
+    Route::get('pdf/{pdf}', [App\Http\Controllers\PDFController::class, 'download'])->name('pdf.generate');
+    Route::get('/resume', [App\Http\Controllers\PDFController::class, 'index'])->name('pdf');
+});
 //Login
 Route::get('/sign-up', [App\Http\Controllers\FrontendController::class, 'preSignUp'])->name('frontend.register');
 Route::get('/reset', [App\Http\Controllers\FrontendController::class, 'preReset'])->name('frontend.reset');
 
-//ORDERS ROUTES
-Route::get('/checkout', [App\Http\Controllers\OrderController::class, 'checkout'])->name('frontend.checkout');
-Route::post('/checkout/order', [App\Http\Controllers\OrderController::class, 'processOrder'])->name('frontend.processOrder');
+Route::get('/', [App\Http\Controllers\FrontendController::class, 'index'])->name('frontend.index');
+Route::get('/comingSoon', [App\Http\Controllers\FrontendController::class, 'comingSoon'])->name('frontend.comingSoon');
 
-
-
-
-//Needs WORK
-Route::get('/search', [App\Http\Controllers\FrontendController::class, 'search'])->name('frontend.search');
-//// test PDF creation
-Route::get('pdf/preview', [App\Http\Controllers\PDFController::class, 'preview'])->name('pdf.preview');
-Route::get('pdf/{pdf}', [App\Http\Controllers\PDFController::class, 'download'])->name('pdf.generate');
-Route::get('/resume', [App\Http\Controllers\PDFController::class, 'index'])->name('pdf');

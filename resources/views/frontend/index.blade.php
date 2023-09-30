@@ -105,21 +105,21 @@
 
 
     <!--begin:featured products-->
-    <section class="overflow-hidden">
-        <div class="container py-9 py-lg-11">
-            <div class="row mb-2 align-items-center">
-                <div class="col-md-7 mb-4">
-                    <h2 class="mb-0 display-5">
-                        Discounted Products
-                    </h2>
+    <section class="position-relative">
+        <div class="container py-9 py-lg-11 position-relative z-index-1">
+            <div class="row mb-7 align-items-end justify-content-between">
+                <!--begin: Section headings-->
+                <div class="col-lg-7 mb-4 mb-lg-0">
+                    <!--Heading-->
+                    <h3 class="mb-2 display-6" data-aos="fade-right">Products on discount</h3>
                 </div>
-                <div class="col-md-5 mb-4">
-                    <div class="text-center text-md-end">
-                        <a href="{{URL::to('/e-shop/?discount[]=checked')}}" class="btn btn-dark btn-lg btn-hover-text mb-2 me-2">
-                            <span class="btn-hover-label label-default">View all products</span>
-                            <span class="btn-hover-label label-hover">View all products</span>
-                        </a>
-                    </div>
+                <!--end: Section headings-->
+                <div class="col-12 col-lg-3 text-lg-end" data-aos="fade-right" data-aos-delay="150">
+                    <!--begin: button-->
+                    <a href="{{URL::to('/e-shop/?discount[]=checked')}}" class="btn btn-outline-secondary btn-hover-arrow hover-lift">
+                        <span>View discounted products</span>
+                    </a>
+                    <!--end: button-->
                 </div>
             </div>
             <div class="row">
@@ -161,32 +161,14 @@
     </section>
     <!--/end:featured products-->
 
-
     <!--begin:Partners section-->
     <section class="position-relative">
         <div class="container py-9 py-lg-11 position-relative z-index-1">
-            <!-- Old Brands
-            <div class="row mb-2 align-items-center">
-                <div class="col-md-7 mb-4">
-                    <h2 class="mb-0 display-5">
-                        <span class="text-gradient">Brands</span>
-                    </h2>
-                </div>
-                <div class="col-md-5 mb-4">
-                    <div class="text-center text-md-end">
-                        <a href="{{ route('frontend.brands') }}" class="btn btn-dark btn-lg btn-hover-text mb-2 me-2">
-                            <span class="btn-hover-label label-default">View all brands</span>
-                            <span class="btn-hover-label label-hover">View all brands</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            -->
             <div class="row mb-7 align-items-end justify-content-between">
                 <!--begin: Section headings-->
                 <div class="col-lg-7 mb-4 mb-lg-0">
                     <!--Heading-->
-                    <h2 class="mb-2 display-5" data-aos="fade-right">Our Brands</h2>
+                    <h3 class="mb-2 display-6" data-aos="fade-left">Our brands</h3>
                 </div>
                 <!--end: Section headings-->
                 <div class="col-12 col-lg-3 text-lg-end" data-aos="fade-left" data-aos-delay="150">
@@ -197,6 +179,8 @@
                     <!--end: button-->
                 </div>
             </div>
+
+
             <div class="row">
                 @foreach($brands as $brand)
                     <div class="col-md-6 col-lg-3 mb-4">
@@ -205,7 +189,7 @@
                             <div class="overflow-hidden text-center position-relative mb-4 rounded-4"
                                  style="height: 250px">
                                 <img src="assets/img/brands/thumbnails/{{ $brand->image }}" alt="{{ $brand->name }}"
-                                     width="100%" class="img-zoom img-fluid rounded-4"/>
+                                     width="80%" class="img-zoom img-fluid rounded-4"/>
                             </div>
                             <h5 class="mb-1 text-center">{{ $brand->name }}</h5>
                             <p class="text-center">
@@ -219,28 +203,26 @@
 
         </div>
     </section>
-
     <!--/end:Partners section-->
 
 
     <!--begin:categories section-->
     <section class="position-relative">
         <div class="container py-9 py-lg-11 position-relative z-index-1">
-            <div class="row mb-2 align-items-center">
-                <div class="col-md-7 mb-4">
-                    <h2 class="mb-0 display-5">
-                        Vrsta <span class="text-gradient">Pijace</span>
-                    </h2>
+            <div class="row mb-7 align-items-end justify-content-between">
+                <!--begin: Section headings-->
+                <div class="col-lg-7 mb-4 mb-lg-0">
+                    <!--Heading-->
+                    <h3 class="mb-2 display-6" data-aos="fade-right">Category</h3>
                 </div>
-                <div class="col-md-5 mb-4">
-                    <div class="text-center text-md-end">
-                        <a href="#" class="btn btn-dark btn-lg btn-hover-text mb-2 me-2">
-                            <span class="btn-hover-label label-default">Explore</span>
-                            <span class="btn-hover-label label-hover">Explore</span>
+                <!--end: Section headings-->
+                <div class="col-12 col-lg-3 text-lg-end" data-aos="fade-right" data-aos-delay="150">
+                        <a href="{{ route('frontend.shop') }}" class="btn btn-outline-secondary btn-hover-arrow hover-lift">
+                            <span>View</span>
                         </a>
                     </div>
                 </div>
-            </div>
+
 
             <div id="projects" data-isotope='{"layoutMode": "masonry"}' class="row">
                 @foreach($categories as $category)
@@ -257,19 +239,15 @@
                     </div>
                 @endforeach
             </div>
-
         </div>
     </section>
     <!--end:categories section-->
-
-
 
 
     <!--begin:Newsletter-->
     <section class="position-relative">
         <div class="container py-9 py-lg-11">
             <div class="row justify-content-between">
-
                 <!--Nesletter col-->
                 <div class="col-lg-10 col-xl-9 mx-auto">
                     <h2 class="mb-5 display-6 text-center">
