@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\StripePaymentController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -183,9 +184,16 @@ Route::middleware('auth')->group(function () {
     Route::get('pdf/preview', [App\Http\Controllers\PDFController::class, 'preview'])->name('pdf.preview');
     Route::get('pdf/{pdf}', [App\Http\Controllers\PDFController::class, 'download'])->name('pdf.generate');
     Route::get('/resume', [App\Http\Controllers\PDFController::class, 'index'])->name('pdf');
+
+    Route::get('/sign-up', [App\Http\Controllers\FrontendController::class, 'preSignUp'])->name('frontend.register');
+
+    Route::controller(StripePaymentController::class)->group(function(){
+        Route::get('stripe', 'stripe');
+        Route::post('stripe', 'stripePost')->name('stripe.post');
+    });
 });
 //Login
-Route::get('/sign-up', [App\Http\Controllers\FrontendController::class, 'preSignUp'])->name('frontend.register');
+
 Route::get('/reset', [App\Http\Controllers\FrontendController::class, 'preReset'])->name('frontend.reset');
 
 Route::get('/', [App\Http\Controllers\FrontendController::class, 'index'])->name('frontend.index');

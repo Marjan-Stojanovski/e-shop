@@ -374,31 +374,31 @@
                                             <div class="row">
                                                 <div class="mb-3 col-md-7">
                                                     <label for="card_fullName" class="form-label">Card Holder Name</label>
-                                                    <input type="text" id="card_fullName" data-format="card"
+                                                    <input type="text" id="card_fullName" data-format="card" required
                                                            placeholder="" autocomplete="off" name="card_fullName"
                                                            class="form-control">
                                                 </div>
                                                 <div class="mb-3 col-md-8">
                                                     <label for="card_number" class="form-label">Card Number</label>
-                                                    <input type="text" id="card_number" data-format="card"
+                                                    <input type="text" id="card_number" data-format="card" required
                                                            placeholder="XXXX XXXX XXXX XXXX" autocomplete="off"
                                                            class="form-control" name="card_number">
                                                 </div>
                                                 <div class="mb-3 col-md-4">
                                                     <label for="card_cvc" class="form-label">CVC Number</label>
-                                                    <input type="text" data-format="cvc" autocomplete="off"
+                                                    <input type="text" data-format="cvc" autocomplete="off" required
                                                            id="card_cvc" placeholder="XXX" class="form-control" name="card_cvc">
                                                 </div>
                                                 <div class="mb-3 col-md-6">
                                                     <label for="card_ex_month" class="form-label">Expiry
                                                         Month</label>
-                                                    <input type="text" autocomplete="off"
+                                                    <input type="text" autocomplete="off" required
                                                            data-format="custom" id="card_ex_month" data-blocks="2"
                                                            placeholder="" class="form-control" name="card_ex_month">
                                                 </div>
                                                 <div class="mb-3 col-md-6">
                                                     <label for="card_ex_year" class="form-label">Expiry Year</label>
-                                                    <input type="text" data-format="custom"
+                                                    <input type="text" data-format="custom" required
                                                            id="card_ex_year" data-blocks="4" placeholder=""
                                                            class="form-control" name="card_ex_year">
                                                 </div>

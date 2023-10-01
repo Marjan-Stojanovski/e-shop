@@ -141,6 +141,7 @@ class FrontendController extends Controller
     {
 
         if (isset($_GET)) {
+
             $builder = Product::query();
             if (!empty($_GET['category'])) {
                 $category = $_GET['category'];
@@ -167,9 +168,9 @@ class FrontendController extends Controller
 
                 if ($_GET['sort'][0] == 'DESC') {
                     $builder->orderBy('price', 'DESC');
-                } else if ($_GET['sort'] == 'ASC') {
+                } else if ($_GET['sort'][0] == 'ASC') {
                     $builder->orderBy('price', 'ASC');
-                } else if ($_GET['sort'] === 'latest') {
+                } else if ($_GET['sort'][0] === 'latest') {
                     $builder->latest('updated_at');
                 }
             }
