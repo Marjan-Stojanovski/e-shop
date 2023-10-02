@@ -29,9 +29,10 @@
                     </div>
                     <div class="card-header">
                         <h5>{{$company->name}}</h5>
-                        <small class="text-muted"></small>
+                        <small class="text-muted">{{$company->info}}</small>
                         <br>
-                        <small class="text-muted">Последна промена: {{$company->created_at->diffForHumans()}}</small>
+                        <br>
+                        <small class="text-muted">Последна промена: {{$company->updated_at->diffForHumans()}}</small>
                     </div>
 
                 </div>
@@ -65,6 +66,29 @@
                         </tbody>
                     </table>
                 </div>
+                <br>
+                <br>
+                <div class="card table-card table-nowrap">
+                    <div class="card-header">
+                        <h5 class="mb-0">Private Stuff</h5>
+                    </div>
+                    <table class="table">
+                        <thead class="small bg-body text-uppercase text-muted">
+                        <tr class="align-middle" style="height: 50px">
+                            <th></th>
+                            <th>Info</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="align-middle" style="height: 50px">
+                            <td>TRR</td>
+                            <td>
+                                <div class="fs-6 d-flex justify-content-between align-items-center link-primary">{{$company->trr}}</div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <br>
@@ -82,6 +106,12 @@
                                 <td>
                                     <div class="fs-6 d-flex justify-content-between align-items-center"><h6>Адреса</h6></div>
                                     <small class="text-muted">{{$company->address}}</small>
+                                </td>
+                            </tr>
+                            <tr class="align-middle" style="height: 50px">
+                                <td>
+                                    <div class="fs-6 d-flex justify-content-between align-items-center"><h6>Град</h6></div>
+                                    <small class="text-muted">{{$company->city->admin_name}}</small>
                                 </td>
                             </tr>
                             <tr class="align-middle" style="height: 50px">

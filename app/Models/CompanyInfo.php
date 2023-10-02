@@ -22,11 +22,18 @@ class CompanyInfo extends Model
         'image',
         'description',
         'user_id',
+        'trr',
+        'city_id'
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
     }
 
 }

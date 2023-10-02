@@ -58,7 +58,7 @@
     class="navbar navbar-search-w-icons position-sticky shadow top-0 z-index-fixed navbar-expand-lg navbar-light bg-white">
     <div class="container-fluid position-relative">
         <a class="navbar-brand" href="index.html">
-            <img src="/assets/img/logo.jpg" alt="" class="img-fluid" style="width: 50px;">
+            <img src="/assets/img/company_info/thumbnails/{{ $company->image }}" alt="" class="img-fluid" style="width: 50px;">
         </a>
         <div class="d-flex align-items-center navbar-no-collapse-items navbar-nav flex-row order-lg-last">
             <button class="navbar-toggler order-last" type="button" data-bs-toggle="collapse"
@@ -172,6 +172,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('frontend.feedback') }}">
                         Kontakt
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-danger"  href="{{ route('users.index') }}">
+                        <strong>ADMIN&nbsp;PANEL</strong>
                     </a>
                 </li>
             </ul>
@@ -299,7 +304,7 @@ $carts = session()->get('cart', []);
                 </ul>
             </div>
             <div class="col-md-4 col-sm-6 mb-5">
-                <h5 class="mb-4">Košar, Darko Stojanovski s.p.</h5>
+                <h5 class="mb-4">{{ $company->name }}, {{ $company->info }}</h5>
                 <div class="footer-info-details">
                     <p>
                         <a href="mailus@domain.com" class="link-hover-underline"><i

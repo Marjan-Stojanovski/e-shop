@@ -103,6 +103,26 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <div class="col-12 col-md-6 mb-3 d-inline-block">
+                                        <div class="form-group">
+                                            <!-- Label -->
+                                            <label for="city_id" class="form-label">Град</label>
+                                            <!--select-->
+                                            <select name="city_id" id="city_id"
+                                                    class="form-control @error('city_id') is-invalid @enderror">
+                                                @foreach($cities as $city)
+                                                    <option value="{{ $city->id }}">{{ $city->admin_name }}</option>
+                                                @endforeach
+                                                @error('city_id')
+                                                <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
                                         <div class="col-md-12">
                                             <br>
@@ -120,6 +140,24 @@
                                             <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3 d-inline-block">
+                                        <!-- First name -->
+                                        <div class="form-group">
+                                            <!-- Label -->
+                                            <label class="form-label" for="trr">TRR</label>
+                                            <!-- Input -->
+                                            <input type="text" placeholder="Внеси TRR број"
+                                                   class="form-control @error('trr') is-invalid @enderror"
+                                                   id="trr" name="trr" value="{{ $company->trr }}">
+                                            @error('trr')
+                                            <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
                                             @enderror
                                         </div>
                                     </div>

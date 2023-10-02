@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Helpers\ImageStore;
+use App\Models\City;
 use App\Models\CompanyInfo;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,8 +20,13 @@ class CompanyInfoController extends Controller
     {
         $company = CompanyInfo::first();
         $users = User::all();
+        $cities = City::all();
 
-        $data = ['users' => $users, "company" => $company];
+        $data = [
+            'users' => $users,
+            'company' => $company,
+            'cities' => $cities
+            ];
 
         if (empty($company)) {
 
@@ -55,7 +61,8 @@ class CompanyInfoController extends Controller
             'instagram' => 'required',
             'image' => 'required',
             'description' => 'required',
-            'user_id' => 'required'
+            'user_id' => 'required',
+            'trr' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -74,6 +81,8 @@ class CompanyInfoController extends Controller
         $image = $request->get('image');
         $description = $request->get('description');
         $user_id = $request->get('user_id');
+        $trr = $request->get('trr');
+        $city_id = $request->get('city_id');
 
         $imageObj = new ImageStore($request, 'company_info');
         $image = $imageObj->imageStore();
@@ -90,6 +99,8 @@ class CompanyInfoController extends Controller
             'image' => $image,
             'description' => $description,
             'user_id' => $user_id,
+            'trr' => $trr,
+            'city_id' => $city_id,
         ]);
 
         $company = CompanyInfo::first();
@@ -102,7 +113,8 @@ class CompanyInfoController extends Controller
     {
         $company = CompanyInfo::first();
         $users = User::all();
-        $data = ['company' => $company, 'users' => $users];
+        $cities = City::all();
+        $data = ['company' => $company, 'users' => $users, 'cities' => $cities];
 
         return view('dashboard.company_info.edit')->with($data);
     }
@@ -119,7 +131,8 @@ class CompanyInfoController extends Controller
             'instagram' => 'required',
             'image' => 'required',
             'description' => 'required',
-            'user_id' => 'required'
+            'user_id' => 'required',
+            'trr' => 'required'
         ]);
 
         if ($validator->fails()) {
