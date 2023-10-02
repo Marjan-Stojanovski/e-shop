@@ -19,7 +19,7 @@ class BrandController extends Controller
     {
         $this->middleware('auth');
     }
-
+//Lets see
     public function index()
     {
         $brands = Brand::all();
@@ -53,7 +53,7 @@ class BrandController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-       
+
         $name = $request->get('name');
         $description = $request->get('description');
         $country_id = $request->get('country_id');
