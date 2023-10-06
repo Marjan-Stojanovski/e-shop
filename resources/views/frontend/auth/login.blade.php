@@ -1,4 +1,4 @@
-@extends('layouts.frontend')
+@extends('layouts.frontendLite')
 @section('content')
     <section class="position-relative overflow-hidden">
         <div class="container-fluid">

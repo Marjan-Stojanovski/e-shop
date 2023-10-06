@@ -25,7 +25,7 @@
     <!-- Main CSS -->
     <link href="/assets/css/theme.min.css" rel="stylesheet">
 
-    <title>Assan 4</title>
+    <title>Kosar E-shop</title>
 </head>
 
 <body class="bg-shade-primary text-white" style="background-image: url('/assets/img/zgane.jpg')">
@@ -43,7 +43,7 @@
 <nav
     class="navbar navbar-search-w-icons position-sticky shadow top-0 z-index-fixed navbar-expand-lg navbar-light bg-white">
     <div class="container-fluid position-relative">
-        <a class="navbar-brand" href="index.html">
+        <a class="navbar-brand" >
             <img src="/assets/img/logo-new.jpg" alt="" class="img-fluid" style="width: 50px;">
         </a>
         <div class="d-flex align-items-center navbar-no-collapse-items navbar-nav flex-row order-lg-last">
