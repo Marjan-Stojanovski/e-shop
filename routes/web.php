@@ -163,7 +163,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/contactus', [App\Http\Controllers\FrontendController::class, 'contact_us'])->name('frontend.feedback');
     Route::get('/aboutus', [App\Http\Controllers\FrontendController::class, 'about_us'])->name('frontend.about');
     Route::get('/brands', [App\Http\Controllers\FrontendController::class, 'brands'])->name('frontend.brands');
-    Route::get('/politika-zasebnosti', [App\Http\Controllers\FrontendController::class, 'policy'])->name('frontend.policy');
+    Route::get('/politika-zasebnosti', [App\Http\Controllers\FrontendController::class, 'politika'])->name('frontend.politika');
     Route::get('/storitve', [App\Http\Controllers\FrontendController::class, 'services'])->name('frontend.services');
     Route::get('/products/{slug}', [App\Http\Controllers\FrontendController::class, 'product'])->name('frontend.product');
     Route::post('/save-comment', [App\Http\Controllers\CommentControler::class, 'frontendSave'])->name('comment.save');

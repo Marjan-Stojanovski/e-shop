@@ -287,7 +287,7 @@ class FrontendController extends Controller
         return view('frontend.shop')->with($data);
     }
 
-    public function policy()
+    public function politika()
     {
 
         $company = CompanyInfo::first();
