@@ -346,7 +346,7 @@ $carts = session()->get('cart', []);
         <div class="row align-items-center">
             <div class="col-sm-7 mb-4 mb-sm-0">
                 <div class="d-flex small align-items-center">
-                    <a class="d-block" href="{{ route('frontend.politika') }}">Politika zasebnosti</a>
+                    <a class="d-block" >Politika zasebnosti</a>
                 </div>
             </div>
             <div class="col-sm-5 text-sm-end">
