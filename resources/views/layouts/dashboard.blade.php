@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KosarCMS</title>
+    <title>Košar CMS</title>
     <!--Bootstrap icons-->
     <link href="/assets/dashboard/fonts/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <!--Google web fonts-->
@@ -118,6 +118,16 @@
                               </span>
                                     <!--Sidebar nav text-->
                                     <span class="sidebar-text">Вработени</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{route('policies.index')}}"
+                                   class="nav-link d-flex align-items-center text-truncate ">
+                              <span class="sidebar-icon">
+                                <i class="fs-2 text-primary d-block mb-2 bi bi-gear"></i>
+                              </span>
+                                    <!--Sidebar nav text-->
+                                    <span class="sidebar-text">Politika zasebnosti</span>
                                 </a>
                             </li>
                             <li class="nav-item sidebar-title text-truncate opacity-50 small">

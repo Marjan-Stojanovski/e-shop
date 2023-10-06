@@ -8,6 +8,7 @@ use App\Models\Comment;
 use App\Models\CompanyInfo;
 use App\Models\Country;
 use App\Models\Employee;
+use App\Models\Policy;
 use App\Models\Product;
 use App\Models\Shipping;
 use App\Models\Volume;
@@ -285,6 +286,45 @@ class FrontendController extends Controller
 
         return view('frontend.shop')->with($data);
     }
+
+    public function policy()
+    {
+
+        $company = CompanyInfo::first();
+        $categoriesTree = Category::getTreeHP();
+        $brands = Brand::all();
+        $policy = Policy::first();
+
+        $data = [
+            'company' => $company,
+            'brands' => $brands,
+            'categoriesTree' => $categoriesTree,
+            'policy' => $policy,
+        ];
+
+        return view('frontend.policy')->with($data);
+    }
+
+    public function services()
+    {
+
+        $company = CompanyInfo::first();
+        $categoriesTree = Category::getTreeHP();
+        $brands = Brand::all();
+
+
+        $data = [
+            'company' => $company,
+            'brands' => $brands,
+            'categoriesTree' => $categoriesTree,
+
+        ];
+
+        return view('frontend.services')->with($data);
+    }
+
+
+
 
     public function comingSoon()
     {

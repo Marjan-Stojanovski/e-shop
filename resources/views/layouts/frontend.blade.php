@@ -43,7 +43,7 @@
             display: none;
         }
     </style>
-    <title>Kosar E-shop</title>
+    <title>Košar</title>
 </head>
 
 <body>
@@ -162,6 +162,11 @@
                 <li class="nav-item nav-item dropdown position-static ">
                     <a class="nav-link " href="{{ route('frontend.shop') }}">
                         Trgovina
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('frontend.services') }}">
+                        Storitve
                     </a>
                 </li>
                 <li class="nav-item">
@@ -341,8 +346,7 @@ $carts = session()->get('cart', []);
         <div class="row align-items-center">
             <div class="col-sm-7 mb-4 mb-sm-0">
                 <div class="d-flex small align-items-center">
-                    <a class="d-block" href="#">Privacy &amp; Policy</a>
-                    <a class="d-block ms-3" href="#">Terms &amp; Conditions</a>
+                    <a class="d-block" href="{{ route('frontend.policy') }}">Politika zasebnosti</a>
                 </div>
             </div>
             <div class="col-sm-5 text-sm-end">

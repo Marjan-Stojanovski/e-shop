@@ -43,7 +43,7 @@
             display: none;
         }
     </style>
-    <title>Kosar E-shop</title>
+    <title>Košar</title>
 </head>
 
 <body>
@@ -184,8 +184,7 @@
         <div class="row align-items-center">
             <div class="col-sm-7 mb-4 mb-sm-0">
                 <div class="d-flex small align-items-center">
-                    <a class="d-block" href="#">Privacy &amp; Policy</a>
-                    <a class="d-block ms-3" href="#">Terms &amp; Conditions</a>
+                    <a class="d-block" href="#">Politika zasebnosti</a>
                 </div>
             </div>
             <div class="col-sm-5 text-sm-end">

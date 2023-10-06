@@ -71,6 +71,13 @@ Route::middleware(['web', 'auth', 'check.role'])->prefix('dashboard')->group(fun
     Route::get('/company_info/{company_info}/edit', [\App\Http\Controllers\CompanyInfoController::class, 'edit'])->name('company_info.edit');
     Route::put('/company_info/{company_info}', [\App\Http\Controllers\CompanyInfoController::class, 'update'])->name('company_info.update');
 
+    //Politika zasebnosti
+    Route::get('/policies', [\App\Http\Controllers\PolicyController::class, 'index'])->name('policies.index');
+    Route::get('/policies/create', [\App\Http\Controllers\PolicyController::class, 'create'])->name('policies.create');
+    Route::post('/policies', [\App\Http\Controllers\PolicyController::class, 'store'])->name('policies.store');
+    Route::get('/policies/{policy}/edit', [\App\Http\Controllers\PolicyController::class, 'edit'])->name('policies.edit');
+    Route::put('/policies/{policy}', [\App\Http\Controllers\PolicyController::class, 'update'])->name('policies.update');
+
     //Employee routes
     Route::get('/employees', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employees.index');
     Route::get('/employees/create', [App\Http\Controllers\EmployeeController::class, 'create'])->name('employees.create');
@@ -156,6 +163,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/contactus', [App\Http\Controllers\FrontendController::class, 'contact_us'])->name('frontend.feedback');
     Route::get('/aboutus', [App\Http\Controllers\FrontendController::class, 'about_us'])->name('frontend.about');
     Route::get('/brands', [App\Http\Controllers\FrontendController::class, 'brands'])->name('frontend.brands');
+    Route::get('/politika-zasebnosti', [App\Http\Controllers\FrontendController::class, 'policy'])->name('frontend.policy');
+    Route::get('/storitve', [App\Http\Controllers\FrontendController::class, 'services'])->name('frontend.services');
     Route::get('/products/{slug}', [App\Http\Controllers\FrontendController::class, 'product'])->name('frontend.product');
     Route::post('/save-comment', [App\Http\Controllers\CommentControler::class, 'frontendSave'])->name('comment.save');
 
