@@ -165,7 +165,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('frontend.services') }}">
+                    <a class="nav-link" >
                         Storitve
                     </a>
                 </li>
