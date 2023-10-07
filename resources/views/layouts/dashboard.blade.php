@@ -121,7 +121,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href=""
+                                <a href="{{ route('policies.index') }}"
                                    class="nav-link d-flex align-items-center text-truncate ">
                               <span class="sidebar-icon">
                                 <i class="fs-2 text-primary d-block mb-2 bi bi-gear"></i>
