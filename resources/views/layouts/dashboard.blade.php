@@ -3,9 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Košar CMS</title>
+    <link rel="icon" href="/assets/img/logo.jpg" type="image/ico">
     <!--Bootstrap icons-->
     <link href="/assets/dashboard/fonts/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <!--Google web fonts-->
@@ -24,8 +24,6 @@
     <!--Main style-->
     <link rel="stylesheet" href="/assets/dashboard/css/style.min.css">
 </head>
-
-
 <body>
 <!--////////////////// PreLoader Start//////////////////////-->
 <div class="loader bg-gradient-primary text-white">
@@ -49,8 +47,6 @@
         </div>
     </div>
 </div>
-<!--////////////////// /.PreLoader END//////////////////////-->
-
 <!--App Start-->
 <div class="d-flex flex-column flex-root">
     <div class="page d-flex flex-row flex-column-fluid">
@@ -261,21 +257,10 @@
                                         d="M0 0v5.63C149.93 59 314.09 71.32 475.83 42.57c43-7.64 84.23-20.12 127.61-26.46 59-8.63 112.48 12.24 165.56 35.4C827.93 77.22 886 95.24 951.2 90c86.53-7 172.46-45.71 248.8-84.81V0z"/>
                                 </svg>
                                 <div class="position-relative">
-                                    <h5 class="mb-1">{{Auth::user()->name}}</h5>
-                                    <p class="text-white text-opacity-75 small mb-0 lh-1">Full stack developer</p>
+                                    <h5 class="mb-1">{{Auth::user()->firstName }} {{Auth::user()->lastName}}</h5>
                                 </div>
                             </div>
                             <div class="pt-2">
-
-                                <!--
-                                <a href="page-tasks.html" class="dropdown-item d-flex align-items-center">
-                      <span
-                          class="material-symbols-rounded align-middle me-2 size-30 fs-5 d-flex align-items-center justify-content-center bg-info text-white rounded-2">
-                      task
-                      </span>
-                                    <span class="flex-grow-1">Tasks</span>
-                                </a>
-                                -->
                                 <hr class="my-2">
                                 <a href="{{ route('logout') }}"
                                    onclick="event.preventDefault();

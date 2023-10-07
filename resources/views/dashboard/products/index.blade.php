@@ -20,17 +20,13 @@
                     <div class="col-md-6">
                         <div class="text-end">
                             <br>
-                            <button class="btn btn-success mb-2 me-2" data-tippy-content="Број на продукти">
-                                Број на продукти <h2>{{$productsCount}}</h2>
-                            </button>
-
+                            <p class="btn btn-success mb-2 me-2" data-tippy-content="Број на продукти">
+                                Број на продукти: {{$productsCount}}
+                            </p>
                         </div>
                     </div>
                 </div>
-
                 <br>
-                <!--Begin::table card-->
-
                 <table class="table table-responsive align-middle table-hover mb-0">
                     <thead>
                     <tr>
@@ -54,14 +50,13 @@
                                 <div class="d-flex align-items-center">
                                     <div class="flex-grow-1">
                                         <img src="/assets/img/products/thumbnails/{{ $product->image }}"
-                                             class="mb-0 img-responsive" style="width: 50px">
+                                             class="mb-0 img-responsive" style="width: 50px" alt="">
                                     </div>
                                 </div>
                             </td>
                             <td class="text-center">
                                 <span class="text">{{$product->title}}</span>
                             </td>
-
                             <td class="text-center">
                                 <span class="text">{{ $product->slug }}</span>
                             </td>
@@ -84,5 +79,4 @@
             </div>
         </div>
     </div>
-
 @endsection
