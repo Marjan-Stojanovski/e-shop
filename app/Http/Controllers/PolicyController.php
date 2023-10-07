@@ -57,8 +57,8 @@ class PolicyController extends Controller
             'description' => $description,
         ]);
 
-        $policies = Policy::all();
-        $data = ['policies' => $policies];
+        $policy = Policy::first();
+        $data = ['policy' => $policy];
 
         return view('dashboard.policy.index')->with($data);
     }
