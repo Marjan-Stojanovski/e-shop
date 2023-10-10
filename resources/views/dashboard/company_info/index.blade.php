@@ -111,7 +111,7 @@
                             <tr class="align-middle" style="height: 50px">
                                 <td>
                                     <div class="fs-6 d-flex justify-content-between align-items-center"><h6>Град</h6></div>
-                                    <small class="text-muted">Ljubljana</small>
+                                    <small class="text-muted">{{ $company->city->admin_name }}</small>
                                 </td>
                             </tr>
                             <tr class="align-middle" style="height: 50px">

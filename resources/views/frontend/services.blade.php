@@ -107,13 +107,21 @@
                         @endforeach
                     </div>
                 </section>
-                <section class="position-relative ">
-                    <div class="container ">
-                        <div class="row align-items-center">
-                            <div class="col-md-7 mb-4 mb-md-0">
-                                <h2 class="mb-0 display-5">
-                                    Events Gallery
-                                </h2>
+                <section class="position-relative">
+                    <div class="container py-9 py-lg-11 position-relative z-index-1">
+                        <div class="row mb-7 align-items-end justify-content-between">
+                            <!--begin: Section headings-->
+                            <div class="col-lg-7 mb-4 mb-lg-0">
+                                <!--Heading-->
+                                <h3 class="mb-2 display-6" data-aos="fade-left">Events Gallery</h3>
+                            </div>
+                            <!--end: Section headings-->
+                            <div class="col-12 col-lg-3 text-lg-end" data-aos="fade-left" data-aos-delay="150">
+                                <!--begin: button-->
+                                <a href="{{ route('frontend.albums') }}" class="btn btn-outline-secondary btn-hover-arrow hover-lift">
+                                    <span>View all albums</span>
+                                </a>
+                                <!--end: button-->
                             </div>
                         </div>
                     </div>
@@ -125,7 +133,7 @@
                                 <div class="col-md-6 col-sm-8 col-xl-4">
                                     <div
                                         class="card card-hover hover-lift hover-shadow-lg text-white rounded-4 border-0 overflow-hidden">
-                                        <img src="assets/img/cover_images/albums/thumbnails/{{$album->coverImg}}" class="img-fluid img-zoom" alt="...">
+                                        <img src="/assets/img/cover_images/albums/thumbnails/{{$album->coverImg}}" class="img-fluid img-zoom" alt="...">
                                         <div class="bg-gradient-dark position-absolute start-0 top-0 w-100 h-100"></div>
                                         <div
                                             class="card-body z-index-1 d-flex flex-column position-absolute start-0 top-0 w-100 h-100 justify-content-end p-4">

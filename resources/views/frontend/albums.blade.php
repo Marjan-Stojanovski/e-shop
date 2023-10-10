@@ -56,14 +56,14 @@
                                 <a href="{{ route('frontend.album', $album->slug) }}"
                                    class="text-white position-relative d-block rounded-4 overflow-hidden card-hover-2">
                                     <!--Image-->
-                                    <img src="assets/img/960x640/6.jpg" alt="" class="w-100 img-zoom">
+                                    <img src="/assets/img/cover_images/albums/thumbnails/{{$album->coverImg}}" alt="" class="w-100 img-zoom">
                                     <!--Overlay-->
                                     <div
                                         class="card-hover-2-overlay position-absolute start-0 top-0 w-100 h-100 d-flex px-4 py-5 flex-column justify-content-between">
                                         <!--overlay header-->
                                         <div class="card-hover-2-header w-100">
                                             <div class="card-hover-2-title">
-                                                <h5 class="fs-4 mb-2">{{ $album->name }}</h5>
+                                                <h5 class="fs-4 mb-2" style="color:black">{{ $album->name }}</h5>
                                             </div>
                                             <p class="mb-0">
                                                 <i class="bx bx-person d-inline-block align-middle me-1"></i>
@@ -71,9 +71,9 @@
                                         </div>
                                         <!--Overlay footer-->
                                         <div class="card-hover-2-footer w-100 mt-auto">
-                                            <span class="tags d-block flex-grow-1">Created {{ $album->created_at->diffForHumans() }}</span>
+                                            <span class="tags d-block flex-grow-1" style="color:black">Created {{ $album->created_at->diffForHumans() }}</span>
                                             <span class="card-hover-2-footer-link">
-                                            <span>View Pictures</span>
+                                            <span style="color:black">View Pictures</span>
                                         </span>
                                         </div>
                                     </div>
