@@ -123,6 +123,26 @@ Route::middleware(['web', 'auth', 'check.role'])->prefix('dashboard')->group(fun
     Route::put('/message/{message}', [\App\Http\Controllers\MessageController::class, 'update'])->name('message.update');
     Route::delete('messages/{message}', [\App\Http\Controllers\MessageController::class, 'delete'])->name('message.delete');
 
+    //Routes events
+    Route::get('/events', [\App\Http\Controllers\EventController::class, 'index'])->name('events.index');
+    Route::get('/events/create', [App\Http\Controllers\EventController::class, 'create'])->name('events.create');
+    Route::post('/events', [App\Http\Controllers\EventController::class, 'store'])->name('events.store');
+    Route::get('/events/{event}', [\App\Http\Controllers\EventController::class, 'show'])->name('events.show');
+    Route::get('/events/{event}/edit', [\App\Http\Controllers\EventController::class, 'edit'])->name('events.edit');
+    Route::put('/events/{event}', [\App\Http\Controllers\EventController::class, 'update'])->name('events.update');
+    Route::delete('/events/{event}', [\App\Http\Controllers\EventController::class, 'destroy'])->name('events.destroy');
+    //Routes albums
+    Route::get('/albums', [\App\Http\Controllers\AlbumController::class, 'index'])->name('albums.index');
+    Route::get('/albums/create', [App\Http\Controllers\AlbumController::class, 'create'])->name('albums.create');
+    Route::post('/albums', [App\Http\Controllers\AlbumController::class, 'store'])->name('albums.store');
+    Route::delete('/albums/{album}', [\App\Http\Controllers\AlbumController::class, 'destroy'])->name('albums.destroy');
+
+    Route::get('/{musician}/galleries/create', [\App\Http\Controllers\AlbumController::class, 'createGallery'])->name('musicians.gallery.create');
+    Route::get('/{musician}/video/create', [\App\Http\Controllers\AlbumController::class, 'createVideo'])->name('musicians.gallery.video.create');
+    Route::post('/{musician}/galleries', [\App\Http\Controllers\AlbumController::class, 'storeGallery'])->name('musicians.gallery.store');
+    Route::post('/{musician}/video', [\App\Http\Controllers\AlbumController::class, 'storeVideo'])->name('musicians.gallery.video.store');
+    Route::delete('/galleries/{gallery}', [\App\Http\Controllers\AlbumController::class, 'destroyGallery'])->name('musicians.gallery.destroy');
+    Route::get('/galleries/{gallery}', [\App\Http\Controllers\AlbumController::class, 'albumView'])->name('musicians.album.view');
     //Routes orders
     //Routes messages
     Route::get('/orders', [App\Http\Controllers\OrderController::class, 'listOrders'])->name('orders.list');
@@ -165,6 +185,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/brands', [App\Http\Controllers\FrontendController::class, 'brands'])->name('frontend.brands');
     Route::get('/politika-zasebnosti', [App\Http\Controllers\FrontendController::class, 'politika'])->name('frontend.politika');
     Route::get('/storitve', [App\Http\Controllers\FrontendController::class, 'services'])->name('frontend.services');
+    Route::get('/albums', [\App\Http\Controllers\FrontendController::class, 'albums'])->name('frontend.albums');
+    Route::get('/albums/{slug}', [\App\Http\Controllers\FrontendController::class, 'album'])->name('frontend.album');
     Route::get('/products/{slug}', [App\Http\Controllers\FrontendController::class, 'product'])->name('frontend.product');
     Route::post('/save-comment', [App\Http\Controllers\CommentControler::class, 'frontendSave'])->name('comment.save');
 

@@ -587,5 +587,6 @@ $carts = session()->get('cart', []);
         });
     });
 </script>
+@yield('scripts')
 </body>
 </html>

@@ -79,51 +79,32 @@
                             </div>
                             <!--/.End Col-->
                         </div>
-                        <div class="row justify-content-lg-around mb-7 mb-lg-9 align-items-center">
+                        @foreach($events as $event)
+                            <div class="row justify-content-lg-around mb-7 mb-lg-9 align-items-center">
 
-                            <div class="col-lg-6 col-xl-5 mb-5 mb-lg-0 order-lg-last" data-aos="fade-left"
-                                 data-aos-delay="100">
-                                <!--imask image-->
-                                <div class="bg-mask">
-                                    <img src="assets/img/960x1140/2.jpg" class="mask-blob mask-image" alt="">
+                                <div class="col-lg-6 col-xl-5 mb-5 mb-lg-0 order-lg-last" data-aos="fade-left"
+                                     data-aos-delay="100">
+                                    <!--imask image-->
+                                    <div class="bg-mask">
+                                        <img src="assets/img/events/originals/{{ $event->image }}"
+                                             class="mask-blob mask-image" alt="">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-5 order-md-1" data-aos="fade-right" data-aos-delay="100">
-                                <div class="d-flex align-items-center mb-4">
-                                    <h1 class="mb-0 display-6">
-                                        Digital
-                                    </h1>
+                                <div class="col-lg-5 order-md-1" data-aos="fade-right" data-aos-delay="100">
+                                    <div class="d-flex align-items-center mb-4">
+                                        <h1 class="mb-0 display-6">
+                                            {{ $event->name }}
+                                        </h1>
+                                    </div>
+                                    <br>
+                                    <p class="mb-4 lead">
+                                        {!! $event->description !!}
+                                    </p>
+
                                 </div>
-                                <p class="mb-4 lead">
-                                    Quis nostrud ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                    pariatur.
-                                </p>
-                                <ul class="list-unstyled text-dark">
-                                    <li class="d-flex align-items-center mb-3">
-                                        <i class="bx bx-check-circle fs-4 opacity-50 me-2"></i>
-                                        <span>Web design</span>
-                                    </li>
-                                    <li class="d-flex align-items-center mb-3">
-                                        <i class="bx bx-check-circle fs-4 opacity-50 me-2"></i>
-                                        <span>UI/UX design &amp; prototyping</span>
-                                    </li>
-                                    <li class="d-flex align-items-center mb-3">
-                                        <i class="bx bx-check-circle fs-4 opacity-50 me-2"></i>
-                                        <span>App design</span>
-                                    </li>
-                                    <li class="d-flex align-items-center mb-3">
-                                        <i class="bx bx-check-circle fs-4 opacity-50 me-2"></i>
-                                        <span>Front- and backend coding</span>
-                                    </li>
-                                    <li class="d-flex align-items-center">
-                                        <i class="bx bx-check-circle fs-4 opacity-50 me-2"></i>
-                                        <span>Seo and marketing</span>
-                                    </li>
-                                </ul>
+                                <!--/.End Col-->
                             </div>
-                            <!--/.End Col-->
-                        </div>
+                        @endforeach
                     </div>
                 </section>
                 <section class="position-relative ">
@@ -140,24 +121,26 @@
                 <section class="position-relative">
                     <div class="container py-9 py-lg-11">
                         <div class="row mb-9 mb-lg-11">
-                            <div class="col-md-6 col-sm-8 col-xl-4">
-                                <div
-                                    class="card card-hover hover-lift hover-shadow-lg text-white rounded-4 border-0 overflow-hidden">
-                                    <img src="assets/img/960x640/3.jpg" class="img-fluid img-zoom" alt="...">
-                                    <div class="bg-gradient-dark position-absolute start-0 top-0 w-100 h-100"></div>
+                            @foreach($albums as $album)
+                                <div class="col-md-6 col-sm-8 col-xl-4">
                                     <div
-                                        class="card-body z-index-1 d-flex flex-column position-absolute start-0 top-0 w-100 h-100 justify-content-end p-4">
-                                        <div class="position-relative">
-                                            <h5 class="h3 mb-3"><span>Album Name</span>
-                                            </h5>
-                                            <div class="text-end">
-                                                <p class="small mb-1"><span>Date:</span></p>
+                                        class="card card-hover hover-lift hover-shadow-lg text-white rounded-4 border-0 overflow-hidden">
+                                        <img src="assets/img/cover_images/albums/thumbnails/{{$album->coverImg}}" class="img-fluid img-zoom" alt="...">
+                                        <div class="bg-gradient-dark position-absolute start-0 top-0 w-100 h-100"></div>
+                                        <div
+                                            class="card-body z-index-1 d-flex flex-column position-absolute start-0 top-0 w-100 h-100 justify-content-end p-4">
+                                            <div class="position-relative">
+                                                <h5 class="h3 mb-3"><span>{{ $album->name }}</span>
+                                                </h5>
+                                                <div class="text-end">
+                                                    <p class="small mb-1"><span>Date:{{ $album->created_at->diffForHumans()  }}</span></p>
+                                                </div>
                                             </div>
                                         </div>
+                                        <a href="{{ route('frontend.album', $album->slug) }}" class="stretched-link"></a>
                                     </div>
-                                    <a href="#!" class="stretched-link"></a>
                                 </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </section>

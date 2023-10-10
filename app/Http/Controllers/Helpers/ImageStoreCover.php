@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
-class ImageStore
+class ImageStoreCover
 {
 
     public $request;
@@ -21,8 +21,8 @@ class ImageStore
 
     public function imageStore()
     {
-        if ($this->request->hasFile('image')) {
-            $image = $this->request->file('image');
+        if ($this->request->hasFile('coverImg')) {
+            $image = $this->request->file('coverImg');
 
             $imageName = rand(1000, 100000) . '-' .  $image->getClientOriginalName();
 
@@ -54,9 +54,9 @@ class ImageStore
 
     public function makePaths()
     {
-        $original = public_path() . '/assets/img/' . $this->path . '/originals/';
-        $thumbnail = public_path() . '/assets/img/' . $this->path . '/thumbnails/';
-        $medium = public_path() . '/assets/img/' . $this->path . '/medium/';
+        $original = public_path() . '/assets/img/cover_images/' . $this->path . '/originals/';;
+        $thumbnail = public_path() . '/assets/img/cover_images/' . $this->path . '/thumbnails/';
+        $medium = public_path() . '/assets/img/cover_images/' . $this->path . '/medium/';
         $paths = ['original' => $original, 'thumbnail' => $thumbnail, 'medium' => $medium];
         return $paths;
     }

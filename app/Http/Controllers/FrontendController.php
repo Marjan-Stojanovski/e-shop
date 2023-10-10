@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Album;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\CompanyInfo;
 use App\Models\Country;
 use App\Models\Employee;
+use App\Models\Event;
+use App\Models\Picture;
 use App\Models\Policy;
 use App\Models\Product;
 use App\Models\Shipping;
@@ -31,20 +34,20 @@ class FrontendController extends Controller
             $products = Product::whereNotNull('discount')->paginate(5);
             $userDetails = Shipping::where('user_id', Auth::user()->id)->first();
 
-        $data = [
-            'company' => $company,
-            'brands' => $brands,
-            'categoriesTree' => $categoriesTree,
-            'categories' => $categories,
-            'products' => $products,
-            'userDetails' => $userDetails
-        ];
+            $data = [
+                'company' => $company,
+                'brands' => $brands,
+                'categoriesTree' => $categoriesTree,
+                'categories' => $categories,
+                'products' => $products,
+                'userDetails' => $userDetails
+            ];
 
-        return view('frontend.index')->with($data);
+            return view('frontend.index')->with($data);
 
         } else {
 
-          //  $company = CompanyInfo::first();
+            //  $company = CompanyInfo::first();
             //$brands = Brand::all();
             //$categories = Category::all();
             //$categoriesTree = Category::getTreeHP();
@@ -312,22 +315,59 @@ class FrontendController extends Controller
         $categoriesTree = Category::getTreeHP();
         $brands = Brand::all();
 
-
+        $events = Event::all();
+        $albums = Album::all();
         $data = [
             'company' => $company,
             'brands' => $brands,
             'categoriesTree' => $categoriesTree,
-
+            'events' => $events,
+            'albums' => $albums
         ];
 
         return view('frontend.services')->with($data);
     }
 
+    public function albums()
+    {
+        $company = CompanyInfo::first();
+        $categoriesTree = Category::getTreeHP();
+        $brands = Brand::all();
+        $albums = Album::all();
 
+        $data = [
+            'albums' => $albums,
+            'categoriesTree' => $categoriesTree,
+            'company' => $company,
+            'brands' => $brands
+        ];
+
+        return view('frontend.albums')->with($data);
+    }
+    public function album($slug)
+    {
+        $company = CompanyInfo::first();
+        $categoriesTree = Category::getTreeHP();
+        $brands = Brand::all();
+
+        $album = Album::where('slug', $slug)->first();
+        $pictures = Picture::where('album_id', $album->id)->get();
+
+
+        $data = [
+            'album' => $album,
+            'pictures' => $pictures,
+            'categoriesTree' => $categoriesTree,
+            'company' => $company,
+            'brands' => $brands
+        ];
+
+        return view('frontend.album')->with($data);
+    }
 
 
     public function comingSoon()
     {
-       return view('frontend.comingSoon');
+        return view('frontend.comingSoon');
     }
 }

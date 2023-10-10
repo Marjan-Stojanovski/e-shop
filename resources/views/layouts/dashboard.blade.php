@@ -90,7 +90,7 @@
                                 <a href="{{route('users.index')}}"
                                    class="nav-link d-flex align-items-center text-truncate ">
                               <span class="sidebar-icon">
-                                <i class="fs-2 text-primary d-block mb-2 bi bi-person-check-fill"></i>
+                                <i class="fs-2 text-primary d-block mb-2 bi bi-person-check"></i>
                               </span>
                                     <!--Sidebar nav text-->
                                     <span class="sidebar-text">Корисници</span>
@@ -100,7 +100,7 @@
                                 <a href="{{route('company_info.index')}}"
                                    class="nav-link d-flex align-items-center text-truncate ">
                               <span class="sidebar-icon">
-                                <i class="fs-2 text-primary d-block mb-2 bi bi-gear"></i>
+                                <i class="fs-2 text-primary d-block mb-2 bi bi-info-square"></i>
                               </span>
                                     <!--Sidebar nav text-->
                                     <span class="sidebar-text">Инфо за компанијата</span>
@@ -110,7 +110,7 @@
                                 <a href="{{route('employees.index')}}"
                                    class="nav-link d-flex align-items-center text-truncate ">
                               <span class="sidebar-icon">
-                                <i class="fs-2 text-primary d-block mb-2 bi bi-gear"></i>
+                                <i class="fs-2 text-primary d-block mb-2 bi bi-people"></i>
                               </span>
                                     <!--Sidebar nav text-->
                                     <span class="sidebar-text">Вработени</span>
@@ -153,7 +153,7 @@
                                 <a href="{{route('products.index')}}"
                                    class="nav-link d-flex align-items-center text-truncate ">
                               <span class="sidebar-icon">
-                                <i class="fs-2 text-primary d-block mb-2 bi bi-patch-plus-fill"></i>
+                                <i class="fs-2 text-primary d-block mb-2 bi bi-patch-plus"></i>
                               </span>
                                     <span class="sidebar-text">Продукти</span>
                                 </a>
@@ -171,9 +171,29 @@
                                 <a href="{{route('brands.index')}}"
                                    class="nav-link d-flex align-items-center text-truncate ">
                               <span class="sidebar-icon">
-                                <i class="fs-2 text-primary d-block mb-2 bi bi-bookmark-star-fill"></i>
+                                <i class="fs-2 text-primary d-block mb-2 bi bi-bookmark-check"></i>
                               </span>
                                     <span class="sidebar-text">Брендови</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('events.index') }}"
+                                   class="nav-link d-flex align-items-center text-truncate ">
+                              <span class="sidebar-icon">
+                                <i class="fs-2 text-primary d-block mb-2 bi bi-calendar-event"></i>
+                              </span>
+                                    <!--Sidebar nav text-->
+                                    <span class="sidebar-text">Евенти</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('albums.index') }}"
+                                   class="nav-link d-flex align-items-center text-truncate ">
+                              <span class="sidebar-icon">
+                                <i class="fs-2 text-primary d-block mb-2 bi bi-journal-album"></i>
+                              </span>
+                                    <!--Sidebar nav text-->
+                                    <span class="sidebar-text">Албуми</span>
                                 </a>
                             </li>
                             <li class="nav-item sidebar-title text-truncate opacity-50 small">
@@ -184,7 +204,7 @@
                                 <a href="{{route('messages.index')}}"
                                    class="nav-link d-flex align-items-center text-truncate ">
                               <span class="sidebar-icon">
-                                <i class="fs-2 text-primary d-block mb-2 bi bi-chat-dots-fill"></i>
+                                <i class="fs-2 text-primary d-block mb-2 bi bi-messenger"></i>
                               </span>
                                     <span class="sidebar-text">Пораки</span>
                                 </a>
@@ -193,7 +213,7 @@
                                 <a href="{{route('orders.list')}}"
                                    class="nav-link d-flex align-items-center text-truncate ">
                               <span class="sidebar-icon">
-                                <i class="fs-2 text-primary d-block mb-2 bi bi-chat-dots-fill"></i>
+                                <i class="fs-2 text-primary d-block mb-2 bi bi-cart-check"></i>
                               </span>
                                     <span class="sidebar-text">Порачки</span>
                                 </a>
