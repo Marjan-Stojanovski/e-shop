@@ -70,7 +70,6 @@ class ProductController extends Controller
             'category_id' => 'required',
             'description' => 'required',
             'short_info' => 'required',
-            'user_id' => 'required',
             'brand_id' => 'required',
             'volume_id' => 'required',
             'alcohol' => 'required|numeric|regex:/^\d+(\.\d{1})?$/',
@@ -87,7 +86,6 @@ class ProductController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        dd($request);
 
         $loggedUser = Auth::user();
 
@@ -95,6 +93,7 @@ class ProductController extends Controller
             'name' => $request->get('name'),
             'slug' => Str::slug($request->get('name')),
             'description' => $request->get('description'),
+            'short_info' => $request->get('short_info'),
             'alcohol' => $request->get('alcohol'),
             'price' => $request->get('price'),
             'discount' => $request->get('discount'),
@@ -151,16 +150,19 @@ class ProductController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'title' => 'required|max:255',
-            'image' => 'required',
+            'name' => 'required',
             'category_id' => 'required',
             'description' => 'required',
-            'user_id' => 'required',
+            'short_info' => 'required',
             'brand_id' => 'required',
             'volume_id' => 'required',
-            'alcohol' => 'required',
-            'price' => 'required',
+            'alcohol' => 'required|numeric|regex:/^\d+(\.\d{1})?$/',
+            'price' => 'required|numeric|regex:/^\d+(\.\d{1})?$/',
             'country_id' => 'required'
+        ], [
+            'brand_id.required' => 'Choose brand',
+            'volume_id.required' => 'Choose volume',
+            'country_id.required' => 'Choose country',
         ]);
 
         if ($validator->fails()) {
@@ -169,15 +171,27 @@ class ProductController extends Controller
                 ->withInput();
         }
 
+        $loggedUser = Auth::user();
+
         $product = Product::FindorFail($id);
-        $image = $request->get('image');
-        $imageObj = new ImageStore($request, 'products');
-        $image = $imageObj->imageStore();
 
-        $input = $request->all();
-        $input['image'] = $image;
+        if ($request->hasfile('image')) {
+            $files = [];
+            foreach ($request->file('image') as $file) {
+                $tempName = $file->getClientOriginalName();
+                $name = rand(1000, 100000) . '-' . $tempName;
+                $file->move(public_path('images/products/' . $product->name . '/'), $name);
+                $files[] = $name;
+            }
+            foreach ($files as $file) {
+                ProductImage::create([
+                    'product_id' => $product->id,
+                    'image' => $file,
+                ]);
+            }
+        }
 
-        $product->fill($input)->save();
+        $product->fill($request->all())->save();
 
         return redirect()->route('products.index');
     }
@@ -187,6 +201,27 @@ class ProductController extends Controller
         $product = Product::FindorFail($id);
         $product->delete();
         return redirect()->route('products.index');
+    }
+
+    public function getImages($id)
+    {
+        $pictures = ProductImage::where('product_id', $id)->get();
+        $product = Product::FindorFail($id);
+
+        $data = [
+            'pictures' => $pictures,
+            'product' => $product,
+        ];
+
+        return view('dashboard.products.images')->with($data);
+    }
+
+    public function destroyImages($id)
+    {
+        $picture = ProductImage::FindorFail($id);
+        $picture->delete();
+
+        return redirect()->back();
     }
 }
 

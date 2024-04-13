@@ -63,6 +63,8 @@ Route::middleware(['web', 'auth', 'check.role'])->prefix('dashboard')->group(fun
     Route::get('/products/{product}/edit', [\App\Http\Controllers\ProductController::class, 'edit'])->name('products.edit');
     Route::put('/products/{product}', [\App\Http\Controllers\ProductController::class, 'update'])->name('products.update');
     Route::delete('/products/{product}', [\App\Http\Controllers\ProductController::class, 'destroy'])->name('products.destroy');
+    Route::get('/images/{product}', [App\Http\Controllers\ProductController::class, 'getImages'])->name('products.images');
+    Route::delete('/product/images/{image}', [\App\Http\Controllers\ProductController::class, 'destroyImages'])->name('products.destroy.images');
 
     //Settings-web-route
     Route::get('/company_info', [\App\Http\Controllers\CompanyInfoController::class, 'index'])->name('company_info.index');

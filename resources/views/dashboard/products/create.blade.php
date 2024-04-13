@@ -58,7 +58,7 @@
                                             </label>
                                             <input type="file" multiple
                                                    class="form-control d-none w-0 h-0 position-absolute @error('image') is-invalid @enderror"
-                                                   id="image" name="image">
+                                                   id="image" name="image[]">
                                             @error('image')
                                             <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
