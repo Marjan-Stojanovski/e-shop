@@ -25,28 +25,28 @@
     <link rel="stylesheet" href="/assets/dashboard/css/style.min.css">
 </head>
 <body>
-<!--////////////////// PreLoader Start//////////////////////-->
-<div class="loader bg-gradient-primary text-white">
-    <div class="content flex-column p-4 pb-0 d-flex justify-content-center align-items-center flex-column-fluid position-relative">
-        <div class="w-100 h-100 position-relative d-flex align-items-center justify-content-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                 class="feather feather-loader spinner-grow  me-2">
-                <line x1="12" y1="2" x2="12" y2="6"/>
-                <line x1="12" y1="18" x2="12" y2="22"/>
-                <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/>
-                <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/>
-                <line x1="2" y1="12" x2="6" y2="12"/>
-                <line x1="18" y1="12" x2="22" y2="12"/>
-                <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/>
-                <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/>
-            </svg>
-            <div>
-                <span>Loading...</span>
-            </div>
-        </div>
-    </div>
-</div>
+{{--<!--////////////////// PreLoader Start//////////////////////-->--}}
+{{--<div class="loader bg-gradient-primary text-white">--}}
+{{--    <div class="content flex-column p-4 pb-0 d-flex justify-content-center align-items-center flex-column-fluid position-relative">--}}
+{{--        <div class="w-100 h-100 position-relative d-flex align-items-center justify-content-center">--}}
+{{--            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"--}}
+{{--                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"--}}
+{{--                 class="feather feather-loader spinner-grow  me-2">--}}
+{{--                <line x1="12" y1="2" x2="12" y2="6"/>--}}
+{{--                <line x1="12" y1="18" x2="12" y2="22"/>--}}
+{{--                <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/>--}}
+{{--                <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/>--}}
+{{--                <line x1="2" y1="12" x2="6" y2="12"/>--}}
+{{--                <line x1="18" y1="12" x2="22" y2="12"/>--}}
+{{--                <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/>--}}
+{{--                <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/>--}}
+{{--            </svg>--}}
+{{--            <div>--}}
+{{--                <span>Loading...</span>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--</div>--}}
 <!--App Start-->
 <div class="d-flex flex-column flex-root">
     <div class="page d-flex flex-row flex-column-fluid">
@@ -93,7 +93,7 @@
                                 <i class="fs-2 text-primary d-block mb-2 bi bi-person-check"></i>
                               </span>
                                     <!--Sidebar nav text-->
-                                    <span class="sidebar-text">Корисници</span>
+                                    <span class="sidebar-text" style="padding-bottom: 9px;">Корисници</span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -103,7 +103,7 @@
                                 <i class="fs-2 text-primary d-block mb-2 bi bi-info-square"></i>
                               </span>
                                     <!--Sidebar nav text-->
-                                    <span class="sidebar-text">Инфо за компанијата</span>
+                                    <span class="sidebar-text" style="padding-bottom: 9px;">Инфо за компанијата</span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -113,7 +113,7 @@
                                 <i class="fs-2 text-primary d-block mb-2 bi bi-people"></i>
                               </span>
                                     <!--Sidebar nav text-->
-                                    <span class="sidebar-text">Вработени</span>
+                                    <span class="sidebar-text" style="padding-bottom: 9px;">Вработени</span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -123,7 +123,7 @@
                                 <i class="fs-2 text-primary d-block mb-2 bi bi-gear"></i>
                               </span>
                                     <!--Sidebar nav text-->
-                                    <span class="sidebar-text">Politika zasebnosti</span>
+                                    <span class="sidebar-text" style="padding-bottom: 9px;">Politika zasebnosti</span>
                                 </a>
                             </li>
                             <li class="nav-item sidebar-title text-truncate opacity-50 small">
@@ -137,7 +137,7 @@
                                 <i class="fs-2 text-primary d-block mb-2 bi bi-card-image"></i>
                               </span>
                                     <!--Sidebar nav text-->
-                                    <span class="sidebar-text">Слајдер</span>
+                                    <span class="sidebar-text" style="padding-bottom: 9px;">Слајдер</span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -146,7 +146,7 @@
                               <span class="sidebar-icon">
                                   <i class="fs-2 text-primary d-block mb-2 bi bi-list-task"></i>
                               </span>
-                                    <span class="sidebar-text">Категории</span>
+                                    <span class="sidebar-text" style="padding-bottom: 9px;">Категории</span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -155,7 +155,7 @@
                               <span class="sidebar-icon">
                                 <i class="fs-2 text-primary d-block mb-2 bi bi-patch-plus"></i>
                               </span>
-                                    <span class="sidebar-text">Продукти</span>
+                                    <span class="sidebar-text" style="padding-bottom: 9px;">Продукти</span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -164,7 +164,7 @@
                               <span class="sidebar-icon">
                                 <i class="fs-2 text-primary d-block mb-2 bi bi-chat-right-text"></i>
                               </span>
-                                    <span class="sidebar-text">Коментари за продукти</span>
+                                    <span class="sidebar-text" style="padding-bottom: 9px;">Коментари за продукти</span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -173,7 +173,7 @@
                               <span class="sidebar-icon">
                                 <i class="fs-2 text-primary d-block mb-2 bi bi-bookmark-check"></i>
                               </span>
-                                    <span class="sidebar-text">Брендови</span>
+                                    <span class="sidebar-text" style="padding-bottom: 9px;">Брендови</span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -183,7 +183,7 @@
                                 <i class="fs-2 text-primary d-block mb-2 bi bi-calendar-event"></i>
                               </span>
                                     <!--Sidebar nav text-->
-                                    <span class="sidebar-text">Евенти</span>
+                                    <span class="sidebar-text" style="padding-bottom: 9px;">Евенти</span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -193,7 +193,7 @@
                                 <i class="fs-2 text-primary d-block mb-2 bi bi-journal-album"></i>
                               </span>
                                     <!--Sidebar nav text-->
-                                    <span class="sidebar-text">Албуми</span>
+                                    <span class="sidebar-text" style="padding-bottom: 9px;">Албуми</span>
                                 </a>
                             </li>
                             <li class="nav-item sidebar-title text-truncate opacity-50 small">
@@ -206,7 +206,7 @@
                               <span class="sidebar-icon">
                                 <i class="fs-2 text-primary d-block mb-2 bi bi-messenger"></i>
                               </span>
-                                    <span class="sidebar-text">Пораки</span>
+                                    <span class="sidebar-text" style="padding-bottom: 9px;">Пораки</span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -215,7 +215,7 @@
                               <span class="sidebar-icon">
                                 <i class="fs-2 text-primary d-block mb-2 bi bi-cart-check"></i>
                               </span>
-                                    <span class="sidebar-text">Порачки</span>
+                                    <span class="sidebar-text" style="padding-bottom: 9px;">Порачки</span>
                                 </a>
                             </li>
                         </ul>
@@ -334,6 +334,7 @@
 <script src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.12.0/js/dataTables.bootstrap5.min.js"></script>
 <script src="/assets/dashboard/vendor/quill.min.js"></script>
+<script src="/assets/ckeditor/ckeditor.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         // Datatables Responsive
@@ -363,5 +364,6 @@
         });
     });
 </script>
+@yield('scripts')
 </body>
 </html>

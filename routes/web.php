@@ -41,10 +41,10 @@ Route::middleware(['web', 'auth', 'check.role'])->prefix('dashboard')->group(fun
     Route::get('/users', [App\Http\Controllers\UserController::class, 'index'])->name('users.index');
     Route::get('/users/create', [App\Http\Controllers\UserController::class, 'create'])->name('users.create');
     Route::post('/users', [App\Http\Controllers\UserController::class, 'store'])->name('users.store');
-    Route::get('/users/{users}', [\App\Http\Controllers\UserController::class, 'show'])->name('users.show');
-    Route::get('/users/{users}/edit', [\App\Http\Controllers\UserController::class, 'edit'])->name('users.edit');
-    Route::put('/users/{users}', [\App\Http\Controllers\UserController::class, 'update'])->name('users.update');
-    Route::delete('/users/{users}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
+    Route::get('/users/{user}', [\App\Http\Controllers\UserController::class, 'show'])->name('users.show');
+    Route::get('/users/{user}/edit', [\App\Http\Controllers\UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{user}', [\App\Http\Controllers\UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
 
     //Categories-web-route
     Route::get('/categories', [App\Http\Controllers\CategoryController::class, 'index'])->name('categories.index');

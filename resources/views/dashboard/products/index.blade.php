@@ -21,7 +21,7 @@
                         <div class="text-end">
                             <br>
                             <p class="btn btn-success mb-2 me-2" data-tippy-content="Број на продукти">
-                                Број на продукти: {{$productsCount}}
+                                Број на продукти: {{count($products)}}
                             </p>
                         </div>
                     </div>

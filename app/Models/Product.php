@@ -12,35 +12,23 @@ class Product extends Model
     protected $table = 'products';
 
     protected $fillable = [
-        'title',
+        'name',
         'slug',
-        'image',
-        'category_id',
         'description',
-        'user_id',
-        'brand_id',
-        'volume_id',
         'alcohol',
         'price',
-        'action',
         'discount',
+        'discounted_price',
+        'category_id',
+        'brand_id',
+        'volume_id',
+        'user_id',
         'country_id'
     ];
 
-    public static function search($keyword)
-    {
-        return Product::join('brands', 'products.brand_id', '=', 'brands.id')
-            ->select('products.*', 'brands.name as brand_name')
-            ->where(function ($query) use ($keyword) {
-                $query->where('products.title', 'like', '%' . $keyword . '%')
-                    ->orWhere('brands.name', 'like', '%' . $keyword . '%');
-            })
-            ->paginate(5);
-    }
-
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function category()
@@ -58,12 +46,24 @@ class Product extends Model
         return $this->belongsTo(Volume::class, 'volume_id', 'id');
     }
 
-    public function comment()
-    {
-        return $this->belongsTo(Comment::class, 'product_id', 'id');
-    }
     public function country()
     {
         return $this->belongsTo(Country::class, 'country_id', 'id');
     }
+
+    public function comment()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function pictures()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
+
+    public function wishlist()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+
 }
