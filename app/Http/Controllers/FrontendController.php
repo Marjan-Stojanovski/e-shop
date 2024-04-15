@@ -73,9 +73,9 @@ class FrontendController extends Controller
         $brands = Brand::all();
         $product = Product::where('slug', $slug)->first();
         $categoriesTree = Category::getTreeHP();
-        $comments = Comment::where('product_id', $product['id'])
-            ->latest('created_at')
-            ->paginate(12);
+//        $comments = Comment::where('product_id', $product['id'])
+//            ->latest('created_at')
+//            ->paginate(12);
 
 
         $data = [
@@ -83,10 +83,10 @@ class FrontendController extends Controller
             'brands' => $brands,
             'product' => $product,
             'categoriesTree' => $categoriesTree,
-            'comments' => $comments,
+//            'comments' => $comments,
         ];
 
-        return view('frontend.products.product')->with($data);
+        return view('frontend.product')->with($data);
     }
 
     //USED
@@ -143,10 +143,12 @@ class FrontendController extends Controller
     //USED
     public function shop()
     {
+        $builder = Product::query();
+
+        $per_page = 12;
 
         if (isset($_GET)) {
 
-            $builder = Product::query();
             if (!empty($_GET['category'])) {
                 $category = $_GET['category'];
                 $builder->whereIn('category_id', $category);
@@ -169,20 +171,31 @@ class FrontendController extends Controller
             }
 
             if (!empty($_GET['sort'])) {
+                $sort = $_GET['sort'];
 
-                if ($_GET['sort'][0] == 'DESC') {
-                    $builder->orderBy('price', 'DESC');
-                } else if ($_GET['sort'][0] == 'ASC') {
-                    $builder->orderBy('price', 'ASC');
-                } else if ($_GET['sort'][0] === 'latest') {
-                    $builder->latest('updated_at');
+                foreach ($sort as $sortOption) {
+                    if ($sortOption === 'normal') {
+                        $builder->orderBy('created_at', 'asc');
+                    } elseif ($sortOption === 'latest') {
+                        $builder->orderBy('created_at', 'desc');
+                    } elseif ($sortOption === 'asc') {
+                        $builder->orderBy('price', 'asc');
+                    } elseif ($sortOption === 'desc') {
+                        $builder->orderBy('price', 'desc');
+                    }
                 }
+
             }
-            $products = $builder->paginate(5);
+
+            if (!empty($_GET['per_page'])) {
+                $per_page = $_GET['per_page'][0];
+            }
+
+            $products = $builder->paginate($per_page)->appends($_GET);
 
         } else {
 
-            $products = Product::all()->paginate(5);
+            $products = $builder->paginate(12);
 
         }
         $company = CompanyInfo::first();

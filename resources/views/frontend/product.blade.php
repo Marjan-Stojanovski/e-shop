@@ -1,6 +1,27 @@
 @extends('layouts.frontend')
 @section('content')
-
+    <section class="position-relative">
+        <div class="container-fluid position-relative z-index-1">
+            <div class="position-relative rounded-4 overflow-hidden bg-dark">
+                <!-- Slider main container -->
+                <div
+                    class="swiper-main rounded-4 overflow-hidden opacity-50 position-absolute start-0 top-0 w-100 h-100 mb-0">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper rounded-5">
+                        <!-- Slides -->
+                        <div class="swiper-slide bg-cover bg-center bg-no-repeat"
+                             style="background-image: url(/images/cover_images/bar-cover.webp);"></div>
+                    </div>
+                </div>
+                <div
+                    class="position-relative text-white w-md-75 px-4 w-lg-60 mx-auto text-center z-index-1 py-12 py-lg-15">
+                    <!--Hero title-->
+                    <h1 class="display-1 mb-3 mb-md-4 position-relative">Производи
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </section>
     <section class="position-relative bg-white">
         <div class="container pt-8 pt-lg-5 pb-8 pb-lg-9 position-relative">
             <nav aria-label="breadcrumb">
@@ -8,8 +29,9 @@
                     <li class="breadcrumb-item"><a href="{{ route('frontend.index') }}" class="text-dark">
                             <i class="bx bx-home fs-5"></i>
                         </a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('frontend.shop') }}" class="text-dark">Products</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ $product->title }}</li>
+                    <li class="breadcrumb-item"><a href="{{ route('frontend.shop') }}" class="text-dark">Products</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ $product->name }}</li>
                 </ol>
             </nav>
             <div class="row justify-content-between">
@@ -21,10 +43,12 @@
                                 <!-- Additional required wrapper -->
                                 <div class="swiper-wrapper d-flex flex-column">
                                     <!-- Slides -->
-                                    <div class="swiper-slide w-100">
-                                        <img src="/assets/img/products/thumbnails/{{ $product->image }}" alt=""
-                                             class="w-100 rounded-0 h-auto">
-                                    </div>
+                                    @foreach($product->pictures as $key=>$value)
+                                        <div class="swiper-slide w-100">
+                                            <img src="/images/products/{{$product->name}}/{{ $value['image'] }}" alt=""
+                                                 class="rounded mx-auto d-block">
+                                        </div>
+                                    @endforeach
                                     <!-- Slides -->
                                 </div>
                             </div>
@@ -35,11 +59,13 @@
                                 <!-- Additional required wrapper -->
                                 <div class="swiper-wrapper">
                                     <!-- Slides -->
-                                    <div class="swiper-slide">
-                                        <img src="/assets/img/products/originals/{{ $product->image }}" alt=""
-                                             class="img-fluid">
-                                    </div>
-                                    <!-- Slides -->
+                                    @foreach($product->pictures as $key=>$value)
+
+                                        <div class="swiper-slide w-100"
+                                             style="background-image: url('/images/products/{{$product->name}}/{{ $value['image']}}'); height: 520px ;background-position: center; background-size: contain; background-repeat: no-repeat">
+                                        </div>
+                                        <!-- Slides -->
+                                    @endforeach
                                 </div>
                                 <!-- Swiper Navigation buttons (Remove it if you have to) -->
                                 <div class="swiper-button-prev swiperThumb-prev text-white bg-dark">
@@ -48,25 +74,29 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <!--/.col-->
                 <div class="col-md-8 mx-auto col-lg-5 ms-xl-auto">
-                    <form action="{{ route('add.to.cart')}}" method="POST" class="clearfix"
+                    <form action="" method="POST" class="clearfix"
                           enctype="multipart/form-data">
                         @csrf
                         <!-- Product Description -->
                         <div class="mb-3 pb-3 border-bottom">
                             <div class="mb-3">
-                                <h2 class="mb-4 display-4">{{ $product->title }}</h2>
+                                <h2 class="mb-4 display-4">{{ $product->name }}</h2>
                                 <h5 class="mb-4 text-muted display-9">{{ $product->brand->name }}
                                     /{{ $product->category->name }}</h5>
+                                <p id="add_to_wishlists_success" class="alert text-center alert-success">Product added
+                                    to wishlists</p>
+                                <p id="add_to_wishlists_warning" class="alert text-center alert-warning">Product already
+                                    in wishlist</p>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    @if(isset($product->action))
+                                    @if(isset($product->discount))
                                         <div>
                                             <p class="fs-5 mb-0"
-                                               style="color: red">€&nbsp;{{ number_format($product->action, 2) }}
+                                               style="color: red">
+                                                €&nbsp;{{ number_format($product->discounted_price, 2) }}
                                                 <del class="text-muted">€&nbsp;{{ number_format($product->price, 2) }}
                                                     &nbsp;€
                                                 </del>
@@ -78,33 +108,22 @@
                                         </div>
                                     @endif
                                     <div>
-                                        <a href="{{ route('frontend.addToWishlist', $product->id ) }}"
-                                           class="fw-semibold small"><i
-                                                class="bx bx-heart align-middle me-2"></i>Add
-                                            to Wishlist</a>
+                                        <a href="" id="add_to_wishlist"
+                                           class="fw-semibold small">
+                                            <i class="bx bx-heart align-middle me-2"></i>Add to wishlist</a>
                                     </div>
                                 </div>
                             </div>
                             <p class="mb-4">
-                                {!! $product->description !!}
+                                {!! $product->short_info !!}
                             </p>
                         </div>
                         <div class="mb-3 pb-3 border-bottom">
                             <h6 class="mb-3">Quantity</h6>
-                            <div class="width-5x position-relative">
-                                <select class="form-control form-control-sm" name="quantity"
-                                        data-choices='{"searchEnabled":false,"itemSelectText":""}'>
-                                    <option value="1" selected>1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                </select>
+                            <div class="width-10x position-relative">
+                                <input type="number" value="1"
+                                       class="form-control form-control-sm"
+                                       id="quantity" name="quantity">
                             </div>
                         </div>
                         <div class="mb-3 pb-3 border-bottom">
@@ -123,19 +142,22 @@
                             <h6 class="mb-0 ms-3">This item ships free *</h6>
                         </div>
                         <div class="d-grid">
+                            <p id="add_to_cart_success" class="alert text-center alert-success">Product added
+                                to shopping cart</p>
                             <input type="hidden" value="{{ $product->id }}" name="id">
-                            <input type="hidden" value="{{ $product->title }}" name="title">
-                            <input type="hidden" value="{{ $product->brand->name }}" name="brand">
-                            @if(isset($product->action))
-                                <input type="hidden" value="{{ $product->action }}" name="price">
+                            <input type="hidden" value="{{ $product->name }}" name="name">
+                            @if(isset($product->discounted_price))
+                                <input type="hidden" id="discounted_price" value="{{ $product->discounted_price }}"
+                                       name="price">
                             @else
-                                <input type="hidden" value="{{ $product->price }}" name="price">
+                                <input type="hidden" id="price" value="{{ $product->price }}" name="price">
                             @endif
-                            <input type="hidden" value="{{ $product->image }}" name="image">
-                            <button type="submit" class="btn btn-primary hover-lift">
-                                <i class="bx bx-shopping-bag fs-5 me-2"></i>
-                                Add to Cart
-                            </button>
+                            @if($product->quantity_in_stock !== 0)
+                                <button id="add-to-cart" class="btn btn-spiller hover-lift">
+                                    <i class="bx bx-shopping-bag fs-5 me-2"></i>
+                                    Додади во кошничка
+                                </button>
+                            @endif
                         </div>
                         <!--/.cart-action-->
                     </form>
@@ -169,7 +191,7 @@
                 <div class="col-lg-9 col-md-8">
                     <div class="tab-content">
                         <div class="tab-pane fade active show" id="description">
-                            <h5>{{ $product->title }}</h5>
+                            <h5>{{ $product->name }}</h5>
                             <h6 class="text-muted">{{ $product->brand->name }}</h6>
                             <p class="mb-5">
                                 {!! $product->description !!}
@@ -180,7 +202,7 @@
                                 class="bg-gradient-secondary text-white d-flex justify-content-between align-items-center p-3 mb-5">
                                 <div>
                                     <h5 class="mb-4 mb-lg-5">Latest Reviews</h5>
-                                    <small class="text-muted">( {{ $comments->count() }} - Reviews)</small>
+                                    <small class="text-muted">( - Reviews)</small>
                                 </div>
                                 <div>
                                     <a href="#" data-bs-target="#review-collapse" data-bs-toggle="collapse"
@@ -292,43 +314,43 @@
                             </div>
                             <br>
                             <br>
-                            @foreach($comments as $comment)
-                                <!--Review-item-->
-                                <div class="d-flex mb-4">
-                                    <div class="media-body">
-                      <span class="text-warning small d-block mb-2">
-                          @if($comment->rating === 1)
-                              <i class="bx bx-star"></i>
-                          @elseif($comment->rating === 2)
-                              <i class="bx bx-star"></i><i class="bx bx-star"></i>
-                          @elseif($comment->rating === 3)
-                              <i class="bx bx-star"></i><i class="bx bx-star"></i><i class="bx bx-star"></i>
-                          @elseif($comment->rating === 4)
-                              <i class="bx bx-star"></i><i class="bx bx-star"></i><i class="bx bx-star"></i><i
-                                  class="bx bx-star"></i>
-                          @elseif($comment->rating === 5)
-                              <i class="bx bx-star"></i><i class="bx bx-star"></i><i class="bx bx-star"></i><i
-                                  class="bx bx-star"></i><i class="bx bx-star"></i>
-                          @endif
-                      </span>
-                                        <p class="mb-2">
-                                            {{ $comment->message }}
-                                        </p>
-                                        <div
-                                            class="d-flex border-bottom pb-4 justify-content-between align-items-center">
-                                            <h6 class="mb-0">{{ $comment->name }}</h6>
-                                            <small
-                                                class="text-muted">&nbsp;&nbsp;&nbsp;{{ $comment->created_at->diffForHumans() }}</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--End Review-item-->
-                            @endforeach
-                            <div class="d-grid d-sm-flex justify-content-sm-center">
-                                <div class="col-md-12 text-center">
-                                    {{ $comments->links() }}
-                                </div>
-                            </div>
+                            {{--                            @foreach($comments as $comment)--}}
+                            {{--                                <!--Review-item-->--}}
+                            {{--                                <div class="d-flex mb-4">--}}
+                            {{--                                    <div class="media-body">--}}
+                            {{--                      <span class="text-warning small d-block mb-2">--}}
+                            {{--                          @if($comment->rating === 1)--}}
+                            {{--                              <i class="bx bx-star"></i>--}}
+                            {{--                          @elseif($comment->rating === 2)--}}
+                            {{--                              <i class="bx bx-star"></i><i class="bx bx-star"></i>--}}
+                            {{--                          @elseif($comment->rating === 3)--}}
+                            {{--                              <i class="bx bx-star"></i><i class="bx bx-star"></i><i class="bx bx-star"></i>--}}
+                            {{--                          @elseif($comment->rating === 4)--}}
+                            {{--                              <i class="bx bx-star"></i><i class="bx bx-star"></i><i class="bx bx-star"></i><i--}}
+                            {{--                                  class="bx bx-star"></i>--}}
+                            {{--                          @elseif($comment->rating === 5)--}}
+                            {{--                              <i class="bx bx-star"></i><i class="bx bx-star"></i><i class="bx bx-star"></i><i--}}
+                            {{--                                  class="bx bx-star"></i><i class="bx bx-star"></i>--}}
+                            {{--                          @endif--}}
+                            {{--                      </span>--}}
+                            {{--                                        <p class="mb-2">--}}
+                            {{--                                            {{ $comment->message }}--}}
+                            {{--                                        </p>--}}
+                            {{--                                        <div--}}
+                            {{--                                            class="d-flex border-bottom pb-4 justify-content-between align-items-center">--}}
+                            {{--                                            <h6 class="mb-0">{{ $comment->name }}</h6>--}}
+                            {{--                                            <small--}}
+                            {{--                                                class="text-muted">&nbsp;&nbsp;&nbsp;{{ $comment->created_at->diffForHumans() }}</small>--}}
+                            {{--                                        </div>--}}
+                            {{--                                    </div>--}}
+                            {{--                                </div>--}}
+                            {{--                                <!--End Review-item-->--}}
+                            {{--                            @endforeach--}}
+                            {{--                            <div class="d-grid d-sm-flex justify-content-sm-center">--}}
+                            {{--                                <div class="col-md-12 text-center">--}}
+                            {{--                                    {{ $comments->links() }}--}}
+                            {{--                                </div>--}}
+                            {{--                            </div>--}}
 
                         </div>
                         <!--Tab-pane-->
@@ -363,4 +385,93 @@
             </div>
         </div>
     </section>
+@endsection
+@section('scripts')
+    <script>
+        $(document).ready(function () {
+            $('#add_to_wishlist').on('click', function () {
+                console.log('test');
+                event.preventDefault();
+                let product_id = "{{ $product->id }}";
+
+                $.ajax({
+                    url: "{{ route('add.wishlist') }}",
+                    method: 'post',
+                    data: {
+                        id: product_id,
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ @csrf_token() }}"
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            $("#add_to_wishlists_success").css('display', 'block').fadeOut(5000);
+                        }
+                        if (response.warning) {
+                            $("#add_to_wishlists_warning").css('display', 'block').fadeOut(5000);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#add-to-cart').on('click', function () {
+                event.preventDefault();
+                let quantity = $('#quantity').val();
+                let product_id = "{{ $product->id }}";
+                console.log(product_id);
+                $.ajax({
+                    url: "{{ route('add.to.cart.ajax') }}",
+                    method: 'post',
+                    data: {
+                        id: product_id,
+                        quantity: quantity,
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ @csrf_token() }}"
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            let carts = response.success;
+                            console.log(carts);
+                            let numberOfArrays = 0;
+                            $('#shopping_cart_items').html('');
+                            $.each(carts, function (key, value) {
+                                let element = `<li class="d-flex py-3 border-bottom">
+                            <div class="me-1">
+                                <a href="{{env('APP_URL')}}/products/${value['slug']}"><img src="/images/products/${value['name']}/${value['image']}"
+                                                  class="height-5x hover-lift hover-shadow w-auto"  alt=""></a>
+                            </div>
+                            <div class="flex-grow-1 px-4 mb-3">
+                                <a href="{{env('APP_URL')}}/products/${value['slug']}"
+                                   class="text-dark d-block lh-sm fw-semibold mb-2">${value['name']}</a>
+                                <p class="mb-0 small"><strong>${value['unitPrice']} €&nbsp;</strong> x
+                                    <strong>${value['quantity']}</strong>
+                                </p>
+                            </div>
+                                <div class="d-block text-end">
+                                                    <form action="{{ env('APP_URL') }}/shopping-cart/delete/${key}" method="post">
+@csrf
+                                @method('delete')
+                                <button type="submit"
+                                        class="text-muted small text-decoration-underline btn btn-hover-label">
+                                    Отстрани
+                                </button>
+                            </form>
+                        </div>
+                                </li>`;
+                                $('#shopping_cart_items').append(element);
+                                numberOfArrays++;
+                            });
+                            $("#cart_counter").text(numberOfArrays);
+                            $("#add_to_cart_success").css('display', 'block').fadeOut(5000);
+                            $("#finish_order_button").css('display', 'block');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

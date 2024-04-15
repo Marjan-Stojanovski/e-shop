@@ -1,18 +1,24 @@
 @extends('layouts.frontend')
 @section('content')
-
-    <section class="position-relative overflow-hidden">
-        <div class="container-fluid">
-            <div class="py-8 py-lg-5 bg-dark text-white position-relative">
-                <!--background image-->
-                <img src="/assets/img/shop/banners/06.jpg" class="bg-image bg-top-center opacity-75" alt="">
-                <div class="row align-items-center position-relative">
-                    <div class="col-lg-10 mx-auto text-center">
-                        <h1 class="mb-0 display-3">Zgane Pijace
-                        </h1>
+    <section class="position-relative">
+        <div class="container-fluid position-relative z-index-1">
+            <div class="position-relative rounded-4 overflow-hidden bg-dark">
+                <!-- Slider main container -->
+                <div
+                    class="swiper-main rounded-4 overflow-hidden opacity-50 position-absolute start-0 top-0 w-100 h-100 mb-0">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper rounded-5">
+                        <!-- Slides -->
+                        <div class="swiper-slide bg-cover bg-center bg-no-repeat"
+                             style="background-image: url(/images/cover_images/bar-cover.webp);"></div>
                     </div>
                 </div>
-                <!--/.row-->
+                <div
+                    class="position-relative text-white w-md-75 px-4 w-lg-60 mx-auto text-center z-index-1 py-12 py-lg-15">
+                    <!--Hero title-->
+                    <h1 class="display-1 mb-3 mb-md-4 position-relative">Производи
+                    </h1>
+                </div>
             </div>
         </div>
     </section>
@@ -38,9 +44,11 @@
                                     <i class="bx bx-filter fs-5"></i> Filter
                                 </a>
                             </div>
-                            <div class="col-sm-5 col-md-4 ms-auto">
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5 col-md-4">
                                 <div class="d-flex align-items-center">
-                                    <span class="small text-muted">Short by</span>
+                                    <span class="small text-muted">Подреди</span>
                                     <div class="flex-grow-1 ps-2">
                                         <?php
                                         $checked = [];
@@ -51,25 +59,62 @@
                                         <select class="form-control form-control-sm"
                                                 data-choices='{"searchEnabled":false,"itemSelectText":""}'
                                                 id="product-sortBy" name="sort[]">
-                                            <option @if(in_array('latest', $checked)) selected @endif value="latest"> Most recent</option>
-                                            <option @if(in_array('ASC', $checked)) selected @endif value="ASC"> Price - Low to High</option>
-                                            <option @if(in_array('DESC', $checked)) selected @endif value="DESC">Price - High to Low</option>
+                                            <option @if(in_array('normal', $checked)) selected
+                                                    @endif value="normal"> Одбери
+                                            </option>
+                                            <option @if(in_array('latest', $checked)) selected
+                                                    @endif value="latest"> Најнови
+                                            </option>
+                                            <option @if(in_array('asc', $checked)) selected @endif value="asc">Цена
+                                                - ниска кон висока
+                                            </option>
+                                            <option @if(in_array('desc', $checked)) selected @endif value="desc">
+                                                Цена - висока кон ниска
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-5 col-md-2 ms-auto">
+                                <div class="d-flex align-items-center pb-2">
+                                    <span class="small text-muted">Прикажи</span>
+                                    <div class="flex-grow-0 ps-2">
+                                        <?php
+                                        $checked = [];
+                                        if (isset($_GET['per_page'])) {
+                                            $checked = $_GET['per_page'];
+                                        }
+                                        ?>
+                                        <select class="form-control form-control-sm"
+                                                data-choices='{"searchEnabled":false,"itemSelectText":""}'
+                                                id="product-sortBy" name="per_page[]">
+                                            <option @if(in_array('12', $checked)) selected
+                                                    @endif value="12"> 12
+                                            </option>
+                                            <option @if(in_array('24', $checked)) selected
+                                                    @endif value="24"> 24
+                                            </option>
+                                            <option @if(in_array('36', $checked)) selected @endif value="36">36
+                                            </option>
+                                            <option @if(in_array('50', $checked)) selected @endif value="50">50
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <br>
                         <!--Filter collapse-->
                         <div class="collapse" id="shop_filters">
-
+                            <br>
                             <div class="row">
                                 <!--:Filter column-->
-                                <div class="col-sm-6 col-xl-3">
+                                <div class="col-sm-6 col-xl-2">
                                     <!--:Sidebar widget card-->
                                     <div class="card p-0 mb-4 card-body">
                                         <!--:Title-->
                                         <div class="d-flex p-3 border-bottom mb-3 align-items-center">
-                                            <h6 class="me-3 mb-0">Akcija!!!</h6>
+                                            <h6 class="me-3 mb-0">Акција</h6>
                                             <div class="pt-1 flex-grow-1 bg-gray-200"></div>
                                         </div>
                                         <!--:list-->
@@ -84,22 +129,24 @@
                                                             $checked = $_GET['discount'];
                                                         }
                                                         ?>
-                                                        <input type="checkbox" class="btn-check" id="color_red"
+                                                        <input type="checkbox" class="btn-check" id="discount"
                                                                name="discount[]"
                                                                value="checked"
                                                                @if(in_array('checked', $checked)) checked @endif />
                                                         <label
-                                                            class="shop-product-color btn p-0 border-0 me-1 width-2x height-2x flex-center rounded-circle text-white product-red"
-                                                            for="color_red"></label><span>Izdelke na Akcii</span>
+                                                            class="shop-product-color btn p-0 border-0 me-1 width-2x height-2x flex-center rounded-circle text-white product-brown"
+                                                            for="discount"></label><span> Попуст</span>
                                                     </div>
                                                 </li>
                                             </ul>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-sm-6 col-xl-2">
                                     <div class="card p-0 overflow-hidden card-body mb-4">
                                         <!--:Title-->
                                         <div class="d-flex p-3 border-bottom align-items-center">
-                                            <h6 class="me-3 mb-0">Categories</h6>
+                                            <h6 class="me-3 mb-0">Категорија</h6>
                                             <div class="pt-1 flex-grow-1 bg-gray-200"></div>
                                         </div>
                                         <!--:Collapse categories-->
@@ -128,12 +175,12 @@
                                     </div>
                                 </div>
                                 <!--:Filter column-->
-                                <div class="col-sm-6 col-xl-3">
+                                <div class="col-sm-6 col-xl-2">
                                     <!--:Sidebar widget card-->
                                     <div class="card overflow-hidden p-0 mb-4 card-body">
                                         <!--:Title-->
                                         <div class="d-flex p-3 border-bottom align-items-center">
-                                            <h6 class="me-3 mb-0">Brands</h6>
+                                            <h6 class="me-3 mb-0">Бренд</h6>
                                             <div class="pt-1 flex-grow-1 bg-gray-200"></div>
                                         </div>
                                         <!--:list-->
@@ -148,11 +195,12 @@
                                                     ?>
                                                 <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" name="brand[]"
+                                                        <input class="form-check-input" type="checkbox"
+                                                               name="brand[]"
                                                                value="{{ $brand->id }}"
                                                                @if(in_array($brand->id, $checked)) checked @endif />
                                                         <label class="form-check-label widget-filter-item-text"
-                                                               for="adidas">{{ $brand->name }}</label>
+                                                               for="subcategory">{{ $brand->name }}</label>
                                                     </div>
                                                     <span class="fs-xs text-muted"></span>
                                                 </li>
@@ -161,7 +209,39 @@
                                     </div>
                                 </div>
                                 <!--:Filter column-->
-                                <div class="col-sm-6 col-xl-3">
+                                <div class="col-sm-6 col-xl-2">
+                                    <!--:Sidebar widget card-->
+                                    <div class="card overflow-hidden p-0 mb-4 card-body">
+                                        <!--:Title-->
+                                        <div class="d-flex p-3 border-bottom align-items-center">
+                                            <h6 class="me-3 mb-0">Држава</h6>
+                                            <div class="pt-1 flex-grow-1 bg-gray-200"></div>
+                                        </div>
+                                        <!--:list-->
+                                        <ul class="list-unstyled mb-0 pb-2 pt-3 px-3" data-simplebar
+                                            style="max-height: 13rem;">
+                                            @foreach($countries as $country)
+                                                    <?php
+                                                    $checked = [];
+                                                    if (isset($_GET['country'])) {
+                                                        $checked = $_GET['country'];
+                                                    }
+                                                    ?>
+                                                <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" name="country[]"
+                                                               value="{{ $country->id }}"
+                                                               @if(in_array($country->id, $checked)) checked @endif />
+                                                        <label class="form-check-label widget-filter-item-text"
+                                                               for="size-xs">{{ $country->name }}</label>
+                                                    </div>
+                                                    <span class="small text-muted"></span>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xl-2">
                                     <!--:Sidebar widget card-->
                                     <div class="card overflow-hidden p-0 mb-4 card-body">
                                         <!--:Title-->
@@ -193,47 +273,14 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <!--:Filter column-->
-                                <div class="col-sm-6 col-xl-3">
-                                    <!--:Sidebar widget card-->
-                                    <div class="card overflow-hidden p-0 mb-4 card-body">
-                                        <!--:Title-->
-                                        <div class="d-flex p-3 border-bottom align-items-center">
-                                            <h6 class="me-3 mb-0">Country</h6>
-                                            <div class="pt-1 flex-grow-1 bg-gray-200"></div>
-                                        </div>
-                                        <!--:list-->
-                                        <ul class="list-unstyled mb-0 pb-2 pt-3 px-3" data-simplebar
-                                            style="max-height: 13rem;">
-                                            @foreach($countries as $country)
-                                                    <?php
-                                                    $checked = [];
-                                                    if (isset($_GET['country'])) {
-                                                        $checked = $_GET['country'];
-                                                    }
-                                                    ?>
-                                                <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" name="country[]"
-                                                               value="{{ $country->id }}"
-                                                               @if(in_array($country->id, $checked)) checked @endif />
-                                                        <label class="form-check-label widget-filter-item-text"
-                                                               for="size-xs">{{ $country->name }}</label>
-                                                    </div>
-                                                    <span class="small text-muted"></span>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                </div>
                             </div>
                             <div class="text-end">
-                                <button type="submit" class="btn btn-primary me-3">Apply</button>
-                                <button onClick="resetCheckbox()" class="btn btn-outline-gray-200 text-body">Clear
-                                    Filters
+                                <button type="submit" class="btn btn-spiller btn-sm me-3">Примени</button>
+                                <button onClick="resetCheckbox()" class="btn btn-outline-gray-200 btn-sm text-body">
+                                    Избриши ги
+                                    филтрите
                                 </button>
                             </div>
-
                             <hr>
                         </div>
                     </form>
@@ -241,66 +288,43 @@
                         @foreach($products as $product)
                             <div class="col-md-6 col-lg-3 mb-4">
                                 <!--:card-hover-expand-->
-                                @if(isset($product->action))
-                                    <div class="card overflow-hidden hover-lift card-product">
-                                        <div class="card-product-header p-3 d-block overflow-hidden"
-                                             style="height: 350px">
-                                            <!--Product image-->
-                                            <a href="{{ route('frontend.product', $product->slug) }}">
-                                                <img src="/assets/img/products/thumbnails/{{ $product->image }}"
-                                                     width="100%" class="img-fluid"
-                                                     alt="Product">
-                                            </a>
-                                            <span
-                                                class="badge rounded-pill bg-danger position-absolute start-0 top-0 mt-4 ms-4">-{{ $product->discount }}%</span>
-                                        </div>
-                                        <div class="card-product-body p-3 pt-0 text-center">
-                                            <a href="{{ route('frontend.product', $product->slug) }}"
-                                               class="h5 d-block position-relative mb-2 text-dark">{{ $product->title }}</a>
-                                            <div class="card-product-body-overlay">
-                                                <!--Price-->
+                                <div class="card overflow-hidden hover-lift card-product">
+                                    <a href="{{ route('frontend.product', $product->slug) }}">
+                                        @foreach($product->pictures as $key=>$value)
+                                            @if($key === 0)
+                                                <div class="card-product-header p-3 d-block overflow-hidden"
+                                                     style="height: 350px;background-image: url('/images/products/{{$product->name}}/{{ $value['image'] }}');background-position: center; background-size: contain; background-repeat: no-repeat">
+                                                    @endif
+                                                    @endforeach
+                                                    @if($product->discount)
+                                                        <span
+                                                            class="badge rounded-pill bg-danger position-absolute start-0 top-0 mt-4 ms-4">-{{ $product->discount }}%</span>
+                                                    @endif
+                                                </div>
+                                    </a>
+                                    <div class="card-product-body p-3 pt-0 text-center">
+                                        <a href="{{ route('frontend.product', $product->slug) }}"
+                                           class="h5 d-block position-relative mb-2 text-dark">{{ $product->name }}</a>
+                                        <div class="card-product-body-overlay">
+                                            <!--Price-->
+                                            @if($product->discounted_price)
                                                 <span class="card-product-price">
-                                            <span style="color: red">€&nbsp;{{ $product->action }}</span> <del>€&nbsp;{{ $product->price }}</del>
+                                            <span style="color: red">{{ $product->discounted_price }}&nbsp;ден.</span> <del>{{ $product->price }}&nbsp;ден.</del>
                                         </span>
-                                                <!--Action-->
-                                                <span class="card-product-view-btn">
-                                            <a href="{{ route('frontend.product', $product->slug) }}"
-                                               class="link-underline mb-1 fw-semibold text-dark">View
-                                                Details</a>
-                                        </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--:/card product end-->
-                                @else
-                                    <div class="card overflow-hidden hover-lift card-product">
-                                        <div class="card-product-header p-3 d-block overflow-hidden"
-                                             style="height: 350px">
-                                            <!--Product image-->
-                                            <a href="{{ route('frontend.product', $product->slug) }}">
-                                                <img src="/assets/img/products/thumbnails/{{ $product->image }}"
-                                                     width="100%" class="img-fluid"
-                                                     alt="Product">
-                                            </a>
-                                        </div>
-                                        <div class="card-product-body p-3 pt-0 text-center">
-                                            <a href="{{ route('frontend.product', $product->slug) }}"
-                                               class="h5 d-block position-relative mb-2 text-dark">{{ $product->title }}</a>
-                                            <div class="card-product-body-overlay">
-                                                <!--Price-->
+                                            @else
                                                 <span class="card-product-price">
-                                            <span>€&nbsp;{{ $product->price }}</span>
+                                            <span>{{ $product->price }}&nbsp;ден.</span>
                                                 </span>
-                                                <!--Action-->
-                                                <span class="card-product-view-btn">
+                                            @endif
+                                            <!--Action-->
+                                            <span class="card-product-view-btn">
                                             <a href="{{ route('frontend.product', $product->slug) }}"
-                                               class="link-underline mb-1 fw-semibold text-dark">View
-                                                Details</a>
+                                               class="link-underline mb-1 fw-semibold text-dark">Погледни</a>
                                         </span>
-                                            </div>
                                         </div>
                                     </div>
-                                @endif
+                                </div>
+                                <!--:/card product end-->
                             </div>
                         @endforeach
                     </div>

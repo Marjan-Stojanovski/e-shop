@@ -192,19 +192,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/products/{slug}', [App\Http\Controllers\FrontendController::class, 'product'])->name('frontend.product');
     Route::post('/save-comment', [App\Http\Controllers\CommentControler::class, 'frontendSave'])->name('comment.save');
 
-    // Whishlist
-    Route::prefix('whishlists')->group(function () {
+    // Wishlist
+    Route::prefix('wishlists')->group(function () {
         Route::get('/', [App\Http\Controllers\WishlistController::class, 'index'])->name('frontend.wishlist');
-        Route::get('/{wishlist}', [App\Http\Controllers\WishlistController::class, 'create'])->name('frontend.addToWishlist');
+        Route::post('/add-wishlist', [App\Http\Controllers\WishlistController::class, 'add_wishlist'])->name('add.wishlist');
         Route::delete('/{wishlist}', [App\Http\Controllers\WishlistController::class, 'delete'])->name('frontend.wishlistDelete');
         Route::delete('/{wishlist}/transfer', [App\Http\Controllers\WishlistController::class, 'addToCart_deleteWishlist'])->name('addToCart.wishlistDelete');
-
-
     });
     // shopping Cart SESSION routes/////
-    Route::prefix('shoppingcart')->group(function () {
+    Route::prefix('shopping-cart')->group(function () {
         Route::get('/', [App\Http\Controllers\ShoppingCartController::class, 'viewCart'])->name('frontend.shoppingCart');
-        Route::post('/add-to-cart', [App\Http\Controllers\ShoppingCartController::class, 'addToCart'])->name('add.to.cart');
+        Route::post('/add-to-cart', [App\Http\Controllers\ShoppingCartController::class, 'addToCartAjax'])->name('add.to.cart.ajax');
+        Route::get('/get_carts', [App\Http\Controllers\ShoppingCartController::class, 'get_carts'])->name('get.carts.ajax');
+//        Route::post('/add-to-cart', [App\Http\Controllers\ShoppingCartController::class, 'addToCart'])->name('add.to.cart');
         Route::delete('/delete/{product}', [App\Http\Controllers\ShoppingCartController::class, 'deleteProduct'])->name('delete.cart');
     });
 

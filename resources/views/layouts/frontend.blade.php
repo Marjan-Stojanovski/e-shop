@@ -30,6 +30,18 @@
             width: 7px;
         }
 
+        #add_to_wishlists_success {
+            display: none;
+        }
+
+        #add_to_wishlists_warning {
+            display: none;
+        }
+
+        #add_to_cart_success {
+            display: none;
+        }
+
         .simplebar-scrollbar:before {
             background: currentColor;
         }
@@ -76,8 +88,8 @@
                 <a href="#offcanvasCart" data-bs-toggle="offcanvas" class="nav-link lh-1 position-relative">
                     <i class="bx bx-shopping-bag fs-4"></i>
                     <!--card badge-->
-                    <span
-                        class="badge d-none d-lg-flex p-0 position-absolute end-0 top-0 me-n2 mt-n1 lh-1 fw-semibold width-1x height-1x bg-white shadow-sm rounded-circle flex-center text-dark">{{ count((array) session('cart')) }}</span>
+                    <span id="cart_counter"
+                          class="badge d-none d-lg-flex p-0 position-absolute end-0 top-0 me-n2 mt-n1 lh-1 fw-semibold width-1x height-1x shadow-sm rounded-circle flex-center text-dark"></span>
                 </a>
             </div>
             <!--Search collapse trigger(hidden in desktop laptop)-->
@@ -224,46 +236,48 @@ $carts = session()->get('cart', []);
         </button>
     </div>
     <div class="offcanvas-body p-4">
-        <ul class="list-unstyled no-animation mb-0">
-            <?php
-            $subTotal = 0;
-            ?>
-            @if(session('cart'))
-                @foreach(session('cart') as $id => $details)
-                    <li class="d-flex py-3 border-bottom">
-                        <div class="me-1">
-                            <a href="#!"><img src="/assets/img/products/thumbnails/{{ $details['image'] }}"
-                                              class="height-10x hover-lift hover-shadow w-auto" alt=""></a>
-                        </div>
-                        <div class="flex-grow-1 px-4 mb-3">
-                            <a href="#!" class="text-dark d-block lh-sm fw-semibold mb-2">{{ $details['name'] }}</a>
-                            <p class="mb-0 small"><strong>€ {{ $details['unitPrice'] }}</strong> x
-                                <strong>{{ $details['quantity'] }}</strong>
-                            </p>
-                        </div>
-                            <?php
-                            $productAmount = $details['productAmount'];
-                            $subTotal += $productAmount;
-                            ?>
-                        <div class="d-block text-end">
-                            <form action="{{route('delete.cart', $id )}}" method="post">
-                                @csrf
-                                @method('delete')
-                                <button type="submit"
-                                        class="text-muted small text-decoration-underline btn btn-hover-label">
-                                    Remove
-                                </button>
-                            </form>
-
-                        </div>
-                    </li>
-                @endforeach
-            @endif
-            <li class="d-flex p-3 mb-3 border-top justify-content-between align-items-center">
-                <span class="fw-normal">Subtotal</span>
-                <span class="text-dark fw-bold">€ {{ number_format($subTotal, 2) }}</span>
-            </li>
+        <ul class="list-unstyled no-animation mb-0" id="shopping_cart_items">
         </ul>
+{{--        <ul class="list-unstyled no-animation mb-0">--}}
+{{--            <?php--}}
+{{--            $subTotal = 0;--}}
+{{--            ?>--}}
+{{--            @if(session('cart'))--}}
+{{--                @foreach(session('cart') as $id => $details)--}}
+{{--                    <li class="d-flex py-3 border-bottom">--}}
+{{--                        <div class="me-1">--}}
+{{--                            <a href="#!"><img src="/assets/img/products/thumbnails/{{ $details['image'] }}"--}}
+{{--                                              class="height-10x hover-lift hover-shadow w-auto" alt=""></a>--}}
+{{--                        </div>--}}
+{{--                        <div class="flex-grow-1 px-4 mb-3">--}}
+{{--                            <a href="#!" class="text-dark d-block lh-sm fw-semibold mb-2">{{ $details['name'] }}</a>--}}
+{{--                            <p class="mb-0 small"><strong>€ {{ $details['unitPrice'] }}</strong> x--}}
+{{--                                <strong>{{ $details['quantity'] }}</strong>--}}
+{{--                            </p>--}}
+{{--                        </div>--}}
+{{--                            <?php--}}
+{{--                            $productAmount = $details['productAmount'];--}}
+{{--                            $subTotal += $productAmount;--}}
+{{--                            ?>--}}
+{{--                        <div class="d-block text-end">--}}
+{{--                            <form action="{{route('delete.cart', $id )}}" method="post">--}}
+{{--                                @csrf--}}
+{{--                                @method('delete')--}}
+{{--                                <button type="submit"--}}
+{{--                                        class="text-muted small text-decoration-underline btn btn-hover-label">--}}
+{{--                                    Remove--}}
+{{--                                </button>--}}
+{{--                            </form>--}}
+
+{{--                        </div>--}}
+{{--                    </li>--}}
+{{--                @endforeach--}}
+{{--            @endif--}}
+{{--            <li class="d-flex p-3 mb-3 border-top justify-content-between align-items-center">--}}
+{{--                <span class="fw-normal">Subtotal</span>--}}
+{{--                <span class="text-dark fw-bold">€ {{ number_format($subTotal, 2) }}</span>--}}
+{{--            </li>--}}
+{{--        </ul>--}}
     </div>
     <div class="offcanvas-footer p-4 border-top">
         <ul class="list-unstyled mb-0">
@@ -377,6 +391,53 @@ $carts = session()->get('cart', []);
 <script src="/assets/vendor/node_modules/js/swiper-bundle.min.js"></script>
 <script src="/assets/vendor/node_modules/js/simplebar.min.js"></script>
 <script src="/assets/vendor/node_modules/js/choices.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "{{ route('get.carts.ajax') }}",
+            method: 'get',
+            data: {},
+            headers: {
+                'X-CSRF-TOKEN': "{{ @csrf_token() }}"
+            },
+            success: function (response) {
+                if (response.success) {
+                    let carts = response.success;
+                    let numberOfArrays = 0;
+                    $('#shopping_cart_items').html('');
+                    $.each(carts, function (key, value) {
+                        let element = `<li class="d-flex py-3 border-bottom">
+                            <div class="me-1">
+                                <a href="{{ env('APP_URL') }}/products/${value['slug']}"><img src="/images/products/${value['name']}/${value['image']}"
+                                                  class="height-10x hover-lift hover-shadow w-auto" alt=""></a>
+                            </div>
+                            <div class="flex-grow-1 px-4 mb-3">
+                                <a href="{{ env('APP_URL') }}/products/${value['slug']}"
+                                   class="text-dark d-block lh-sm fw-semibold mb-2">${value['name']}</a>
+                                <p class="mb-0 small"><strong>${value['unitPrice']} €&nbsp;</strong> x
+                                    <strong>${value['quantity']}</strong>
+                                </p>
+                            </div>
+                                                        <div class="d-block text-end">
+                                                    <form action="{{ env('APP_URL') }}/shopping-cart/delete/${key}" method="post">
+@csrf
+                        @method('delete')
+                        <button
+                                class="text-muted small text-decoration-underline btn btn-hover-label">
+                            Отстрани
+                        </button>
+                    </form>
+                </div>
+</li>`;
+                        $('#shopping_cart_items').append(element);
+                        numberOfArrays++;
+                    });
+                    $("#cart_counter").text(numberOfArrays);
+                }
+            }
+        });
+    });
+</script>
 <script>
     //Swiper Classic
     var swiperClassic = new Swiper(".swiper-classic", {
