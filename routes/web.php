@@ -180,7 +180,8 @@ Route::middleware('auth')->prefix('User')->group(function () {
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/search', [App\Http\Controllers\FrontendController::class, 'search'])->name('frontend.search');
+//    Route::get('/search', [App\Http\Controllers\FrontendController::class, 'search'])->name('frontend.search');
+    Route::post('/ajax/searchProducts', [App\Http\Controllers\FrontendController::class, 'searchProducts'])->name('get.search.products.ajax');
     Route::get('/e-shop', [App\Http\Controllers\FrontendController::class, 'shop'])->name('frontend.shop');
     Route::get('/contactus', [App\Http\Controllers\FrontendController::class, 'contact_us'])->name('frontend.feedback');
     Route::get('/aboutus', [App\Http\Controllers\FrontendController::class, 'about_us'])->name('frontend.about');

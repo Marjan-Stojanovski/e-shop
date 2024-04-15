@@ -15,10 +15,9 @@ use App\Models\Policy;
 use App\Models\Product;
 use App\Models\Shipping;
 use App\Models\Volume;
-use http\Env\Url;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class FrontendController extends Controller
 {
@@ -46,21 +45,6 @@ class FrontendController extends Controller
             return view('frontend.index')->with($data);
 
         } else {
-
-            //  $company = CompanyInfo::first();
-            //$brands = Brand::all();
-            //$categories = Category::all();
-            //$categoriesTree = Category::getTreeHP();
-            //$products = Product::whereNotNull('discount')->paginate(5);
-
-
-            //$data = [
-            //    'company' => $company,
-            //    'brands' => $brands,
-            //    'categoriesTree' => $categoriesTree,
-            //    'categories' => $categories,
-            //    'products' => $products,
-            //];
 
             return redirect()->route('frontend.comingSoon');
         }
@@ -250,59 +234,6 @@ class FrontendController extends Controller
         return view('frontend.auth.reset')->with($data);
     }
 
-    //USED-TO BE CHECKED
-    public function search(Request $request)
-    {
-
-        if ($_GET['search']) {
-
-            $search = $_GET['search'];
-
-            $products = Product::search($search);
-
-
-            $company = CompanyInfo::first();
-            $categoriesTree = Category::getTreeHP();
-            $brands = Brand::all();
-            $categories = Category::all();
-            $volumes = Volume::all();
-            $countries = Country::all();
-
-            $data = [
-                'company' => $company,
-                'brands' => $brands,
-                'categories' => $categories,
-                'volumes' => $volumes,
-                'countries' => $countries,
-                'categoriesTree' => $categoriesTree,
-                'products' => $products,
-            ];
-
-            return view('frontend.shop')->with($data);
-
-        }
-
-        $products = Product::paginate(5);
-        $company = CompanyInfo::first();
-        $categoriesTree = Category::getTreeHP();
-        $brands = Brand::all();
-        $categories = Category::all();
-        $volumes = Volume::all();
-        $countries = Country::all();
-
-        $data = [
-            'company' => $company,
-            'brands' => $brands,
-            'categories' => $categories,
-            'volumes' => $volumes,
-            'countries' => $countries,
-            'categoriesTree' => $categoriesTree,
-            'products' => $products,
-        ];
-
-        return view('frontend.shop')->with($data);
-    }
-
     public function politika()
     {
 
@@ -382,5 +313,29 @@ class FrontendController extends Controller
     public function comingSoon()
     {
         return view('frontend.comingSoon');
+    }
+
+    public function searchProducts(Request $request): JsonResponse
+    {
+        $search = $request->get('query');
+        $builder = Product::query();
+
+        if (!empty($search)) {
+            $builder->where(function ($query) use ($search) {
+                $query->where('name', 'like', "%$search%")
+                    ->orWhere('slug', 'like', "%$search%")
+                    ->orWhereHas('brand', function ($query) use ($search) {
+                        $query->where('name', 'like', "%$search%");
+                    })
+                    ->orWhereHas('category', function ($query) use ($search) {
+                        $query->where('name', 'like', "%$search%");
+                    });
+            });
+
+            $products = $builder->with('pictures')->get();
+
+        }
+
+        return response()->json(['success' => $products]);
     }
 }

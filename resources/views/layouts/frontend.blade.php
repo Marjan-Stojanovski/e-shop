@@ -80,6 +80,10 @@
                         </span>
             </button>
             <div class="nav-item ms-0 me-4 me-lg-2">
+                <a href="#modalBasic" data-bs-toggle="modal" aria-expanded="false"
+                   class="nav-link lh-1 position-relative"><i class="bx bx-search-alt-2 fs-4"></i></a>
+            </div>
+            <div class="nav-item ms-0 me-4 me-lg-2">
                 <a href="{{ route('frontend.wishlist') }}" class="nav-link lh-1 position-relative">
                     <i class="bx bx-heart fs-4"></i>
                 </a>
@@ -198,26 +202,63 @@
             </ul>
         </div>
 
-        <!--begin:Search bar -->
-        <div class="collapse collapse-search ms-xl-auto ms-lg-3 me-lg-1 d-lg-block" style="--navbar-search-width:280px;"
-             id="searchCollapse">
-            <form action="{{ route('frontend.search') }}" method="GET" role="search">
+{{--        <!--begin:Search bar -->--}}
+{{--        <div class="collapse collapse-search ms-xl-auto ms-lg-3 me-lg-1 d-lg-block" style="--navbar-search-width:280px;"--}}
+{{--             id="searchCollapse">--}}
+{{--            <form action="{{ route('frontend.search') }}" method="GET" role="search">--}}
+{{--                <div class="position-relative mt-3 mt-lg-0">--}}
+{{--                            <span class="position-absolute start-0 top-50 translate-middle-y ms-3 opacity-50">--}}
+{{--                                <i class="bx bx-search-alt-2"></i>--}}
+{{--                            </span>--}}
+{{--                    <input type="text" placeholder="Search Products..."--}}
+{{--                           value="{{ Request::get('search') }}"--}}
+{{--                           class="form-control ps-6 rounded-pill" name="search">--}}
+{{--                </div>--}}
+{{--                <button type="submit" hidden></button>--}}
+{{--            </form>--}}
+{{--        </div>--}}
+{{--        <!--/end:Search bar -->--}}
+        <!--/end:Header shop-->
+    </div>
+</nav>
+<!--/end:Header shop-->
+<div class="modal fade" id="modalBasic" tabindex="-1" aria-labelledby="modalBasicLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content border-0">
+            <div class="modal-header border-0 bg-light">
+                <h5 class="modal-title">Пребарај производи</h5>
+                <!--Close button-->
+                <button type="button" style="color: white; background-color: #7d756f; border-color: #7d756f;"
+                        class="btn btn-outline-secondary p-0 border-2 width-3x height-3x rounded-circle flex-center z-index-1"
+                        data-bs-dismiss="modal" aria-label="Close">
+                    <i class="bx bx-x fs-5"></i>
+                </button>
+            </div>
+            <div class="modal-body py-5 border-0">
                 <div class="position-relative mt-3 mt-lg-0">
                             <span class="position-absolute start-0 top-50 translate-middle-y ms-3 opacity-50">
                                 <i class="bx bx-search-alt-2"></i>
                             </span>
-                    <input type="text" placeholder="Search Products..."
+                    <input type="text" placeholder="Побарај производ..." id="inputSearch"
                            value="{{ Request::get('search') }}"
                            class="form-control ps-6 rounded-pill" name="search">
                 </div>
-                <button type="submit" hidden></button>
-            </form>
+                <!--:Wishlist table-->
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody id="searchProductsFound">
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <!--/end:Search bar -->
     </div>
-</nav>
-<!--/end:Header shop-->
-
+</div>
 
 <!--begin:Shopping Cart offcanvas-->
 <?php
@@ -646,6 +687,47 @@ $carts = session()->get('cart', []);
         jQuery('#product-sortBy').change(function () {
             this.form.submit();
         });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#inputSearch').on('keyup', function () {
+            let searchQuery = $('#inputSearch').val();
+            $.ajax({
+                url: "{{ route('get.search.products.ajax') }}",
+                method: 'post',
+                data: {
+                    query: searchQuery,
+                },
+                headers: {
+                    'X-CSRF-TOKEN': "{{ @csrf_token() }}"
+                },
+                success: function (response) {
+                    if (response.success) {
+                        let products = response.success;
+                        console.log(products);
+                        $('#searchProductsFound').html('');
+                        $.each(products, function (key, value) {
+                            let image = value['pictures'][0];
+                            console.log(value);
+                            let foundProduct = `<tr style="padding-left: 10px">
+                        <td class="text-center"><a href="{{ env('APP_URL') }}/products/${value['slug']}" class="text-inherit">
+                            <img src="/images/products/${value['name']}/${image['image']}" class="img-fluid width-5x h-auto"
+                                             alt=""></a>
+
+                        </td>
+                        <td class="align-middle">
+                            <div">
+                                <h5 class="fs-6 mb-0"><a href="{{ env('APP_URL') }}/products/${value['slug']}" class="text-inherit">${value['name']}</a></h5>
+                            </div>
+                        </td>
+                    </tr>`;
+                            $('#searchProductsFound').append(foundProduct);
+                        });
+                    }
+                }
+            });
+        })
     });
 </script>
 @yield('scripts')
