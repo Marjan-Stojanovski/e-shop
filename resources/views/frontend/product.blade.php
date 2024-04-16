@@ -202,7 +202,7 @@
                                 class="bg-gradient-secondary text-white d-flex justify-content-between align-items-center p-3 mb-5">
                                 <div>
                                     <h5 class="mb-4 mb-lg-5">Latest Reviews</h5>
-                                    <small class="text-muted">( - Reviews)</small>
+                                    <small class="text-muted">({{count($comments)}} - Reviews)</small>
                                 </div>
                                 <div>
                                     <a href="#" data-bs-target="#review-collapse" data-bs-toggle="collapse"
@@ -314,44 +314,46 @@
                             </div>
                             <br>
                             <br>
-                            {{--                            @foreach($comments as $comment)--}}
-                            {{--                                <!--Review-item-->--}}
-                            {{--                                <div class="d-flex mb-4">--}}
-                            {{--                                    <div class="media-body">--}}
-                            {{--                      <span class="text-warning small d-block mb-2">--}}
-                            {{--                          @if($comment->rating === 1)--}}
-                            {{--                              <i class="bx bx-star"></i>--}}
-                            {{--                          @elseif($comment->rating === 2)--}}
-                            {{--                              <i class="bx bx-star"></i><i class="bx bx-star"></i>--}}
-                            {{--                          @elseif($comment->rating === 3)--}}
-                            {{--                              <i class="bx bx-star"></i><i class="bx bx-star"></i><i class="bx bx-star"></i>--}}
-                            {{--                          @elseif($comment->rating === 4)--}}
-                            {{--                              <i class="bx bx-star"></i><i class="bx bx-star"></i><i class="bx bx-star"></i><i--}}
-                            {{--                                  class="bx bx-star"></i>--}}
-                            {{--                          @elseif($comment->rating === 5)--}}
-                            {{--                              <i class="bx bx-star"></i><i class="bx bx-star"></i><i class="bx bx-star"></i><i--}}
-                            {{--                                  class="bx bx-star"></i><i class="bx bx-star"></i>--}}
-                            {{--                          @endif--}}
-                            {{--                      </span>--}}
-                            {{--                                        <p class="mb-2">--}}
-                            {{--                                            {{ $comment->message }}--}}
-                            {{--                                        </p>--}}
-                            {{--                                        <div--}}
-                            {{--                                            class="d-flex border-bottom pb-4 justify-content-between align-items-center">--}}
-                            {{--                                            <h6 class="mb-0">{{ $comment->name }}</h6>--}}
-                            {{--                                            <small--}}
-                            {{--                                                class="text-muted">&nbsp;&nbsp;&nbsp;{{ $comment->created_at->diffForHumans() }}</small>--}}
-                            {{--                                        </div>--}}
-                            {{--                                    </div>--}}
-                            {{--                                </div>--}}
-                            {{--                                <!--End Review-item-->--}}
-                            {{--                            @endforeach--}}
-                            {{--                            <div class="d-grid d-sm-flex justify-content-sm-center">--}}
-                            {{--                                <div class="col-md-12 text-center">--}}
-                            {{--                                    {{ $comments->links() }}--}}
-                            {{--                                </div>--}}
-                            {{--                            </div>--}}
-
+                            @foreach($comments as $comment)
+                                <!--Review-item-->
+                                <div class="d-flex mb-4">
+                                    <div class="media-body">
+                                                  <span class="text-warning small d-block mb-2">
+                                                      @if($comment->rating === 1)
+                                                          <i class="bx bx-star"></i>
+                                                      @elseif($comment->rating === 2)
+                                                          <i class="bx bx-star"></i><i class="bx bx-star"></i>
+                                                      @elseif($comment->rating === 3)
+                                                          <i class="bx bx-star"></i><i class="bx bx-star"></i><i
+                                                              class="bx bx-star"></i>
+                                                      @elseif($comment->rating === 4)
+                                                          <i class="bx bx-star"></i><i class="bx bx-star"></i><i
+                                                              class="bx bx-star"></i><i
+                                                              class="bx bx-star"></i>
+                                                      @elseif($comment->rating === 5)
+                                                          <i class="bx bx-star"></i><i class="bx bx-star"></i><i
+                                                              class="bx bx-star"></i><i
+                                                              class="bx bx-star"></i><i class="bx bx-star"></i>
+                                                      @endif
+                                                  </span>
+                                        <p class="mb-2">
+                                            {{ $comment->message }}
+                                        </p>
+                                        <div
+                                            class="d-flex border-bottom pb-4 justify-content-between align-items-center">
+                                            <h6 class="mb-0">{{ $comment->name }}</h6>
+                                            <small
+                                                class="text-muted">&nbsp;&nbsp;&nbsp;{{ $comment->created_at->diffForHumans() }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--End Review-item-->
+                            @endforeach
+                            <div class="d-grid d-sm-flex justify-content-sm-center">
+                                <div class="col-md-12 text-center">
+                                    {{ $comments->links() }}
+                                </div>
+                            </div>
                         </div>
                         <!--Tab-pane-->
                     </div>

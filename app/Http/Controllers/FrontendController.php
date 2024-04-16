@@ -60,9 +60,9 @@ class FrontendController extends Controller
         $product = Product::where('slug', $slug)->first();
         $categoriesTree = Category::getTreeHP();
         $relatedProducts = Product::where('category_id', $product->category_id)->whereNotIn('id', [$product->id])->limit(5)->get();
-//        $comments = Comment::where('product_id', $product['id'])
-//            ->latest('created_at')
-//            ->paginate(12);
+        $comments = Comment::where('product_id', $product['id'])
+            ->latest('created_at')
+            ->paginate(12);
 
 
         $data = [
@@ -71,7 +71,7 @@ class FrontendController extends Controller
             'product' => $product,
             'categoriesTree' => $categoriesTree,
             'relatedProducts' => $relatedProducts,
-//            'comments' => $comments,
+            'comments' => $comments,
         ];
 
         return view('frontend.product')->with($data);
