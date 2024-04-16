@@ -104,62 +104,71 @@
     <!--/end:Hero section-->
 
 
-    <!--begin:featured products-->
-    <section class="position-relative">
-        <div class="container py-9 py-lg-11 position-relative z-index-1">
-            <div class="row mb-7 align-items-end justify-content-between">
-                <!--begin: Section headings-->
-                <div class="col-lg-7 mb-4 mb-lg-0">
-                    <!--Heading-->
-                    <h3 class="mb-2 display-6" data-aos="fade-right">Products on discount</h3>
-                </div>
-                <!--end: Section headings-->
-                <div class="col-12 col-lg-3 text-lg-end" data-aos="fade-right" data-aos-delay="150">
-                    <!--begin: button-->
-                    <a href="{{URL::to('/e-shop/?discount[]=checked')}}" class="btn btn-outline-secondary btn-hover-arrow hover-lift">
-                        <span>View discounted products</span>
-                    </a>
-                    <!--end: button-->
-                </div>
-            </div>
-            <div class="row">
-                @foreach($products as $product)
-                    <div class="col-md-6 col-lg-3 mb-4">
-                        <!--Card-product-->
-                        <div class="card overflow-hidden hover-lift card-product">
-                            <div class="card-product-header p-3 d-block overflow-hidden" style="height: 350px">
-                                <!--Product image-->
-                                <a href="{{ route('frontend.product', $product->slug) }}">
-                                    <img src="/assets/img/products/thumbnails/{{ $product->image }}" width="100%"
-                                         class="img-fluid"
-                                         alt="Product">
-                                </a>
-                                <span class="badge rounded-pill bg-danger position-absolute start-0 top-0 mt-4 ms-4">-{{ $product->discount }}%</span>
-                            </div>
-                            <div class="card-product-body p-3 pt-0 text-center">
-                                <a href="{{ route('frontend.product', $product->slug) }}"
-                                   class="h5 d-block position-relative mb-2 text-dark">{{ $product->title }}</a>
-                                <div class="card-product-body-overlay">
-                                    <!--Price-->
-                                    <span class="card-product-price">
-                                            <span style="color: red">${{ $product->action }}</span> <del>${{ $product->price }}</del>
-                                        </span>
-                                    <!--Action-->
-                                    <span class="card-product-view-btn">
-                                            <a href="{{ route('frontend.product', $product->slug) }}"
-                                               class="link-underline mb-1 fw-semibold text-dark">View
-                                                Details</a>
-                                        </span>
-                                </div>
-                            </div>
+    <!--/Start:DISCOUNT PRODUCTS section-->
+    @if(count($products) !== 0)
+        <section class="overflow-hidden">
+            <div class="container py-7 py-lg-7">
+                <div class="row mb-4 align-items-center">
+                    <div class="col-md-7 text-center text-md-start mb-4">
+                        <div class="col-lg-7 mb-4 mb-lg-0">
+                            <!--Heading-->
+                            <h3 data-aos="fade-right">Производи на попуст</h3>
                         </div>
-                        <!--/Card product end-->
                     </div>
-                @endforeach
+                    <div class="col-md-5 mb-4">
+                        <div class="text-center text-md-end" data-aos="fade-right" data-aos-delay="150">
+                            <a href="{{URL::to('/products/?discount[]=checked')}}"
+                               class="btn btn-outline-secondary btn-hover-arrow hover-lift">
+                                <span>Погледни ги сите</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-featured swiper-container position-relative overflow-visible">
+                    <div class="swiper-wrapper">
+                        <!--Slide product-->
+                        @foreach($products as $product)
+                            <div class="swiper-slide">
+                                <!--Card-product-->
+                                <div class="card overflow-hidden hover-lift card-product">
+                                    <a href="{{ route('frontend.product', $product->slug) }}">
+                                        @foreach($product->pictures as $key=>$value)
+                                            @if($key === 0)
+                                                <div class="card-product-header p-3 d-block overflow-hidden"
+                                                     style="height: 350px;background-image: url('/images/products/{{$product->name}}/{{ $value['image']}}');background-position: center; background-size: contain; background-repeat: no-repeat">
+                                                    @endif
+                                                    @endforeach
+                                                    <span
+                                                        class="badge rounded-pill bg-danger position-absolute start-0 top-0 mt-4 ms-4">-{{ $product->discount }}%</span>
+                                                </div>
+                                    </a>
+                                    <div class="card-product-body p-3 pt-0 text-center">
+                                        <a href="{{ route('frontend.product', $product->slug) }}"
+                                           class="h5 d-block position-relative mb-2 text-dark">{{ $product->name }}</a>
+                                        <div class="card-product-body-overlay">
+                                            <!--Price-->
+                                            <span class="card-product-price">
+                                            <span style="color: red">{{ $product->discounted_price }} ден.</span> <del>{{ $product->price }} ден.</del>
+                                        </span>
+                                            <!--Action-->
+                                            <span class="card-product-view-btn">
+                                            <a href="{{ route('frontend.product', $product->slug) }}"
+                                               class="link-underline mb-1 fw-semibold text-dark">Погледни</a>
+                                        </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/Card product end-->
+                            </div>
+                        @endforeach
+                    </div>
+                    <!--Pagination-->
+                    <div class="swiperFeatured-pagination swiper-pagination position-static pt-5"></div>
+                </div>
             </div>
-        </div>
-    </section>
-    <!--/end:featured products-->
+        </section>
+    @endif
+    <!--/End:DISCOUNT PRODUCTS section-->
 
     <!--begin:Partners section-->
     <section class="position-relative">
@@ -205,6 +214,78 @@
     </section>
     <!--/end:Partners section-->
 
+    <!--/Start:LATEST PRODUCTS section-->
+    <section class="overflow-hidden">
+        <div class="container py-7 py-lg-7">
+            <div class="row mb-4 align-items-center">
+                <div class="col-md-7 text-center text-md-start mb-4">
+                    <div class="col-lg-7 mb-4 mb-lg-0">
+                        <!--Heading-->
+                        <h3 data-aos="fade-left">Најнови производи</h3>
+                    </div>
+                </div>
+                <div class="col-md-5 mb-4">
+                    {{--                    <div class="text-center text-md-end" data-aos="fade-left" data-aos-delay="150">--}}
+                    {{--                        <a href="{{URL::to('/products/?sort[]=latest')}}"--}}
+                    {{--                           class="btn btn-outline-secondary btn-hover-arrow hover-lift">--}}
+                    {{--                            <span>Погледни ги сите</span>--}}
+                    {{--                        </a>--}}
+                    {{--                    </div>--}}
+                </div>
+            </div>
+            <div class="row mb-5">
+                @foreach($latestProducts as $product)
+                    <div class="col-md-6 col-lg-3 mb-4">
+                        <!--:card-hover-expand-->
+                        <div class="card overflow-hidden hover-lift card-product">
+                            <a href="{{ route('frontend.product', $product->slug) }}">
+                                @foreach($product->pictures as $key=>$value)
+                                    @if($key === 0)
+                                        <div class="card-product-header p-3 d-block overflow-hidden"
+                                             style="height: 350px;background-image: url('/images/products/{{$product->name}}/{{ $value['image'] }}');background-position: center; background-size: contain; background-repeat: no-repeat">
+                                            @endif
+                                            @endforeach
+                                            @if($product->discount)
+                                                <span
+                                                    class="badge rounded-pill bg-danger position-absolute start-0 top-0 mt-4 ms-4">-{{ $product->discount }}%</span>
+                                            @endif
+                                        </div>
+                            </a>
+                            <div class="card-product-body p-3 pt-0 text-center">
+                                <a href="{{ route('frontend.product', $product->slug) }}"
+                                   class="h5 d-block position-relative mb-2 text-dark">{{ $product->name }}</a>
+                                <div class="card-product-body-overlay">
+                                    <!--Price-->
+                                    @if($product->discounted_price)
+                                        <span class="card-product-price">
+                                            <span style="color: red">{{ $product->discounted_price }}&nbsp;ден.</span> <del>{{ $product->price }}&nbsp;ден.</del>
+                                        </span>
+                                    @else
+                                        <span class="card-product-price">
+                                            <span>{{ $product->price }}&nbsp;ден.</span>
+                                                </span>
+                                    @endif
+                                    <!--Action-->
+                                    <span class="card-product-view-btn">
+                                            <a href="{{ route('frontend.product', $product->slug) }}"
+                                               class="link-underline mb-1 fw-semibold text-dark">Погледни</a>
+                                        </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--:/card product end-->
+                    </div>
+                @endforeach
+                <div class="text-center " data-aos="fade-up" data-aos-delay="150">
+                    <a href="{{URL::to('/products/?sort[]=latest')}}"
+                       class="btn btn-outline-secondary btn-hover-arrow hover-lift">
+                        <span>Погледни повеќе</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--/End:LATEST PRODUCTS section-->
 
     <!--begin:categories section-->
     <section class="position-relative">
@@ -315,5 +396,33 @@
         </div>
     </section>
     <!--/end:Features section-->
+@endsection
 
+@section('scripts')
+    <script>
+        //Swiper Featured Products USED FOR PRODUCTS
+        let swiperFeatured = new Swiper(".swiper-featured", {
+            slidesPerView: 1,
+            spaceBetween: 16,
+            breakpoints: {
+                480: {
+                    slidesPerView: 1,
+                    spaceBetween: 16,
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 16,
+                },
+                1024: {
+                    slidesPerView: 4,
+                    spaceBetween: 16,
+                },
+            },
+            pagination: {
+                el: ".swiperFeatured-pagination",
+                clickable: true
+            },
+
+        });
+    </script>
 @endsection

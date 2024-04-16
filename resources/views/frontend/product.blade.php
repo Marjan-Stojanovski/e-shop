@@ -361,6 +361,76 @@
         </div>
     </section>
 
+    <section class="overflow-hidden">
+        <div class="container py-7 py-lg-7">
+            <div class="row mb-4 align-items-center">
+                <div class="col-md-7 text-center text-md-start mb-4">
+                    <div class="col-lg-7 mb-4 mb-lg-0">
+                        <!--Heading-->
+                        <h3 data-aos="fade-right">Слични производи</h3>
+                    </div>
+                </div>
+                <div class="col-md-5 mb-4">
+                    <div class="text-center text-md-end" data-aos="fade-right" data-aos-delay="150">
+                        <a href="{{URL::to('/e-shop/?category[]='.$product->category_id)}}"
+                           class="btn btn-outline-secondary btn-hover-arrow hover-lift">
+                            <span>Погледни ги сите</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-featured swiper-container position-relative overflow-visible">
+                <div class="swiper-wrapper">
+                    <!--Slide product-->
+                    @foreach($relatedProducts as $relatedProduct)
+                        <div class="swiper-slide">
+                            <!--Card-product-->
+                            <div class="card overflow-hidden hover-lift card-product">
+                                <a href="{{ route('frontend.product', $relatedProduct->slug) }}">
+                                    @foreach($relatedProduct->pictures as $key=>$value)
+                                        @if($key === 0)
+                                            <div class="card-product-header p-3 d-block overflow-hidden"
+                                                 style="height: 350px;background-image: url('/images/products/{{$relatedProduct->name}}/{{ $value['image'] }}');background-position: center; background-size: contain; background-repeat: no-repeat">
+                                                @endif
+                                                @endforeach
+                                                @if($relatedProduct->discount)
+                                                    <span
+                                                        class="badge rounded-pill bg-danger position-absolute start-0 top-0 mt-4 ms-4">-{{ $relatedProduct->discount }}%</span>
+                                                @endif
+                                            </div>
+                                </a>
+                                <div class="card-product-body p-3 pt-0 text-center">
+                                    <a href="{{ route('frontend.product', $relatedProduct->slug) }}"
+                                       class="h5 d-block position-relative mb-2 text-dark">{{ $relatedProduct->name }}</a>
+                                    <div class="card-product-body-overlay">
+                                        <!--Price-->
+                                        @if($relatedProduct->discounted_price)
+                                            <span class="card-product-price">
+                                            <span style="color: red">{{ $relatedProduct->discounted_price }}&nbsp;ден.</span> <del>{{ $relatedProduct->price }}&nbsp;ден.</del>
+                                        </span>
+                                        @else
+                                            <span class="card-product-price">
+                                            <span>{{ $relatedProduct->price }}&nbsp;ден.</span>
+                                                </span>
+                                        @endif
+                                        <!--Action-->
+                                        <span class="card-product-view-btn">
+                                            <a href="{{ route('frontend.product', $relatedProduct->slug) }}"
+                                               class="link-underline mb-1 fw-semibold text-dark">Погледни</a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/Card product end-->
+                        </div>
+                    @endforeach
+                </div>
+                <!--Pagination-->
+                <div class="swiperFeatured-pagination swiper-pagination position-static pt-5"></div>
+            </div>
+        </div>
+    </section>
+
     <section class="bg-white position-relative overflow-hidden">
         <div class="container py-9 py-lg-11 position-relative">
             <div class="row align-items-center">
@@ -472,6 +542,51 @@
                     }
                 });
             });
+        });
+    </script>
+    <script>
+        //Swiper thumbnail demo
+        let swiperThumbnails = new Swiper(".swiper-thumbnails", {
+            spaceBetween: 8,
+            slidesPerView: 4,
+            freeMode: true,
+            watchSlidesProgress: true,
+        });
+        let swiperThumbnailsMain = new Swiper(".swiper-thumbnails-main", {
+            spaceBetween: 0,
+            navigation: {
+                nextEl: ".swiperThumb-next",
+                prevEl: ".swiperThumb-prev"
+            },
+            thumbs: {
+                swiper: swiperThumbnails
+            }
+        });
+    </script>
+    <script>
+        //Swiper Featured Products USED FOR PRODUCTS
+        let swiperFeatured = new Swiper(".swiper-featured", {
+            slidesPerView: 1,
+            spaceBetween: 16,
+            breakpoints: {
+                480: {
+                    slidesPerView: 1,
+                    spaceBetween: 16,
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 16,
+                },
+                1024: {
+                    slidesPerView: 4,
+                    spaceBetween: 16,
+                },
+            },
+            pagination: {
+                el: ".swiperFeatured-pagination",
+                clickable: true
+            },
+
         });
     </script>
 @endsection

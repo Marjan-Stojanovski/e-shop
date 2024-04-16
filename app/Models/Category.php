@@ -102,14 +102,13 @@ class Category extends Model
     }
 
     public static function renderNodeHP($node) {
-        $list = '<li class="nav-item dropdown"><a class="dropdown-item dropdown-toggle" target="_self"  href="/e-shop/?category[]='.$node->id.'">'.$node->name.'</a>';
+        $list = '<li class="nav-item dropdown"><a class="dropdown-item dropdown-toggle"  target="_self"  href="/e-shop/?category[]='.$node->id.'">'.$node->name.'</a>';
         if ( $node->children()->count() > 0 ) {
             $list .= '<ul class="dropdown-menu">';
             foreach($node->children as $child)
                 $list .= self::renderNodeHP($child);
             $list .= "</ul>";
         }
-
         $list .= "</li>";
         return $list;
     }

@@ -159,14 +159,14 @@
         </div>
         <div class="collapse navbar-collapse" id="mainNavbarTheme">
             <ul class="navbar-nav me-lg-auto ms-xl-5 ms-lg-2">
-                <li class="nav-item ">
+                <li class="nav-item">
                     <a class="nav-link" href="{{ route('frontend.index') }}">
                         Domov
                     </a>
                 </li>
-
-                <li class="nav-item nav-item dropdown position-static ">
-                    <a class="nav-link dropdown-toggle"
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-auto-close="outside" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                        data-toggle="dropdown">Zgane Pijace</a>
                     <ul class="dropdown-menu">
                         <li class="nav-item dropdown">
@@ -174,7 +174,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item nav-item dropdown position-static ">
+                <li class="nav-item">
                     <a class="nav-link " href="{{ route('frontend.shop') }}">
                         Trgovina
                     </a>
@@ -322,8 +322,8 @@ $carts = session()->get('cart', []);
     </div>
     <div class="offcanvas-footer p-4 border-top">
         <ul class="list-unstyled mb-0">
-            <li class="pb-2 d-grid">
-                <a href="{{ route('frontend.shoppingCart') }}" class="btn btn-secondary btn-hover-arrow"><span>View
+            <li class="pb-2 d-grid" >
+                <a href="{{ route('frontend.shoppingCart') }}" id="view_cart_count_button" class="btn btn-secondary btn-hover-arrow"><span>View
                                 shopping cart</span></a>
             </li>
             <li class="d-grid">
@@ -474,6 +474,9 @@ $carts = session()->get('cart', []);
                         numberOfArrays++;
                     });
                     $("#cart_counter").text(numberOfArrays);
+                    @if(count($carts) === 0)
+                    $("#view_cart_count_button").css('display', 'none');
+                    @endif
                 }
             }
         });
@@ -505,16 +508,6 @@ $carts = session()->get('cart', []);
             '<div class="d-flex flex-column px-2 width-7x"><h2 class="mb-0 h4">%H</h2><span class="small text-muted">Hours</span></div><div class="d-flex flex-column px-2 width-7x"><h2 class="mb-0 h4">%M</h2><span class="small text-muted">Minutes</span></div><div class="d-flex flex-column px-2 width-7x"><h2 class="mb-0 h4">%S</h2><span class="small text-muted">Seconds</span></div>'
         ));
     });
-    //Swiper testimonials
-    var swiper = new Swiper(".swiper-testimonials", {
-        loop: true,
-        autoHeight: true,
-        slidesPerView: 1,
-        spaceBetween: 16,
-        pagination: {
-            el: ".swiperT-pagination", clickable: true
-        },
-    });
 
     function onSelectChangeHandler() {
         let val = document.getElementById("paymentOption").value;
@@ -532,23 +525,6 @@ $carts = session()->get('cart', []);
     }
 </script>
 <script>
-    //Swiper thumbnail demo
-    var swiperThumbnails = new Swiper(".swiper-thumbnails", {
-        spaceBetween: 8,
-        slidesPerView: 4,
-        freeMode: true,
-        watchSlidesProgress: true,
-    });
-    var swiperThumbnailsMain = new Swiper(".swiper-thumbnails-main", {
-        spaceBetween: 0,
-        navigation: {
-            nextEl: ".swiperThumb-next",
-            prevEl: ".swiperThumb-prev"
-        },
-        thumbs: {
-            swiper: swiperThumbnails
-        }
-    });
     var el = document.querySelectorAll("[data-choices]");
     el.forEach(e => {
         const t = {
@@ -575,114 +551,7 @@ $carts = session()->get('cart', []);
         });
     }
 </script>
-<script>
-    //Main Hero Slider
-    var sliderThumbs = new Swiper('.progress-swiper-thumbs', {
-        watchSlidesVisibility: true,
-        watchSlidesProgress: true,
-        history: false,
-        breakpoints: {
-            480: {
-                slidesPerView: 2,
-                spaceBetween: 16,
-            },
-            768: {
-                slidesPerView: 3,
-                spaceBetween: 16,
-            },
-            1024: {
-                slidesPerView: 3,
-                spaceBetween: 16,
-            },
-        },
-        on: {
-            'afterInit': function (swiper) {
-                swiper.el.querySelectorAll('.swiper-pagination-progress-inner')
-                    .forEach($progress => $progress.style.transitionDuration =
-                        `${swiper.params.autoplay.delay}ms`)
-            }
-        }
-    });
-    var swiperClassic = new Swiper(".swiper-classic", {
-        slidesPerView: 1,
-        spaceBetween: 0,
-        loop: true,
-        grabCursor: true,
-        autoplay: {
-            delay: 3000,
-            disableOnInteraction: false,
-        },
-        effect: "creative",
-        creativeEffect: {
-            prev: {
-                shadow: true,
-                translate: ["-20%", 0, -1],
-            },
-            next: {
-                translate: ["100%", 0, 0],
-            },
-        },
-        thumbs: {
-            swiper: sliderThumbs
-        },
-    });
-
-    //swiper partners
-    var swiperPartners5 = new Swiper(".swiper-partners", {
-        slidesPerView: 2,
-        loop: true,
-        spaceBetween: 16,
-        autoplay: true,
-        breakpoints: {
-            768: {
-                slidesPerView: 4
-            },
-            1024: {
-                slidesPerView: 5
-            }
-        },
-        pagination: {
-            el: ".swiper-partners-pagination",
-            clickable: true
-        },
-        navigation: {
-            nextEl: ".swiper-partners-button-next",
-            prevEl: ".swiper-partners-button-prev"
-        }
-    });
-
-
-    //swiper Testimonials
-    var swiperTestimonails = new Swiper(".swiper-testimonials", {
-        autoHeight: true,
-        spaceBetween: 16,
-        breakpoints: {
-            640: {
-                slidesPerView: 1,
-                spaceBetween: 16
-            },
-            768: {
-                slidesPerView: 2,
-                spaceBetween: 16
-            },
-            1024: {
-                slidesPerView: 3,
-                spaceBetween: 30
-            }
-        },
-        pagination: {
-            el: ".swiper-testimonials-pagination",
-            clickable: true
-        },
-        navigation: {
-            nextEl: ".swiper-testimonials-button-next",
-            prevEl: ".swiper-testimonials-button-prev"
-        }
-    });
-
-</script>
 <script type="text/javascript">
-
     jQuery(function () {
         jQuery('#product-sortBy').change(function () {
             this.form.submit();

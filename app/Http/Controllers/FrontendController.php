@@ -27,10 +27,11 @@ class FrontendController extends Controller
         if (Auth::user()) {
 
             $company = CompanyInfo::first();
-            $brands = Brand::all();
-            $categories = Category::all();
+            $brands = Brand::latest()->take(12)->get();
+            $categories = Category::latest()->take(9)->get();
             $categoriesTree = Category::getTreeHP();
             $products = Product::whereNotNull('discount')->paginate(5);
+            $latestProducts = Product::with('pictures')->latest()->take(12)->get();
             $userDetails = Shipping::where('user_id', Auth::user()->id)->first();
 
             $data = [
@@ -39,7 +40,8 @@ class FrontendController extends Controller
                 'categoriesTree' => $categoriesTree,
                 'categories' => $categories,
                 'products' => $products,
-                'userDetails' => $userDetails
+                'userDetails' => $userDetails,
+                'latestProducts' => $latestProducts
             ];
 
             return view('frontend.index')->with($data);
@@ -57,6 +59,7 @@ class FrontendController extends Controller
         $brands = Brand::all();
         $product = Product::where('slug', $slug)->first();
         $categoriesTree = Category::getTreeHP();
+        $relatedProducts = Product::where('category_id', $product->category_id)->whereNotIn('id', [$product->id])->limit(5)->get();
 //        $comments = Comment::where('product_id', $product['id'])
 //            ->latest('created_at')
 //            ->paginate(12);
@@ -67,6 +70,7 @@ class FrontendController extends Controller
             'brands' => $brands,
             'product' => $product,
             'categoriesTree' => $categoriesTree,
+            'relatedProducts' => $relatedProducts,
 //            'comments' => $comments,
         ];
 
