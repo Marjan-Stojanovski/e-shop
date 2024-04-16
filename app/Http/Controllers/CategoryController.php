@@ -61,6 +61,7 @@ class CategoryController extends Controller
 
         $category = Category::FindOrFail($parent_id);
 
+        dd($category);
         Category::create(['name' => $name, 'image' => $image, 'desc' => $desc, 'slug' => $slug], $category);
         Session::flash('flash_message', 'Category successfully added!');
         return redirect()->back();

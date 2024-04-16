@@ -42,7 +42,7 @@
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
-                                    <th></th>
+                                    <th>Picture</th>
                                     <th>Product</th>
                                     <th class="text-center">Amount</th>
                                     <th class="text-center">Actions</th>
@@ -53,19 +53,21 @@
                                 @foreach($wishlists as $wishlist)
                                     <tr>
                                         <td class="align-middle">
-                                            <a href="#"><img
-                                                    src="assets/img/products/thumbnails/{{ $wishlist->product->image }}"
-                                                    class="img-fluid width-5x h-auto" alt=""></a>
-
+                                            @foreach($wishlist->product->pictures as $key=>$value)
+                                                @if($key === 0)
+                                                    <img src="/images/products/{{$wishlist->product->name}}/{{ $value['image'] }}"
+                                                         class="mb-0 img-responsive" style="width: 50px" alt="">
+                                                @endif
+                                            @endforeach
                                         </td>
                                         <td class="align-middle">
                                             <div>
                                                 <h5 class="fs-6 mb-0"><a href="#"
-                                                                         class="text-inherit">{{ $wishlist->product->title }}</a>
+                                                                         class="text-inherit">{{ $wishlist->product->name }}</a>
                                                 </h5>
                                                 <small>
-                                                    @if(isset($wishlist->product->action))
-                                                        €&nbsp;{{ $wishlist->product->action }}
+                                                    @if(isset($wishlist->product->discounted_price))
+                                                        €&nbsp;{{ $wishlist->product->discounted_price }}
                                                     @else
                                                         €&nbsp;{{ $wishlist->product->price }}
                                                     @endif
@@ -73,33 +75,28 @@
                                             </div>
                                         </td>
                                         <td class="text-center align-middle">
-                                            @if(isset($wishlist->product->action))
-                                                €&nbsp;{{ $wishlist->product->action }}
+                                            @if(isset($wishlist->product->discounted_price))
+                                                €&nbsp;{{ $wishlist->product->discounted_price }}
                                             @else
                                                 €&nbsp;{{ $wishlist->product->price }}
                                             @endif
                                         </td>
                                         <td class="text-center align-middle">
-
-                                                <form action="{{ route('addToCart.wishlistDelete', $wishlist->id)}}"  method="POST" class="clearfix"
-                                                      enctype="multipart/form-data">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <input type="hidden" value="{{ $wishlist->product->id }}" name="id">
-                                                    <input type="hidden" value="{{ $wishlist->product->title }}"
-                                                           name="title">
-                                                    <input type="hidden" value="{{ $wishlist->product->brand->name }}"
-                                                           name="brand">
-                                                    <input type="hidden" value="1" name="quantity">
-                                                    @if(isset($wishlist->product->action))
-                                                        <input type="hidden" value="{{ $wishlist->product->action }}"
-                                                               name="price">
-                                                    @else
-                                                        <input type="hidden" value="{{ $wishlist->product->price }}"
-                                                               name="price">
-                                                    @endif
-                                                    <input type="hidden" value="{{ $wishlist->product->image }}"
-                                                           name="image">
+                                            <form action="{{ route('addToCart.wishlistDelete', $wishlist->id)}}"  method="POST" class="clearfix"
+                                                  enctype="multipart/form-data">
+                                                @csrf
+                                                @method('delete')
+                                                <input type="hidden" value="{{ $wishlist->product->id }}" name="product_id">
+                                                <input type="hidden" value="{{ $wishlist->product->name }}"
+                                                       name="name">
+                                                <input type="hidden" value="1" name="quantity">
+                                                @if(isset($wishlist->product->discounted_price))
+                                                    <input type="hidden" value="{{ $wishlist->product->discounted_price }}"
+                                                           name="price">
+                                                @else
+                                                    <input type="hidden" value="{{ $wishlist->product->price }}"
+                                                           name="price">
+                                                @endif
                                                     <button type="submit" class="btn btn-primary btn-sm">Move to Cart</button>
                                                 </form>
                                         </td>

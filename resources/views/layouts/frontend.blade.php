@@ -30,6 +30,18 @@
             width: 7px;
         }
 
+        #add_to_wishlists_success {
+            display: none;
+        }
+
+        #add_to_wishlists_warning {
+            display: none;
+        }
+
+        #add_to_cart_success {
+            display: none;
+        }
+
         .simplebar-scrollbar:before {
             background: currentColor;
         }
@@ -68,6 +80,10 @@
                         </span>
             </button>
             <div class="nav-item ms-0 me-4 me-lg-2">
+                <a href="#modalBasic" data-bs-toggle="modal" aria-expanded="false"
+                   class="nav-link lh-1 position-relative"><i class="bx bx-search-alt-2 fs-4"></i></a>
+            </div>
+            <div class="nav-item ms-0 me-4 me-lg-2">
                 <a href="{{ route('frontend.wishlist') }}" class="nav-link lh-1 position-relative">
                     <i class="bx bx-heart fs-4"></i>
                 </a>
@@ -76,8 +92,8 @@
                 <a href="#offcanvasCart" data-bs-toggle="offcanvas" class="nav-link lh-1 position-relative">
                     <i class="bx bx-shopping-bag fs-4"></i>
                     <!--card badge-->
-                    <span
-                        class="badge d-none d-lg-flex p-0 position-absolute end-0 top-0 me-n2 mt-n1 lh-1 fw-semibold width-1x height-1x bg-white shadow-sm rounded-circle flex-center text-dark">{{ count((array) session('cart')) }}</span>
+                    <span id="cart_counter"
+                          class="badge d-none d-lg-flex p-0 position-absolute end-0 top-0 me-n2 mt-n1 lh-1 fw-semibold width-1x height-1x shadow-sm rounded-circle flex-center text-dark"></span>
                 </a>
             </div>
             <!--Search collapse trigger(hidden in desktop laptop)-->
@@ -143,14 +159,14 @@
         </div>
         <div class="collapse navbar-collapse" id="mainNavbarTheme">
             <ul class="navbar-nav me-lg-auto ms-xl-5 ms-lg-2">
-                <li class="nav-item ">
+                <li class="nav-item">
                     <a class="nav-link" href="{{ route('frontend.index') }}">
                         Domov
                     </a>
                 </li>
-
-                <li class="nav-item nav-item dropdown position-static ">
-                    <a class="nav-link dropdown-toggle"
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-auto-close="outside" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                        data-toggle="dropdown">Zgane Pijace</a>
                     <ul class="dropdown-menu">
                         <li class="nav-item dropdown">
@@ -158,7 +174,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item nav-item dropdown position-static ">
+                <li class="nav-item">
                     <a class="nav-link " href="{{ route('frontend.shop') }}">
                         Trgovina
                     </a>
@@ -186,26 +202,63 @@
             </ul>
         </div>
 
-        <!--begin:Search bar -->
-        <div class="collapse collapse-search ms-xl-auto ms-lg-3 me-lg-1 d-lg-block" style="--navbar-search-width:280px;"
-             id="searchCollapse">
-            <form action="{{ route('frontend.search') }}" method="GET" role="search">
+{{--        <!--begin:Search bar -->--}}
+{{--        <div class="collapse collapse-search ms-xl-auto ms-lg-3 me-lg-1 d-lg-block" style="--navbar-search-width:280px;"--}}
+{{--             id="searchCollapse">--}}
+{{--            <form action="{{ route('frontend.search') }}" method="GET" role="search">--}}
+{{--                <div class="position-relative mt-3 mt-lg-0">--}}
+{{--                            <span class="position-absolute start-0 top-50 translate-middle-y ms-3 opacity-50">--}}
+{{--                                <i class="bx bx-search-alt-2"></i>--}}
+{{--                            </span>--}}
+{{--                    <input type="text" placeholder="Search Products..."--}}
+{{--                           value="{{ Request::get('search') }}"--}}
+{{--                           class="form-control ps-6 rounded-pill" name="search">--}}
+{{--                </div>--}}
+{{--                <button type="submit" hidden></button>--}}
+{{--            </form>--}}
+{{--        </div>--}}
+{{--        <!--/end:Search bar -->--}}
+        <!--/end:Header shop-->
+    </div>
+</nav>
+<!--/end:Header shop-->
+<div class="modal fade" id="modalBasic" tabindex="-1" aria-labelledby="modalBasicLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content border-0">
+            <div class="modal-header border-0 bg-light">
+                <h5 class="modal-title">Пребарај производи</h5>
+                <!--Close button-->
+                <button type="button" style="color: white; background-color: #7d756f; border-color: #7d756f;"
+                        class="btn btn-outline-secondary p-0 border-2 width-3x height-3x rounded-circle flex-center z-index-1"
+                        data-bs-dismiss="modal" aria-label="Close">
+                    <i class="bx bx-x fs-5"></i>
+                </button>
+            </div>
+            <div class="modal-body py-5 border-0">
                 <div class="position-relative mt-3 mt-lg-0">
                             <span class="position-absolute start-0 top-50 translate-middle-y ms-3 opacity-50">
                                 <i class="bx bx-search-alt-2"></i>
                             </span>
-                    <input type="text" placeholder="Search Products..."
+                    <input type="text" placeholder="Побарај производ..." id="inputSearch"
                            value="{{ Request::get('search') }}"
                            class="form-control ps-6 rounded-pill" name="search">
                 </div>
-                <button type="submit" hidden></button>
-            </form>
+                <!--:Wishlist table-->
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody id="searchProductsFound">
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <!--/end:Search bar -->
     </div>
-</nav>
-<!--/end:Header shop-->
-
+</div>
 
 <!--begin:Shopping Cart offcanvas-->
 <?php
@@ -224,51 +277,53 @@ $carts = session()->get('cart', []);
         </button>
     </div>
     <div class="offcanvas-body p-4">
-        <ul class="list-unstyled no-animation mb-0">
-            <?php
-            $subTotal = 0;
-            ?>
-            @if(session('cart'))
-                @foreach(session('cart') as $id => $details)
-                    <li class="d-flex py-3 border-bottom">
-                        <div class="me-1">
-                            <a href="#!"><img src="/assets/img/products/thumbnails/{{ $details['image'] }}"
-                                              class="height-10x hover-lift hover-shadow w-auto" alt=""></a>
-                        </div>
-                        <div class="flex-grow-1 px-4 mb-3">
-                            <a href="#!" class="text-dark d-block lh-sm fw-semibold mb-2">{{ $details['name'] }}</a>
-                            <p class="mb-0 small"><strong>€ {{ $details['unitPrice'] }}</strong> x
-                                <strong>{{ $details['quantity'] }}</strong>
-                            </p>
-                        </div>
-                            <?php
-                            $productAmount = $details['productAmount'];
-                            $subTotal += $productAmount;
-                            ?>
-                        <div class="d-block text-end">
-                            <form action="{{route('delete.cart', $id )}}" method="post">
-                                @csrf
-                                @method('delete')
-                                <button type="submit"
-                                        class="text-muted small text-decoration-underline btn btn-hover-label">
-                                    Remove
-                                </button>
-                            </form>
-
-                        </div>
-                    </li>
-                @endforeach
-            @endif
-            <li class="d-flex p-3 mb-3 border-top justify-content-between align-items-center">
-                <span class="fw-normal">Subtotal</span>
-                <span class="text-dark fw-bold">€ {{ number_format($subTotal, 2) }}</span>
-            </li>
+        <ul class="list-unstyled no-animation mb-0" id="shopping_cart_items">
         </ul>
+{{--        <ul class="list-unstyled no-animation mb-0">--}}
+{{--            <?php--}}
+{{--            $subTotal = 0;--}}
+{{--            ?>--}}
+{{--            @if(session('cart'))--}}
+{{--                @foreach(session('cart') as $id => $details)--}}
+{{--                    <li class="d-flex py-3 border-bottom">--}}
+{{--                        <div class="me-1">--}}
+{{--                            <a href="#!"><img src="/assets/img/products/thumbnails/{{ $details['image'] }}"--}}
+{{--                                              class="height-10x hover-lift hover-shadow w-auto" alt=""></a>--}}
+{{--                        </div>--}}
+{{--                        <div class="flex-grow-1 px-4 mb-3">--}}
+{{--                            <a href="#!" class="text-dark d-block lh-sm fw-semibold mb-2">{{ $details['name'] }}</a>--}}
+{{--                            <p class="mb-0 small"><strong>€ {{ $details['unitPrice'] }}</strong> x--}}
+{{--                                <strong>{{ $details['quantity'] }}</strong>--}}
+{{--                            </p>--}}
+{{--                        </div>--}}
+{{--                            <?php--}}
+{{--                            $productAmount = $details['productAmount'];--}}
+{{--                            $subTotal += $productAmount;--}}
+{{--                            ?>--}}
+{{--                        <div class="d-block text-end">--}}
+{{--                            <form action="{{route('delete.cart', $id )}}" method="post">--}}
+{{--                                @csrf--}}
+{{--                                @method('delete')--}}
+{{--                                <button type="submit"--}}
+{{--                                        class="text-muted small text-decoration-underline btn btn-hover-label">--}}
+{{--                                    Remove--}}
+{{--                                </button>--}}
+{{--                            </form>--}}
+
+{{--                        </div>--}}
+{{--                    </li>--}}
+{{--                @endforeach--}}
+{{--            @endif--}}
+{{--            <li class="d-flex p-3 mb-3 border-top justify-content-between align-items-center">--}}
+{{--                <span class="fw-normal">Subtotal</span>--}}
+{{--                <span class="text-dark fw-bold">€ {{ number_format($subTotal, 2) }}</span>--}}
+{{--            </li>--}}
+{{--        </ul>--}}
     </div>
     <div class="offcanvas-footer p-4 border-top">
         <ul class="list-unstyled mb-0">
-            <li class="pb-2 d-grid">
-                <a href="{{ route('frontend.shoppingCart') }}" class="btn btn-secondary btn-hover-arrow"><span>View
+            <li class="pb-2 d-grid" >
+                <a href="{{ route('frontend.shoppingCart') }}" id="view_cart_count_button" class="btn btn-secondary btn-hover-arrow"><span>View
                                 shopping cart</span></a>
             </li>
             <li class="d-grid">
@@ -378,6 +433,56 @@ $carts = session()->get('cart', []);
 <script src="/assets/vendor/node_modules/js/simplebar.min.js"></script>
 <script src="/assets/vendor/node_modules/js/choices.min.js"></script>
 <script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "{{ route('get.carts.ajax') }}",
+            method: 'get',
+            data: {},
+            headers: {
+                'X-CSRF-TOKEN': "{{ @csrf_token() }}"
+            },
+            success: function (response) {
+                if (response.success) {
+                    let carts = response.success;
+                    let numberOfArrays = 0;
+                    $('#shopping_cart_items').html('');
+                    $.each(carts, function (key, value) {
+                        let element = `<li class="d-flex py-3 border-bottom">
+                            <div class="me-1">
+                                <a href="{{ env('APP_URL') }}/products/${value['slug']}"><img src="/images/products/${value['name']}/${value['image']}"
+                                                  class="height-10x hover-lift hover-shadow w-auto" alt=""></a>
+                            </div>
+                            <div class="flex-grow-1 px-4 mb-3">
+                                <a href="{{ env('APP_URL') }}/products/${value['slug']}"
+                                   class="text-dark d-block lh-sm fw-semibold mb-2">${value['name']}</a>
+                                <p class="mb-0 small"><strong>${value['unitPrice']} €&nbsp;</strong> x
+                                    <strong>${value['quantity']}</strong>
+                                </p>
+                            </div>
+                                                        <div class="d-block text-end">
+                                                    <form action="{{ env('APP_URL') }}/shopping-cart/delete/${key}" method="post">
+@csrf
+                        @method('delete')
+                        <button
+                                class="text-muted small text-decoration-underline btn btn-hover-label">
+                            Отстрани
+                        </button>
+                    </form>
+                </div>
+</li>`;
+                        $('#shopping_cart_items').append(element);
+                        numberOfArrays++;
+                    });
+                    $("#cart_counter").text(numberOfArrays);
+                    @if(count($carts) === 0)
+                    $("#view_cart_count_button").css('display', 'none');
+                    @endif
+                }
+            }
+        });
+    });
+</script>
+<script>
     //Swiper Classic
     var swiperClassic = new Swiper(".swiper-classic", {
         slidesPerView: 1,
@@ -403,16 +508,6 @@ $carts = session()->get('cart', []);
             '<div class="d-flex flex-column px-2 width-7x"><h2 class="mb-0 h4">%H</h2><span class="small text-muted">Hours</span></div><div class="d-flex flex-column px-2 width-7x"><h2 class="mb-0 h4">%M</h2><span class="small text-muted">Minutes</span></div><div class="d-flex flex-column px-2 width-7x"><h2 class="mb-0 h4">%S</h2><span class="small text-muted">Seconds</span></div>'
         ));
     });
-    //Swiper testimonials
-    var swiper = new Swiper(".swiper-testimonials", {
-        loop: true,
-        autoHeight: true,
-        slidesPerView: 1,
-        spaceBetween: 16,
-        pagination: {
-            el: ".swiperT-pagination", clickable: true
-        },
-    });
 
     function onSelectChangeHandler() {
         let val = document.getElementById("paymentOption").value;
@@ -430,23 +525,6 @@ $carts = session()->get('cart', []);
     }
 </script>
 <script>
-    //Swiper thumbnail demo
-    var swiperThumbnails = new Swiper(".swiper-thumbnails", {
-        spaceBetween: 8,
-        slidesPerView: 4,
-        freeMode: true,
-        watchSlidesProgress: true,
-    });
-    var swiperThumbnailsMain = new Swiper(".swiper-thumbnails-main", {
-        spaceBetween: 0,
-        navigation: {
-            nextEl: ".swiperThumb-next",
-            prevEl: ".swiperThumb-prev"
-        },
-        thumbs: {
-            swiper: swiperThumbnails
-        }
-    });
     var el = document.querySelectorAll("[data-choices]");
     el.forEach(e => {
         const t = {
@@ -473,118 +551,52 @@ $carts = session()->get('cart', []);
         });
     }
 </script>
-<script>
-    //Main Hero Slider
-    var sliderThumbs = new Swiper('.progress-swiper-thumbs', {
-        watchSlidesVisibility: true,
-        watchSlidesProgress: true,
-        history: false,
-        breakpoints: {
-            480: {
-                slidesPerView: 2,
-                spaceBetween: 16,
-            },
-            768: {
-                slidesPerView: 3,
-                spaceBetween: 16,
-            },
-            1024: {
-                slidesPerView: 3,
-                spaceBetween: 16,
-            },
-        },
-        on: {
-            'afterInit': function (swiper) {
-                swiper.el.querySelectorAll('.swiper-pagination-progress-inner')
-                    .forEach($progress => $progress.style.transitionDuration =
-                        `${swiper.params.autoplay.delay}ms`)
-            }
-        }
-    });
-    var swiperClassic = new Swiper(".swiper-classic", {
-        slidesPerView: 1,
-        spaceBetween: 0,
-        loop: true,
-        grabCursor: true,
-        autoplay: {
-            delay: 3000,
-            disableOnInteraction: false,
-        },
-        effect: "creative",
-        creativeEffect: {
-            prev: {
-                shadow: true,
-                translate: ["-20%", 0, -1],
-            },
-            next: {
-                translate: ["100%", 0, 0],
-            },
-        },
-        thumbs: {
-            swiper: sliderThumbs
-        },
-    });
-
-    //swiper partners
-    var swiperPartners5 = new Swiper(".swiper-partners", {
-        slidesPerView: 2,
-        loop: true,
-        spaceBetween: 16,
-        autoplay: true,
-        breakpoints: {
-            768: {
-                slidesPerView: 4
-            },
-            1024: {
-                slidesPerView: 5
-            }
-        },
-        pagination: {
-            el: ".swiper-partners-pagination",
-            clickable: true
-        },
-        navigation: {
-            nextEl: ".swiper-partners-button-next",
-            prevEl: ".swiper-partners-button-prev"
-        }
-    });
-
-
-    //swiper Testimonials
-    var swiperTestimonails = new Swiper(".swiper-testimonials", {
-        autoHeight: true,
-        spaceBetween: 16,
-        breakpoints: {
-            640: {
-                slidesPerView: 1,
-                spaceBetween: 16
-            },
-            768: {
-                slidesPerView: 2,
-                spaceBetween: 16
-            },
-            1024: {
-                slidesPerView: 3,
-                spaceBetween: 30
-            }
-        },
-        pagination: {
-            el: ".swiper-testimonials-pagination",
-            clickable: true
-        },
-        navigation: {
-            nextEl: ".swiper-testimonials-button-next",
-            prevEl: ".swiper-testimonials-button-prev"
-        }
-    });
-
-</script>
 <script type="text/javascript">
-
     jQuery(function () {
         jQuery('#product-sortBy').change(function () {
             this.form.submit();
         });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#inputSearch').on('keyup', function () {
+            let searchQuery = $('#inputSearch').val();
+            $.ajax({
+                url: "{{ route('get.search.products.ajax') }}",
+                method: 'post',
+                data: {
+                    query: searchQuery,
+                },
+                headers: {
+                    'X-CSRF-TOKEN': "{{ @csrf_token() }}"
+                },
+                success: function (response) {
+                    if (response.success) {
+                        let products = response.success;
+                        console.log(products);
+                        $('#searchProductsFound').html('');
+                        $.each(products, function (key, value) {
+                            let image = value['pictures'][0];
+                            console.log(value);
+                            let foundProduct = `<tr style="padding-left: 10px">
+                        <td class="text-center"><a href="{{ env('APP_URL') }}/products/${value['slug']}" class="text-inherit">
+                            <img src="/images/products/${value['name']}/${image['image']}" class="img-fluid width-5x h-auto"
+                                             alt=""></a>
+
+                        </td>
+                        <td class="align-middle">
+                            <div">
+                                <h5 class="fs-6 mb-0"><a href="{{ env('APP_URL') }}/products/${value['slug']}" class="text-inherit">${value['name']}</a></h5>
+                            </div>
+                        </td>
+                    </tr>`;
+                            $('#searchProductsFound').append(foundProduct);
+                        });
+                    }
+                }
+            });
+        })
     });
 </script>
 @yield('scripts')

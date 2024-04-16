@@ -15,10 +15,9 @@ use App\Models\Policy;
 use App\Models\Product;
 use App\Models\Shipping;
 use App\Models\Volume;
-use http\Env\Url;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class FrontendController extends Controller
 {
@@ -28,10 +27,11 @@ class FrontendController extends Controller
         if (Auth::user()) {
 
             $company = CompanyInfo::first();
-            $brands = Brand::all();
-            $categories = Category::all();
+            $brands = Brand::latest()->take(12)->get();
+            $categories = Category::latest()->take(9)->get();
             $categoriesTree = Category::getTreeHP();
             $products = Product::whereNotNull('discount')->paginate(5);
+            $latestProducts = Product::with('pictures')->latest()->take(12)->get();
             $userDetails = Shipping::where('user_id', Auth::user()->id)->first();
 
             $data = [
@@ -40,27 +40,13 @@ class FrontendController extends Controller
                 'categoriesTree' => $categoriesTree,
                 'categories' => $categories,
                 'products' => $products,
-                'userDetails' => $userDetails
+                'userDetails' => $userDetails,
+                'latestProducts' => $latestProducts
             ];
 
             return view('frontend.index')->with($data);
 
         } else {
-
-            //  $company = CompanyInfo::first();
-            //$brands = Brand::all();
-            //$categories = Category::all();
-            //$categoriesTree = Category::getTreeHP();
-            //$products = Product::whereNotNull('discount')->paginate(5);
-
-
-            //$data = [
-            //    'company' => $company,
-            //    'brands' => $brands,
-            //    'categoriesTree' => $categoriesTree,
-            //    'categories' => $categories,
-            //    'products' => $products,
-            //];
 
             return redirect()->route('frontend.comingSoon');
         }
@@ -73,6 +59,7 @@ class FrontendController extends Controller
         $brands = Brand::all();
         $product = Product::where('slug', $slug)->first();
         $categoriesTree = Category::getTreeHP();
+        $relatedProducts = Product::where('category_id', $product->category_id)->whereNotIn('id', [$product->id])->limit(5)->get();
         $comments = Comment::where('product_id', $product['id'])
             ->latest('created_at')
             ->paginate(12);
@@ -83,10 +70,11 @@ class FrontendController extends Controller
             'brands' => $brands,
             'product' => $product,
             'categoriesTree' => $categoriesTree,
+            'relatedProducts' => $relatedProducts,
             'comments' => $comments,
         ];
 
-        return view('frontend.products.product')->with($data);
+        return view('frontend.product')->with($data);
     }
 
     //USED
@@ -143,10 +131,12 @@ class FrontendController extends Controller
     //USED
     public function shop()
     {
+        $builder = Product::query();
+
+        $per_page = 12;
 
         if (isset($_GET)) {
 
-            $builder = Product::query();
             if (!empty($_GET['category'])) {
                 $category = $_GET['category'];
                 $builder->whereIn('category_id', $category);
@@ -169,20 +159,31 @@ class FrontendController extends Controller
             }
 
             if (!empty($_GET['sort'])) {
+                $sort = $_GET['sort'];
 
-                if ($_GET['sort'][0] == 'DESC') {
-                    $builder->orderBy('price', 'DESC');
-                } else if ($_GET['sort'][0] == 'ASC') {
-                    $builder->orderBy('price', 'ASC');
-                } else if ($_GET['sort'][0] === 'latest') {
-                    $builder->latest('updated_at');
+                foreach ($sort as $sortOption) {
+                    if ($sortOption === 'normal') {
+                        $builder->orderBy('created_at', 'asc');
+                    } elseif ($sortOption === 'latest') {
+                        $builder->orderBy('created_at', 'desc');
+                    } elseif ($sortOption === 'asc') {
+                        $builder->orderBy('price', 'asc');
+                    } elseif ($sortOption === 'desc') {
+                        $builder->orderBy('price', 'desc');
+                    }
                 }
+
             }
-            $products = $builder->paginate(5);
+
+            if (!empty($_GET['per_page'])) {
+                $per_page = $_GET['per_page'][0];
+            }
+
+            $products = $builder->paginate($per_page)->appends($_GET);
 
         } else {
 
-            $products = Product::all()->paginate(5);
+            $products = $builder->paginate(12);
 
         }
         $company = CompanyInfo::first();
@@ -235,59 +236,6 @@ class FrontendController extends Controller
         ];
 
         return view('frontend.auth.reset')->with($data);
-    }
-
-    //USED-TO BE CHECKED
-    public function search(Request $request)
-    {
-
-        if ($_GET['search']) {
-
-            $search = $_GET['search'];
-
-            $products = Product::search($search);
-
-
-            $company = CompanyInfo::first();
-            $categoriesTree = Category::getTreeHP();
-            $brands = Brand::all();
-            $categories = Category::all();
-            $volumes = Volume::all();
-            $countries = Country::all();
-
-            $data = [
-                'company' => $company,
-                'brands' => $brands,
-                'categories' => $categories,
-                'volumes' => $volumes,
-                'countries' => $countries,
-                'categoriesTree' => $categoriesTree,
-                'products' => $products,
-            ];
-
-            return view('frontend.shop')->with($data);
-
-        }
-
-        $products = Product::paginate(5);
-        $company = CompanyInfo::first();
-        $categoriesTree = Category::getTreeHP();
-        $brands = Brand::all();
-        $categories = Category::all();
-        $volumes = Volume::all();
-        $countries = Country::all();
-
-        $data = [
-            'company' => $company,
-            'brands' => $brands,
-            'categories' => $categories,
-            'volumes' => $volumes,
-            'countries' => $countries,
-            'categoriesTree' => $categoriesTree,
-            'products' => $products,
-        ];
-
-        return view('frontend.shop')->with($data);
     }
 
     public function politika()
@@ -369,5 +317,29 @@ class FrontendController extends Controller
     public function comingSoon()
     {
         return view('frontend.comingSoon');
+    }
+
+    public function searchProducts(Request $request): JsonResponse
+    {
+        $search = $request->get('query');
+        $builder = Product::query();
+
+        if (!empty($search)) {
+            $builder->where(function ($query) use ($search) {
+                $query->where('name', 'like', "%$search%")
+                    ->orWhere('slug', 'like', "%$search%")
+                    ->orWhereHas('brand', function ($query) use ($search) {
+                        $query->where('name', 'like', "%$search%");
+                    })
+                    ->orWhereHas('category', function ($query) use ($search) {
+                        $query->where('name', 'like', "%$search%");
+                    });
+            });
+
+            $products = $builder->with('pictures')->get();
+
+        }
+
+        return response()->json(['success' => $products]);
     }
 }

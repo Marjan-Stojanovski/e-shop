@@ -41,10 +41,10 @@ Route::middleware(['web', 'auth', 'check.role'])->prefix('dashboard')->group(fun
     Route::get('/users', [App\Http\Controllers\UserController::class, 'index'])->name('users.index');
     Route::get('/users/create', [App\Http\Controllers\UserController::class, 'create'])->name('users.create');
     Route::post('/users', [App\Http\Controllers\UserController::class, 'store'])->name('users.store');
-    Route::get('/users/{users}', [\App\Http\Controllers\UserController::class, 'show'])->name('users.show');
-    Route::get('/users/{users}/edit', [\App\Http\Controllers\UserController::class, 'edit'])->name('users.edit');
-    Route::put('/users/{users}', [\App\Http\Controllers\UserController::class, 'update'])->name('users.update');
-    Route::delete('/users/{users}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
+    Route::get('/users/{user}', [\App\Http\Controllers\UserController::class, 'show'])->name('users.show');
+    Route::get('/users/{user}/edit', [\App\Http\Controllers\UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{user}', [\App\Http\Controllers\UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
 
     //Categories-web-route
     Route::get('/categories', [App\Http\Controllers\CategoryController::class, 'index'])->name('categories.index');
@@ -63,6 +63,8 @@ Route::middleware(['web', 'auth', 'check.role'])->prefix('dashboard')->group(fun
     Route::get('/products/{product}/edit', [\App\Http\Controllers\ProductController::class, 'edit'])->name('products.edit');
     Route::put('/products/{product}', [\App\Http\Controllers\ProductController::class, 'update'])->name('products.update');
     Route::delete('/products/{product}', [\App\Http\Controllers\ProductController::class, 'destroy'])->name('products.destroy');
+    Route::get('/images/{product}', [App\Http\Controllers\ProductController::class, 'getImages'])->name('products.images');
+    Route::delete('/product/images/{image}', [\App\Http\Controllers\ProductController::class, 'destroyImages'])->name('products.destroy.images');
 
     //Settings-web-route
     Route::get('/company_info', [\App\Http\Controllers\CompanyInfoController::class, 'index'])->name('company_info.index');
@@ -178,7 +180,8 @@ Route::middleware('auth')->prefix('User')->group(function () {
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/search', [App\Http\Controllers\FrontendController::class, 'search'])->name('frontend.search');
+//    Route::get('/search', [App\Http\Controllers\FrontendController::class, 'search'])->name('frontend.search');
+    Route::post('/ajax/searchProducts', [App\Http\Controllers\FrontendController::class, 'searchProducts'])->name('get.search.products.ajax');
     Route::get('/e-shop', [App\Http\Controllers\FrontendController::class, 'shop'])->name('frontend.shop');
     Route::get('/contactus', [App\Http\Controllers\FrontendController::class, 'contact_us'])->name('frontend.feedback');
     Route::get('/aboutus', [App\Http\Controllers\FrontendController::class, 'about_us'])->name('frontend.about');
@@ -190,19 +193,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/products/{slug}', [App\Http\Controllers\FrontendController::class, 'product'])->name('frontend.product');
     Route::post('/save-comment', [App\Http\Controllers\CommentControler::class, 'frontendSave'])->name('comment.save');
 
-    // Whishlist
-    Route::prefix('whishlists')->group(function () {
+    // Wishlist
+    Route::prefix('wishlists')->group(function () {
         Route::get('/', [App\Http\Controllers\WishlistController::class, 'index'])->name('frontend.wishlist');
-        Route::get('/{wishlist}', [App\Http\Controllers\WishlistController::class, 'create'])->name('frontend.addToWishlist');
+        Route::post('/add-wishlist', [App\Http\Controllers\WishlistController::class, 'add_wishlist'])->name('add.wishlist');
         Route::delete('/{wishlist}', [App\Http\Controllers\WishlistController::class, 'delete'])->name('frontend.wishlistDelete');
         Route::delete('/{wishlist}/transfer', [App\Http\Controllers\WishlistController::class, 'addToCart_deleteWishlist'])->name('addToCart.wishlistDelete');
-
-
     });
     // shopping Cart SESSION routes/////
-    Route::prefix('shoppingcart')->group(function () {
+    Route::prefix('shopping-cart')->group(function () {
         Route::get('/', [App\Http\Controllers\ShoppingCartController::class, 'viewCart'])->name('frontend.shoppingCart');
-        Route::post('/add-to-cart', [App\Http\Controllers\ShoppingCartController::class, 'addToCart'])->name('add.to.cart');
+        Route::post('/add-to-cart', [App\Http\Controllers\ShoppingCartController::class, 'addToCartAjax'])->name('add.to.cart.ajax');
+        Route::get('/get_carts', [App\Http\Controllers\ShoppingCartController::class, 'get_carts'])->name('get.carts.ajax');
+//        Route::post('/add-to-cart', [App\Http\Controllers\ShoppingCartController::class, 'addToCart'])->name('add.to.cart');
         Route::delete('/delete/{product}', [App\Http\Controllers\ShoppingCartController::class, 'deleteProduct'])->name('delete.cart');
     });
 

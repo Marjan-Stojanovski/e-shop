@@ -21,7 +21,7 @@
                         <div class="text-end">
                             <br>
                             <p class="btn btn-success mb-2 me-2" data-tippy-content="Број на продукти">
-                                Број на продукти: {{$productsCount}}
+                                Број на продукти: {{count($products)}}
                             </p>
                         </div>
                     </div>
@@ -35,6 +35,7 @@
                         <th class="text-center">Наслов</th>
                         <th class="text-center">Опис</th>
                         <th class="text-center">Категорија</th>
+                        <th class="text-center">Слики</th>
                         <th class="text-center">Цена</th>
                         <th class="text-center">Цена со попуст</th>
                         <th class="text-center">Попуст %</th>
@@ -49,13 +50,17 @@
                             <td class="text-center">
                                 <div class="d-flex align-items-center">
                                     <div class="flex-grow-1">
-                                        <img src="/assets/img/products/thumbnails/{{ $product->image }}"
-                                             class="mb-0 img-responsive" style="width: 50px" alt="">
+                                        @foreach($product->pictures as $key=>$value)
+                                            @if($key === 0)
+                                                <img src="/images/products/{{$product->name}}/{{ $value['image'] }}"
+                                                     class="mb-0 img-responsive" style="width: 50px" alt="">
+                                            @endif
+                                        @endforeach
                                     </div>
                                 </div>
                             </td>
                             <td class="text-center">
-                                <span class="text">{{$product->title}}</span>
+                                <span class="text">{{$product->name}}</span>
                             </td>
                             <td class="text-center">
                                 <span class="text">{{ $product->slug }}</span>
@@ -64,10 +69,13 @@
                                 <h6>{{$product->category->name}}</h6>
                             </td>
                             <td class="text-center">
+                                <a href="{{ route('products.images', $product->id) }}" class="btn btn-info btn-sm">Види слики</a>
+                            </td>
+                            <td class="text-center">
                                 <h6>{{$product->price}}</h6>
                             </td>
                             <td class="text-center">
-                                <h6>{{$product->action}}</h6>
+                                <h6>{{$product->discounted_price}}</h6>
                             </td>
                             <td class="text-center">
                                 <h6>{{$product->discount}} %</h6>

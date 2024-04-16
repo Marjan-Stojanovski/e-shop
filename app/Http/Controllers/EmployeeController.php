@@ -31,9 +31,9 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name'         => 'required|max:255',
-            'position'         => 'required',
-            'description'   => 'required',
+            'name' => 'required|max:255',
+            'position' => 'required',
+            'description' => 'required',
 
         ]);
 
@@ -61,7 +61,20 @@ class EmployeeController extends Controller
 
         return view('dashboard.employee.index')->with($data);
     }
-        public function edit($id)
+
+    public function show($id)
+    {
+        $employee = Employee::FindorFail($id);
+
+        $data = [
+            'employee' => $employee,
+        ];
+
+        return view('dashboard.employee.show')->with($data);
+
+    }
+
+    public function edit($id)
     {
         $employee = Employee::FindorFail($id);
 
@@ -72,12 +85,13 @@ class EmployeeController extends Controller
         return view('dashboard.employee.edit')->with($data);
 
     }
+
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name'         => 'required|max:255',
-            'position'         => 'required',
-            'description'   => 'required',
+            'name' => 'required|max:255',
+            'position' => 'required',
+            'description' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -87,7 +101,7 @@ class EmployeeController extends Controller
         }
 
         $employee = Employee::FindorFail($id);
-        $input      = $request->all();
+        $input = $request->all();
 
         $employee->fill($input)->save();
 
@@ -100,6 +114,7 @@ class EmployeeController extends Controller
         return view('dashboard.employee.index')->with($data);
 
     }
+
     public function destroy($id)
     {
         $employee = Employee::FindorFail($id);

@@ -14,4 +14,9 @@ class Volume extends Model
     protected $fillable = [
         'volume'
     ];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'volume_id');
+    }
 }

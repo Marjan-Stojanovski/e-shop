@@ -30,4 +30,9 @@ class Country extends Model
         'calling_code',
         'flag',
     ];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'country_id');
+    }
 }

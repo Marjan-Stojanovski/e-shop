@@ -6,28 +6,16 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\CompanyInfo;
 use App\Models\Country;
-use App\Models\Employee;
-use App\Models\Message;
 use App\Models\Order;
 use App\Models\Role;
 use App\Models\Shipping;
-use App\Models\ShoppingCart;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation;
 use Illuminate\Support\Facades\Validator;
-use Symfony\Component\Routing\Matcher\ExpressionLanguageProvider;
-use App\Mail\MailSender;
-use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function dashboard()
     {
         return view('dashboard.index');
@@ -38,8 +26,7 @@ class UserController extends Controller
         $users = User::all();
         $roles = Role::all();
         $countries = Country::all();
-        $userCount = $users->count();
-        $data = ['users' => $users, 'roles' => $roles, 'countries' => $countries, 'userCount' => $userCount];
+        $data = ['users' => $users, 'roles' => $roles, 'countries' => $countries];
         return view('dashboard.users.index')->with($data);
     }
 
@@ -54,17 +41,16 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'firstName' => 'required|max:255',
             'lastName' => 'required|max:255',
-            'email' => 'required',
+            'email' => 'required|email|unique:users',
             'password' => 'required',
             'role_id' => 'required'
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('users.create')
+            return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -88,10 +74,10 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $users = User::FindorFail($id);
+        $user = User::FindorFail($id);
         $roles = Role::all();
         $countries = Country::all();
-        $data = ['users' => $users, 'roles' => $roles, 'countries' => $countries];
+        $data = ['user' => $user, 'roles' => $roles, 'countries' => $countries];
         return view('dashboard.users.show')->with($data);
     }
 
@@ -100,7 +86,7 @@ class UserController extends Controller
         $user = User::FindorFail($id);
         $roles = Role::all();
         $countries = Country::all();
-        $data = ['users' => $user, 'roles' => $roles, 'countries' => $countries];
+        $data = ['user' => $user, 'roles' => $roles, 'countries' => $countries];
         return view('dashboard.users.edit')->with($data);
     }
 
@@ -115,7 +101,7 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('users.create')
+            return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -132,17 +118,6 @@ class UserController extends Controller
         $user = User::FindorFail($id);
         $user->delete();
         return redirect()->route('users.index');
-    }
-
-    public function mail()
-    {
-        $msg = "Zdravo";
-        Mail::to('stojanovskim@yahoo.com')->send(new MailSender($msg));
-    }
-
-    public function info()
-    {
-
     }
 
     public function userProfile()
