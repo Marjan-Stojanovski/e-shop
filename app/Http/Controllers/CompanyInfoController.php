@@ -66,7 +66,7 @@ class CompanyInfoController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('company_info.create')
+            return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -136,7 +136,7 @@ class CompanyInfoController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('company_info.edit')
+            return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
