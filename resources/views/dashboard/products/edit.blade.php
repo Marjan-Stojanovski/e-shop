@@ -3,10 +3,10 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-12 mb-3 mb-lg-5">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <div class="row">
+            <div class="col-lg-12">
+                <div class="card mb-3 mb-lg-5">
+                    <div class="card-body">
+                        <div class="row justify-content-between align-items-center">
                             <div class="col-md-6">
                                 <div class="text-start">
                                     <h3>Измени продукт</h3>
@@ -29,8 +29,7 @@
                         @if(Session::has('flash_message'))
                             <p class="alert alert-info">{{ Session::get('flash_message') }}</p>
                         @endif
-                    </div>
-                    <div class="card-body">
+                        <hr class="my-4">
                         <div class="row">
                             <div class="col-md-12">
                                 @foreach($product->pictures as $key=>$value)
@@ -40,12 +39,28 @@
                             </div>
                         </div>
                         <br>
-                        <form class="row g-3" method="post" action="{{ route('products.update', $product->id) }}"
+                        <form method="post" action="{{ route('products.update', $product->id) }}"
                               enctype="multipart/form-data">
                             @csrf
                             @method('put')
                             <div class="row">
-                                <div class="col-12 col-md-6 mb-3 d-inline-block">
+                                <div class="col-12 col-md-4 mb-3 d-inline-block">
+                                    <!-- First name -->
+                                    <div class="form-group">
+                                        <!-- Label -->
+                                        <label class="form-label" for="sifra">Шифра</label>
+                                        <!-- Input -->
+                                        <input type="text" placeholder="Шифра на продуктот"
+                                               class="form-control @error('sifra') is-invalid @enderror"
+                                               id="sifra" name="sifra" value="{{$product->sifra}}">
+                                        @error('sifra')
+                                        <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4 mb-3 d-inline-block">
                                     <!-- First name -->
                                     <div class="form-group">
                                         <!-- Label -->
@@ -61,13 +76,14 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 mb-3 d-inline-block">
+                                <div class="col-12 col-md-4 mb-3 d-inline-block">
                                     <div class="form-group">
                                         <!-- Label -->
                                         <div class="col-md-12">
                                             <label for="category_id" class="form-label">Под категорија</label>
                                             <select id="category_id" class="form-select" name="category_id">
-                                                <option value="{{$product->category->id}}">{{$product->category->name}}</option>
+                                                <option
+                                                    value="{{$product->category->id}}">{{$product->category->name}}</option>
                                                 {!! $categories !!}
                                             </select>
                                         </div>
@@ -75,7 +91,27 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12 col-md-6 mb-3">
+                                <div class="col-md-6 mb-3">
+                                    <div class="col-md-12">
+                                        <br>
+                                        <label for="main_image" data-tippy-placement="bottom"
+                                               data-tippy-content="Изберете слика" class="btn btn-primary me-3">
+                                                <span class="material-symbols-rounded align-middle me-2">
+                                                    image
+                                                    </span>
+                                            Избери главна слика
+                                        </label>
+                                        <input type="file"
+                                               class="form-control d-none w-0 h-0 position-absolute @error('main_image') is-invalid @enderror"
+                                               id="main_image" name="main_image">
+                                        @error('main_image')
+                                        <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
                                     <div class="col-md-12">
                                         <br>
                                         <label for="image" data-tippy-placement="bottom"
@@ -138,9 +174,9 @@
                                         <!--select-->
                                         <select name="brand_id" id="brand_id"
                                                 class="form-control @error('brand_id') is-invalid @enderror">
-                                            <option value="{{$product->brand_id}}">current-->{{ $product->brand->name }}</option>
                                             @foreach($brands as $brand)
-                                                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                                <option @if($product->brand_id === $brand->id) selected
+                                                        @endif value="{{ $brand->id }}">{{ $brand->name }}</option>
                                             @endforeach
                                         </select>
                                         @error('brand_id')
@@ -157,9 +193,9 @@
                                         <!--select-->
                                         <select name="country_id" id="country_id"
                                                 class="form-control @error('country_id') is-invalid @enderror">
-                                            <option value="{{$product->country_id}}">current-->{{ $product->country->name }}</option>
                                             @foreach($countries as $country)
-                                                <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                                <option @if($product->country_id === $country->id) selected
+                                                        @endif value="{{ $country->id }}">{{ $country->name }}</option>
                                             @endforeach
                                         </select>
                                         @error('country_id')
@@ -176,9 +212,9 @@
                                         <!--select-->
                                         <select name="volume_id" id="volume_id"
                                                 class="form-control @error('volume_id') is-invalid @enderror">
-                                            <option value="{{$product->volume_id}}">current-->{{ $product->volume->volume }}</option>
                                             @foreach($volumes as $volume)
-                                                <option value="{{ $volume->id }}">{{ $volume->volume }}</option>
+                                                <option @if($product->volume_id === $volume->id) selected
+                                                        @endif value="{{ $volume->id }}">{{ $volume->volume }}</option>
                                             @endforeach
                                         </select>
                                         @error('volume_id')
@@ -256,7 +292,8 @@
                                         <!-- Input -->
                                         <input type="number" step="0.1" min="0" max="99999.9" placeholder="0.00"
                                                class="form-control @error('discounted_price') is-invalid @enderror"
-                                               id="discounted_price" name="discounted_price" value="{{ $product->discounted_price }}">
+                                               id="discounted_price" name="discounted_price"
+                                               value="{{ $product->discounted_price }}">
                                         @error('discounted_price')
                                         <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -283,5 +320,33 @@
                     </div>
                 </div>
             </div>
-            @endsection
+        </div>
+    </div>
+@endsection
+@section('scripts')
+    <script>
+        $(document).ready(function () {
+            $('#discount').change(() => {
+                let discountTemp = $('#discount').val();
+                let discountTemp2 = discountTemp / 100;
+                let discount = 1 - discountTemp2;
+                let price = $('#price').val();
+                let discountedPrice = price * discount;
 
+                $('#discounted_price').val(discountedPrice);
+            })
+
+            $('#price').change(() => {
+                let discountTemp = $('#discount').val();
+                if (discountTemp !== '') {
+                    let discountTemp2 = discountTemp / 100;
+                    let discount = 1 - discountTemp2;
+                    let price = $('#price').val();
+                    let discountedPrice = price * discount;
+
+                    $('#discounted_price').val(discountedPrice);
+                }
+            })
+        });
+    </script>
+@endsection

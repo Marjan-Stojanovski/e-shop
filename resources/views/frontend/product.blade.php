@@ -60,7 +60,6 @@
                                 <div class="swiper-wrapper">
                                     <!-- Slides -->
                                     @foreach($product->pictures as $key=>$value)
-
                                         <div class="swiper-slide w-100"
                                              style="background-image: url('/images/products/{{$product->name}}/{{ $value['image']}}'); height: 520px ;background-position: center; background-size: contain; background-repeat: no-repeat">
                                         </div>
@@ -363,6 +362,7 @@
         </div>
     </section>
 
+    @if(count($relatedProducts) > 0)
     <section class="overflow-hidden">
         <div class="container py-7 py-lg-7">
             <div class="row mb-4 align-items-center">
@@ -432,7 +432,7 @@
             </div>
         </div>
     </section>
-
+    @endif
     <section class="bg-white position-relative overflow-hidden">
         <div class="container py-9 py-lg-11 position-relative">
             <div class="row align-items-center">

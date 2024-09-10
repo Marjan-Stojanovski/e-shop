@@ -27,11 +27,12 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::all();
+        $products = Product::paginate(12);
         $brands = Brand::all();
         $volumes = Volume::all();
         $countries = Country::all();
 
+//        dd(count($products));
         $data = [
             'products' => $products,
             'brands' => $brands,
@@ -66,6 +67,8 @@ class ProductController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|unique:products',
+            'sifra' => 'required|unique:products',
+            'main_image' => 'required',
             'image' => 'required',
             'category_id' => 'required',
             'description' => 'required',
@@ -92,6 +95,7 @@ class ProductController extends Controller
         $product = Product::create([
             'name' => $request->get('name'),
             'slug' => Str::slug($request->get('name')),
+            'sifra' => $request->get('sifra'),
             'description' => $request->get('description'),
             'short_info' => $request->get('short_info'),
             'alcohol' => $request->get('alcohol'),
@@ -119,6 +123,18 @@ class ProductController extends Controller
             ProductImage::create([
                 'product_id' => $product->id,
                 'image' => $file,
+            ]);
+        }
+
+        if ($request->hasfile('main_image')) {
+            $file = $request->file('main_image');
+            $tempName = $file->getClientOriginalName();
+            $name = rand(1000, 100000) . '-' . $tempName;
+            $file->move(public_path('images/products/' . $product->name . '/'), $name);
+            ProductImage::create([
+                'product_id' => $product->id,
+                'image' => $name,
+                'main_image' => 'yes',
             ]);
         }
 
@@ -189,6 +205,21 @@ class ProductController extends Controller
                     'image' => $file,
                 ]);
             }
+        }
+        if ($request->hasfile('main_image')) {
+            $productMainImages = ProductImage::where('product_id', $product->id)->where('main_image', 'yes')->get();
+            foreach ($productMainImages as $productMainImage) {
+                $productMainImage->delete();
+            }
+            $file = $request->file('main_image');
+            $tempName = $file->getClientOriginalName();
+            $name = rand(1000, 100000) . '-' . $tempName;
+            $file->move(public_path('images/products/' . $product->name . '/'), $name);
+            ProductImage::create([
+                'product_id' => $product->id,
+                'image' => $name,
+                'main_image' => 'yes',
+            ]);
         }
 
         $product->fill($request->all())->save();

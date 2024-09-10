@@ -290,10 +290,10 @@
                                 <!--:card-hover-expand-->
                                 <div class="card overflow-hidden hover-lift card-product">
                                     <a href="{{ route('frontend.product', $product->slug) }}">
-                                        @foreach($product->pictures as $key=>$value)
-                                            @if($key === 0)
+                                        @foreach($product->pictures as $picture)
+                                            @if($picture->main_image === 'yes')
                                                 <div class="card-product-header p-3 d-block overflow-hidden"
-                                                     style="height: 350px;background-image: url('/images/products/{{$product->name}}/{{ $value['image'] }}');background-position: center; background-size: contain; background-repeat: no-repeat">
+                                                     style="height: 350px;background-image: url('/images/products/{{$product->name}}/{{ $picture->image }}');background-position: center; background-size: contain; background-repeat: no-repeat">
                                                     @endif
                                                     @endforeach
                                                     @if($product->discount)
@@ -309,17 +309,17 @@
                                             <!--Price-->
                                             @if($product->discounted_price)
                                                 <span class="card-product-price">
-                                            <span style="color: red">{{ $product->discounted_price }}&nbsp;ден.</span> <del>{{ $product->price }}&nbsp;ден.</del>
+                                            <span style="color: red">{{ $product->discounted_price }}&nbsp;€</span> <del>{{ $product->price }}&nbsp;€</del>
                                         </span>
                                             @else
                                                 <span class="card-product-price">
-                                            <span>{{ $product->price }}&nbsp;ден.</span>
+                                            <span>{{ $product->price }}&nbsp;€</span>
                                                 </span>
                                             @endif
                                             <!--Action-->
                                             <span class="card-product-view-btn">
                                             <a href="{{ route('frontend.product', $product->slug) }}"
-                                               class="link-underline mb-1 fw-semibold text-dark">Погледни</a>
+                                               class="link-underline mb-1 fw-semibold text-dark">Poglej</a>
                                         </span>
                                         </div>
                                     </div>
