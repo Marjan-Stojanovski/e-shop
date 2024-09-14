@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::table('brands', function (Blueprint $table) {
             $table->unsignedInteger('country_id')->nullable();
             $table->foreign('country_id')->references('id')->on('countries')->cascadeOnDelete();
-            $table->string('region');
+            $table->string('region')->nullable();
         });
     }
 
